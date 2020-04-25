@@ -25,15 +25,15 @@ public abstract class Person {
         _password = password;
     }
 
-    public String get_firstname() {
+    public String getFirstname() {
         return _firstname;
     }
 
-    public void set_firstname(String firstname) {
+    public void setFirstname(String firstname) {
         _firstname = firstname;
     }
 
-    public String get_lastname() {
+    public String getLastname() {
         return _lastname;
     }
 
