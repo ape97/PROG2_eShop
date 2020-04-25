@@ -9,6 +9,10 @@ import Utilities.BooleanStringObject;
 
 import java.util.ArrayList;
 
+/**
+ * WARNING: Sollte nur vom MainController verwendet werden
+ * Verwaltet die Person-Objekte.
+ */
 public class PersonController {
 
     private ArrayList<Person> _personList;
@@ -18,7 +22,7 @@ public class PersonController {
      * Es wird ein Person-Objekt vom Typ Employee hinzugefügt, welche den erstmaligen Zugriff auf das Programm ermöglicht.
      * username: admin und password: admin können zum anmelden verwendet werden. (root-Benutzer)
      */
-    private PersonController() {
+    public PersonController() {
         _personList = new ArrayList<>();
         _personList.add(new Employee("admin", "admin", 0, "admin", "admin"));
     }
@@ -121,9 +125,9 @@ public class PersonController {
     private BooleanString checkPersonValuesValid(String firstname, String lastname, String username, String password) {
         BooleanString booleanStringResult = new BooleanString(false, "");
 
-        if (firstname.isEmpty()) {
+        if (firstname.trim().isEmpty()) {
             booleanStringResult.setValueS("Vorname darf nicht leer sein.");
-        } else if (lastname.isEmpty()) {
+        } else if (lastname.trim().isEmpty()) {
             booleanStringResult.setValueS("Nachname darf nicht leer sein.");
         } else if (checkUsernameExists(username)) {
             booleanStringResult.setValueS("Benutzername existiert bereits.");
@@ -169,7 +173,7 @@ public class PersonController {
         boolean result = true;
 
         // nicht leer, keine Leerzeichen, mindestens 3 Zeichen
-        if (username.isEmpty() || username.contains(" ") || username.length() < 3) {
+        if (username.trim().isEmpty() || username.contains(" ") || username.length() < 3) {
             result = false;
         }
 
@@ -188,7 +192,7 @@ public class PersonController {
         boolean result = true;
 
         // nicht leer, mindestens 8 Zeichen
-        if (password.isEmpty() || password.length() < 8) {
+        if (password.trim().isEmpty() || password.length() < 8) {
             result = false;
         }
         return result;

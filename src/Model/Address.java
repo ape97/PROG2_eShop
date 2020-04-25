@@ -11,6 +11,7 @@
 package Model;
 
 public class Address {
+
     private String _street; // Straße
     private String _houseNumber; // Hausnummer
     private String _postCode; // PLZ
