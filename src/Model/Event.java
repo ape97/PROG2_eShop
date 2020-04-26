@@ -18,28 +18,28 @@ public class Event {
     private Date _timeStamp; // Zeitstempel
     private Article _article; // Der betreffende Artiekl
     private Person _person; // Person die für die Änderung des Lagerbestandes verantwortlich ist (Kunde beim Kauf, Mitarbeiter beim Buchen neuer Bestände)
-    private int _changeValue; // Summer der Bestandsveränderung (negativ oder positiv)
+    private int _stockChangeValue; // Summer der Bestandsveränderung (negativ oder positiv)
 
     public Event(Article article, Person person, int changeValue) {
         _timeStamp = new Date();
         _article = article;
         _person = person;
-        _changeValue = changeValue;
+        _stockChangeValue = changeValue;
     }
 
-    public Date get_timeStamp() {
+    public Date getTimeStamp() {
         return _timeStamp;
     }
 
-    public Article get_article() {
+    public Article getArticle() {
         return _article;
     }
 
-    public Person get_person() {
+    public Person getPerson() {
         return _person;
     }
 
-    public int get_changeValue() {
-        return _changeValue;
+    public int getStockChangeValue() {
+        return _stockChangeValue;
     }
 }

@@ -37,27 +37,27 @@ public abstract class Person {
         return _lastname;
     }
 
-    public void set_lastname(String lastname) {
+    public void setLastname(String lastname) {
         _lastname = lastname;
     }
 
-    public int get_id() {
+    public int getId() {
         return _id;
     }
 
-    public String get_username() {
+    public String getUsername() {
         return _username;
     }
 
-    public void set_username(String username) {
+    public void setUsername(String username) {
         _username = username;
     }
 
-    public String get_password() {
+    public String getPassword() {
         return _password;
     }
 
-    public void set_password(String password) {
+    public void setPassword(String password) {
         _password = password;
     }
 }

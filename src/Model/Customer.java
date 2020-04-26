@@ -21,11 +21,11 @@ public class Customer extends Person {
         _shoppingCart = new ShoppingCart();
     }
 
-    public Address get_address() {
+    public Address getAddress() {
         return _address;
     }
 
-    public ShoppingCart get_shoppingCart() {
+    public ShoppingCart getShoppingCart() {
         return _shoppingCart;
     }
 }

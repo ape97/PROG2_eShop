@@ -20,7 +20,7 @@ public class ShoppingCart {
         _articleAndQuantityMap = new HashMap<>();
     }
 
-    public HashMap<Article, Integer> get_articleAndQuantityMap() {
+    public HashMap<Article, Integer> getArticleAndQuantityMap() {
         return _articleAndQuantityMap;
     }
 }

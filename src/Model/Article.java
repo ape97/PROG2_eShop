@@ -23,31 +23,31 @@ public class Article {
         _price = price;
     }
 
-    public String get_name() {
+    public String getName() {
         return _name;
     }
 
-    public void set_name(String name) {
+    public void setName(String name) {
         _name = name;
     }
 
-    public int get_articleNumber() {
+    public int getArticleNumber() {
         return _articleNumber;
     }
 
-    public int get_stock() {
+    public int getStock() {
         return _stock;
     }
 
-    public void set_stock(int stock) {
+    public void setStock(int stock) {
         _stock = stock;
     }
 
-    public double get_price() {
+    public double getPrice() {
         return _price;
     }
 
-    public void set_price(double price) {
+    public void setPrice(double price) {
         _price = price;
     }
 }

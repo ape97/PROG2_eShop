@@ -32,19 +32,19 @@ public class Bill {
         _timeStamp = new Date();
     }
 
-    public Customer get_customer() {
+    public Customer getCustomer() {
         return _customer;
     }
 
-    public ArrayList<String> get_invoiceItems() {
+    public ArrayList<String> getInvoiceItems() {
         return _invoiceItems;
     }
 
-    public Date get_timeStamp() {
+    public Date getTimeStamp() {
         return _timeStamp;
     }
 
-    public double get_totalPrice() {
+    public double getTotalPrice() {
         return _totalPrice;
     }
 }

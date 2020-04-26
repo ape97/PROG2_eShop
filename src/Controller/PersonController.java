@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class PersonController {
 
     private ArrayList<Person> _personList;
+    private Person _registeredPerson; // Angemeldete Person
 
     /**
      * Der Konstruktor erzeugt eine leere ArrayList _personList für Person-Objekte.
@@ -37,7 +38,7 @@ public class PersonController {
      * @param password  Das Passwort des Mitarbeiters
      * @return Gibt ein BooleanString-Objekt zurück.
      * Der boolean gibt an, ob das erzeugen des Employee-Objekts erfolgreich war oder nicht.
-     * Der String gibt die entsprechende Meldung an z.B. Benutzername darf nicht leer sein.
+     * Der String gibt die entsprechende (Fehler-) Meldung an.
      */
     public BooleanString addEmployee(String firstname, String lastname, String username, String password) {
 
@@ -68,7 +69,7 @@ public class PersonController {
      * @param address   Das Address-Objekt des Kunden, welches die Adressdaten enthält
      * @return Gibt ein BooleanString-Objekt zurück.
      * Der boolean gibt an, ob das erzeugen des Customer-Objekts erfolgreich war oder nicht.
-     * Der String gibt die entsprechende Meldung an z.B. Benutzername darf nicht leer sein.
+     * Der String gibt die entsprechende (Fehler-) Meldung an.
      */
     public BooleanString addCustomer(String firstname, String lastname, String username, String password, Address address) {
         BooleanString booleanStringResult = new BooleanString(false, "");
@@ -94,14 +95,15 @@ public class PersonController {
      * @param password Das Passwort
      * @return Gibt ein BooleanStringObject-Objekt zurück.
      * Der boolean gibt an, ob der Login erfolgreich war.
-     * Der String gibt die entsprechende Meldung zur Anzeige zurück.
+     * Der String gibt die entsprechende (Fehler-) Meldung an.
      * Das Object gibt den angemeldeten Benutzer Person-Object zurück, sofern der Vorgang erfolgreich war, ansonsten null.
      */
     public BooleanStringObject login(String username, String password) {
         BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, "Login nicht erfolgreich. Passwort oder Benutzername ist falsch.", null);
 
         for (Person person : _personList) {
-            if (person.get_username().equals(username) && person.get_password().equals(password)) {
+            if (person.getUsername().equals(username) && person.getPassword().equals(password)) {
+                _registeredPerson = person;
                 booleanStringObjectResult.setValueB(true);
                 booleanStringObjectResult.setValueS("Login erfolgreich.");
                 booleanStringObjectResult.setValueO(person);
@@ -120,7 +122,7 @@ public class PersonController {
      * @param password Das Passwort der Person
      * @return Gibt ein BooleanSTring-Objekt zurück.
      * Der boolean gibt an, ob die angegebenen Werte den Anforderungen entsprechen und somit gültig sind oder nicht.
-     * Der String gibt die entsprechende Meldung an z.B. welcher Wert nicht gültig ist den Grund dafür.
+     * Der String gibt die entsprechende (Fehler-) Meldung an.
      */
     private BooleanString checkPersonValuesValid(String firstname, String lastname, String username, String password) {
         BooleanString booleanStringResult = new BooleanString(false, "");
@@ -144,7 +146,7 @@ public class PersonController {
 
     /**
      * Prüft ob der angegebene Benutzername bereits einem Person-Objekt zugeordnet ist.
-     * @param username Der Benutzername der gesucht werden soll
+     * @param username Der Benutzername der gesucht wird
      * @return Gibt einen boolean zurück.
      * true -> Benutzername ist bereits vergeben
      * false -> Benutzername ist noch nicht vergeben
@@ -153,7 +155,7 @@ public class PersonController {
         boolean result = false;
 
         for (Person person : _personList) {
-            if (person.get_username().equals(username)) {
+            if (person.getUsername().equals(username)) {
                 result = true;
                 break;
             }
@@ -206,10 +208,14 @@ public class PersonController {
     private int generatePersonId() {
         int id = 0;
         for (Person person : _personList) {
-            if (person.get_id() >= id) {
-                id = person.get_id() + 1;
+            if (person.getId() >= id) {
+                id = person.getId() + 1;
             }
         }
         return id;
+    }
+
+    public Person getRegisteredPerson(){
+        return _registeredPerson;
     }
 }

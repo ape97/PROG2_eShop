@@ -28,7 +28,7 @@ public class Address {
         return _street + " " + _houseNumber + "\n" + _postCode + " " + _city;
     }
 
-    public String get_street() {
+    public String getStreet() {
         return _street;
     }
 
@@ -36,27 +36,27 @@ public class Address {
         _street = street;
     }
 
-    public String get_houseNumber() {
+    public String getHouseNumber() {
         return _houseNumber;
     }
 
-    public void set_houseNumber(String houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         _houseNumber = houseNumber;
     }
 
-    public String get_postCode() {
+    public String getPostCode() {
         return _postCode;
     }
 
-    public void set_postCode(String postCode) {
+    public void setPostCode(String postCode) {
         _postCode = postCode;
     }
 
-    public String get_city() {
+    public String getCity() {
         return _city;
     }
 
-    public void set_city(String city) {
+    public void setCity(String city) {
         _city = city;
     }
 }
