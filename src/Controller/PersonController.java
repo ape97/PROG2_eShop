@@ -6,6 +6,7 @@ import Model.Employee;
 import Model.Person;
 import Utilities.BooleanString;
 import Utilities.BooleanStringObject;
+import Utilities.PersonType;
 
 import java.util.ArrayList;
 
@@ -106,7 +107,7 @@ public class PersonController {
                 _registeredPerson = person;
                 booleanStringObjectResult.setValueB(true);
                 booleanStringObjectResult.setValueS("Login erfolgreich.");
-                booleanStringObjectResult.setValueO(person);
+                booleanStringObjectResult.setValueO(PersonType.Employee);
                 break;
             }
         }
