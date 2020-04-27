@@ -26,6 +26,7 @@ public class MainController {
 
     /**
      * Reicht den Funktionsaufruf weiter an PersonController, für weitere Informationen siehe: PersonController:addEmployee(...)
+     *
      * @return Gibt das BooleanString-Objekt von PersonController.addEmployee(...) zurück.
      */
     public BooleanString addEmployee(String firstname, String lastname, String username, String password) {
@@ -37,9 +38,8 @@ public class MainController {
      * Für weitere Informationen siehe:
      * PersonController:addCustomer(...)
      * AddressController:createAddress(...)
-     *
+     * <p>
      * Erstellt mit AddressController ein Address-Objekt und gib dieses weiter an PersonController.
-     *
      */
     public BooleanString addCustomer(String firstname, String lastname, String username, String password,
                                      String street, String houseNumber, String postCode, String city) {
@@ -50,7 +50,7 @@ public class MainController {
         if (!createAddressResult.getValueB()) {
             booleanStringResult.setValueS(createAddressResult.getValueS());
         } else {
-            _personController.addCustomer(firstname, lastname, username, password, (Address)createAddressResult.getValueO());
+            _personController.addCustomer(firstname, lastname, username, password, (Address) createAddressResult.getValueO());
         }
 
         return booleanStringResult;
@@ -70,14 +70,14 @@ public class MainController {
      * Wenn addArticle(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
      */
-    public BooleanString addArticle(String name, int articleNumber, int stock, double price){
+    public BooleanString addArticle(String name, int articleNumber, int stock, double price) {
         BooleanStringObject addArticleResult = _articleController.addArticle(name, articleNumber, stock, price);
 
-        if(addArticleResult.getValueB()){
-          addEvent((Article)addArticleResult.getValueO(), stock);
+        if (addArticleResult.getValueB()) {
+            addEvent((Article) addArticleResult.getValueO(), stock);
         }
 
-        return (BooleanString)addArticleResult;
+        return (BooleanString) addArticleResult;
     }
 
     /**
@@ -86,12 +86,12 @@ public class MainController {
      * Wenn updateStock(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
      */
-    public BooleanString updateStock(Article article, int stockChangeValue){
+    public BooleanString updateStock(Article article, int stockChangeValue) {
         BooleanString articleUpdateStockResult = _articleController.updateStock(article, stockChangeValue);
 
-      if(articleUpdateStockResult.getValueB()) {
+        if (articleUpdateStockResult.getValueB()) {
             addEvent(article, stockChangeValue);
-      }
+        }
 
         return articleUpdateStockResult;
     }
@@ -100,7 +100,7 @@ public class MainController {
      * Reicht den Funktionsaufruf weiter an EventController
      * Für weitere Informationen siehe: EventController:addEvent(...)
      */
-    private void addEvent(Article article, int stockChangeValue){
-         _eventController.addEvent(article, _personController.getRegisteredPerson(), stockChangeValue);
+    private void addEvent(Article article, int stockChangeValue) {
+        _eventController.addEvent(article, _personController.getRegisteredPerson(), stockChangeValue);
     }
 }
