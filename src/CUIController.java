@@ -120,6 +120,7 @@ public class CUIController {
 
     public static void processinputEmployee(String inputdata){
         System.out.println("Eingabe: "+inputdata);
+        System.out.println("-------------------------------");
         switch(inputdata){
             case "q": //Beenden
                 System.exit(0);
@@ -141,9 +142,11 @@ public class CUIController {
 
     public static void processinputAddArticle(String inputdata){
         System.out.println("Eingabe: "+inputdata);
+        System.out.println("-------------------------------");
         switch(inputdata){
             case "q": //Verlassen
                 runEmployeeMenu();
+                break;
             case "s":
                 addArticleSubMenu();
                 break;
@@ -153,9 +156,10 @@ public class CUIController {
 
     public static void processinputChangeArticle(String inputdata){
         System.out.println("Eingabe: "+inputdata);
+        System.out.println("-------------------------------");
         switch(inputdata){
             case "q": //Verlassen
-                runChangeArticleMenu();
+                runEmployeeMenu();
             case "s":
                 ;//Funktion Artikel ändern
                 break;
@@ -165,6 +169,7 @@ public class CUIController {
 
     public static void processinputAddEmployee(String inputdata){
         System.out.println("Eingabe: "+inputdata);
+        System.out.println("-------------------------------");
         switch(inputdata){
             case "q": //Verlassen
                 runEmployeeMenu();
@@ -178,6 +183,7 @@ public class CUIController {
 
     public static void processinputArticleListE(String inputdata){
         System.out.println("Eingabe: "+inputdata);
+        System.out.println("-------------------------------");
         switch(inputdata){
             case "q": //Verlassen
                 runEmployeeMenu();
@@ -233,6 +239,7 @@ public class CUIController {
 
     public static void processinputCustomer(String inputdata){
         System.out.println("Eingabe: "+inputdata);
+        System.out.println("-------------------------------");
         switch(inputdata){
             case "q": //Beenden
                 System.exit(0);
@@ -251,6 +258,7 @@ public class CUIController {
 
     public static void processinputArticleListC(String inputdata){
         System.out.println("Eingabe: "+inputdata);
+        System.out.println("-------------------------------");
         switch(inputdata){
             case "main_q": //Verlassen
                 runEmployeeMenu();
