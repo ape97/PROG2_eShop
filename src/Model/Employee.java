@@ -1,9 +1,4 @@
 /**
- * Klasse: Employee
- * Dateiname: Employee.java
- * Erstellt am: 22.04.2020
- * Erstellt von: Adrian Peters
- *
  *  Info:
  *  Enthält die wesentlichen Daten eines Mitarbeiters, dient lediglich der Datenkapselung
  *  Wird von Person abgeleitet

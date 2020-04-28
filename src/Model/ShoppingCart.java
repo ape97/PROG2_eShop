@@ -1,9 +1,4 @@
 /**
- * Klasse: ShoppingCart
- * Dateiname: ShoppingCart.java
- * Erstellt am: 22.04.2020
- * Erstellt von: Adrian Peters
- *
  * Info:
  * Der Einkaufswagen ist einem Kunden zugeordnet und enhält die sich darin befindlichen Artikel,
  * sowie die entsprechende Anzahl dieser

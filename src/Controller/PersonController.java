@@ -8,6 +8,7 @@ import Utilities.BooleanString;
 import Utilities.BooleanStringObject;
 import Utilities.PersonType;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 /**
@@ -214,6 +215,25 @@ public class PersonController {
             }
         }
         return id;
+    }
+
+    /**
+     * Ermittelt den tatsächlichen Typen eines Person-Objektes, Customer oder Employee
+     * @param person Das Person-Objekt, dessen Typ ermittelt werden soll
+     * @return Gibt den Typen in Form des PersonType enums zurück
+     */
+    public PersonType getPersonTypeByPerson(Person person) {
+        PersonType personTypeResult;
+        String className = person.getClass().getSimpleName();
+        if(className.equals(Customer.class.getSimpleName())){
+            personTypeResult = PersonType.Customer;
+        } else if(className.equals(Employee.class.getSimpleName())) {
+            personTypeResult = PersonType.Employee;
+        } else{
+            throw new InvalidParameterException();
+        }
+
+        return personTypeResult;
     }
 
     public Person getRegisteredPerson(){

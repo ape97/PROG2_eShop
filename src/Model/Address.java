@@ -1,13 +1,3 @@
-/**
- * Klasse: Address
- * Dateiname: Address.java
- * Erstellt am: 22.04.2020
- * Erstellt von: Adrian Peters
- *
- * Info:
- * Enthält die wesentlichen Daten einer Adresse, dient lediglich der Datenkapselung
- **/
-
 package Model;
 
 public class Address {

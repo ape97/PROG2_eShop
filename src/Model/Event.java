@@ -1,9 +1,4 @@
 /**
- * Klasse: Event
- * Dateiname: Event.java
- * Erstellt am: 22.04.2020
- * Erstellt von: Adrian Peters
- *
  * Info:
  * Dient dem Aufbau eines Änderungsprotokolls
  * Event bezieht sich auf eine Änderung des Lagerbestands eines Artikels

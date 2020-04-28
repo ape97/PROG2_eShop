@@ -1,13 +1,3 @@
-/**
- * Klasse: Article
- * Dateiname: Article.java
- * Erstellt am: 22.04.2020
- * Erstellt von: Adrian Peters
- *
- * Info:
- * Enthält die wesentlichen Daten eines Artikels, dient lediglich der Datenkapselung
- **/
-
 package Model;
 
 public class Article {
@@ -21,6 +11,16 @@ public class Article {
         _articleNumber = articleNumber;
         _stock = stock;
         _price = price;
+    }
+
+    public String toString(boolean withStock){
+        String result = _articleNumber + " - " + _name + " - " + _price + "€";
+
+        if(withStock){
+            result += " - " + _stock;
+        }
+
+        return result;
     }
 
     public String getName() {

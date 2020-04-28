@@ -1,15 +1,9 @@
 /**
- * Klasse: Bill
- * Dateiname: Bill.java
- * Erstellt am: 22.04.2020
- * Erstellt von: Adrian Peters
- * <p>
  * Info:
  * Stellt eine Rechnung mit den einzelnen Positionen dar
  * Referenziert auf den entsprechenden Kunden & Zeitstempel
  * Artikeldaten werden jeweils als String in eine Liste gespeichert,
  * damit sich diese Daten später nich verfälschen können, wird hier bewusst auf Referenzen von Artikeln verzichtet
- * <p>
  * <p>
  * Hinweis: Hier werden keine Artikel referenziert,
  * damit sich die Daten der Rechnung später nicht ändern z.B. der Preis
@@ -32,6 +26,18 @@ public class Bill {
         _timeStamp = new Date();
     }
 
+    public String toString() {
+        String result = _timeStamp.toString() + "\n" + _customer.getFirstname() + " " + _customer.getLastname();
+        result += "\n" + _customer.getAddress().toString();
+        result += "Gesamtpreis: " + _totalPrice + "€";
+
+        for (String billPosition : _invoiceItems) {
+            result += "\n" + billPosition;
+        }
+
+        return result;
+    }
+
     public Customer getCustomer() {
         return _customer;
     }
@@ -46,5 +52,9 @@ public class Bill {
 
     public double getTotalPrice() {
         return _totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        _totalPrice = totalPrice;
     }
 }

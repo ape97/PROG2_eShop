@@ -1,8 +1,4 @@
 /**
- * Klasse: Person
- * Dateiname: Person.java
- * Erstellt am: 22.04.2020
- * Erstellt von: Adrian Peters
  * Info:
  * Dient als Basis-Klasse für Mitarbeiter (Employee) und Kunden (Customer)
  * Enthält alle Keerndaten einer Person, dient lediglich der Datenkapselung
