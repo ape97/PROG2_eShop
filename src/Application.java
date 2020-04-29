@@ -1,6 +1,5 @@
 import Controller.MainController;
 import Data.DataWriterReader;
-import Utilities.Message;
 import View.CUI.CUIController;
 
 public class Application {

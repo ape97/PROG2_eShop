@@ -124,23 +124,40 @@ public class MainController implements Serializable {
      * Wenn updateStock(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
      */
-    //TODO: Int articleNumber, int stockValue
-    public BooleanString updateStock(Article article, int stockChangeValue) {
+    public BooleanString updateStock(int articleNumber, int stockChangeValue) {
         BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
-            BooleanString articleUpdateStockResult = _articleController.updateStock(article, stockChangeValue);
 
-            if (articleUpdateStockResult.getValueB()) {
-                addEvent(article, stockChangeValue);
+            Article article = _articleController.getArticleByArticleNumber(articleNumber);
+
+            if (article == null) {
+                booleanStringResult.setValueB(false);
+                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberNotFound));
+            } else {
+                BooleanString articleUpdateStockResult = _articleController.updateStock(article, stockChangeValue);
+
+                if (articleUpdateStockResult.getValueB()) {
+                    addEvent(article, stockChangeValue);
+                }
+
+                booleanStringResult = articleUpdateStockResult;
             }
-
-            booleanStringResult = articleUpdateStockResult;
         }
 
         return booleanStringResult;
     }
 
+    /**
+     * Prüft blabla TODO
+     * Fügt einen Artikel mit der Anzahl über die Artikelnummer dem Warenkorb hinzu
+     *
+     * @param articleNumber    Artikelnummer
+     * @param numberOfArticles Anzahl
+     * @return Gibt ein BooleanString-Objekt
+     * boolean -> Sagt aus, ob der Artikel erfolgreich dem Warenkorb hinzugefügt wurde oder nicht
+     * String -> Gibt die zugehörige (Fehler-) Meldung aus
+     */
     public BooleanString addArticleToShoppingCart(int articleNumber, int numberOfArticles) {
         BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
 
@@ -198,7 +215,7 @@ public class MainController implements Serializable {
             if (booleanStringObjectResult.getValueB()) {
                 double totalPrice = 0;
                 for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
-                    // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf EMplyee prüft
+                    // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf Employee prüft
                     int numberOfArticles = shoppingCart.getArticleAndQuantityMap().get(article);
                     _articleController.updateStock(article, -numberOfArticles); // Achtung: Negierung der Artikelanzahl -
 
@@ -213,15 +230,46 @@ public class MainController implements Serializable {
         return booleanStringObjectResult;
     }
 
-    public String clearShoppingCart(){
+    /**
+     * Leert den Einkaufswagen blabla TODO
+     *
+     * @return Gibt ein BooleanString-Object zurück.
+     * boolean -> Gibt zurück, ob das leeren erfolgreich geklappt hat.
+     * String -> Gibt die entsprechende (Fehler-) Meldung aus.
+     */
+    public BooleanString clearShoppingCart() {
+        BooleanString booleanStringResult = new BooleanString(true, Message.get(Message.MessageType.Info_ShoppingCartClearSuccess));
 
-        //TODO:
-        return "";
+        if (_personController.getRegisteredPersonType() == PersonType.Customer) {
+            Customer customer = (Customer) _personController.getRegisteredPerson();
+            _shoppingCartController.clear(customer.getShoppingCart());
+        } else {
+            booleanStringResult.setValueB(false);
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_NoPrivileges));
+        }
+
+        return booleanStringResult;
     }
 
-    public String showShoppingCart(){
-        //TODO:
-        return "";
+    /**
+     * Gibt den Einkaufswagen als formatierten String zurück blabla TODO
+     *
+     * @return Gibt ein BooleanString-Objekt zurück.
+     * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
+     * String --> enthält die Fehlermeldung oder das ShppoingCart als String
+     */
+    public BooleanString getShoppingCartString() {
+        BooleanString booleanStringResult = new BooleanString(true, "");
+
+        if (_personController.getRegisteredPersonType() == PersonType.Customer) {
+            Customer customer = (Customer) _personController.getRegisteredPerson();
+            booleanStringResult.setValueS(customer.getShoppingCart().toString());
+        } else {
+            booleanStringResult.setValueB(false);
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_NoPrivileges));
+        }
+
+        return booleanStringResult;
     }
 
     /**
@@ -230,9 +278,24 @@ public class MainController implements Serializable {
      */
     private void addEvent(Article article, int stockChangeValue) {
         _eventController.addEvent(article, _personController.getRegisteredPerson(), stockChangeValue);
-
     }
 
-    //TODO:
-    //public String showEvents{} (LAgerprotokoll anzeigen)
+    /**
+     * Zeigt das Lagerprotokoll an blabla TODO
+     * @return Gibt ein BooleanString-Objekt zurück.
+     * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
+     * String --> enthält die Fehlermeldung oder das Lagerprotokoll als String
+     */
+    public BooleanString getEventsString() {
+        BooleanString booleanStringResult = new BooleanString(true, "");
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+            booleanStringResult.setValueS(_eventController.getEventsString());
+        } else {
+            booleanStringResult.setValueB(false);
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_NoPrivileges));
+        }
+
+        return booleanStringResult;
+    }
 }
