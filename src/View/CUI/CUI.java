@@ -62,6 +62,12 @@ public class CUI {
 
     }
 
+    public static void showArticleList(){
+        System.out.println("Artikel");
+        System.out.println("Optionen:");
+        System.out.println("Verlassen: 'q'");
+    }
+
     public static void showArticleListSubMenu(){
         System.out.println("Artikel anzeigen");
         System.out.println("Optionen:");
@@ -88,7 +94,7 @@ public class CUI {
     public static void showShoppingCartMenu(){
         System.out.println("Warenkorb anzeigen");
         System.out.println("Optionen:");
-        System.out.println("Warenkorb bearbeiten: 's'");
+        System.out.println("Artikel hinuzufügen: 's'");
         System.out.println("Kaufen: 'k'");
         System.out.println("Verlassen: 'q'");
         System.out.println("-------------------------------");
