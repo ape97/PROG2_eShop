@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="20.0" y="1.201171875">Utilities</node>
+    <node x="258.0" y="1.201171875">Model</node>
+    <node x="233.30714285714294" y="163.201171875">Controller</node>
+    <node x="296.3571428571429" y="285.201171875">View</node>
+    <node x="280.6071428571429" y="387.201171875">Application</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Model" target="Model">
+      <point x="-42.5" y="26.0" />
+      <point x="283.5" y="83.201171875" />
+      <point x="228.00000000000003" y="83.201171875" />
+      <point x="228.00000000000003" y="33.701171875" />
+      <point x="-68.0" y="6.5" />
+    </edge>
+    <edge source="Controller" target="Model">
+      <point x="50.28571428571428" y="-26.0" />
+      <point x="371.5928571428572" y="143.201171875" />
+      <point x="368.5" y="143.201171875" />
+      <point x="42.5" y="26.0" />
+    </edge>
+    <edge source="Application" target="View">
+      <point x="37.25" y="-27.0" />
+      <point x="32.0" y="26.0" />
+    </edge>
+    <edge source="Controller" target="Controller">
+      <point x="-66.0" y="26.0" />
+      <point x="255.30714285714294" y="235.201171875" />
+      <point x="213.30714285714294" y="235.201171875" />
+      <point x="213.30714285714294" y="202.201171875" />
+      <point x="-88.0" y="13.0" />
+    </edge>
+    <edge source="View" target="Controller">
+      <point x="-32.0" y="-26.0" />
+      <point x="328.3571428571429" y="265.201171875" />
+      <point x="343.30714285714294" y="265.201171875" />
+      <point x="22.0" y="26.0" />
+    </edge>
+    <edge source="Utilities" target="Utilities">
+      <point x="-63.0" y="26.0" />
+      <point x="41.0" y="73.201171875" />
+      <point x="0.0" y="73.201171875" />
+      <point x="0.0" y="27.201171875" />
+      <point x="-84.0" y="-0.0" />
+    </edge>
+    <edge source="Controller" target="Utilities">
+      <point x="-25.142857142857167" y="-26.0" />
+      <point x="296.16428571428577" y="123.201171875" />
+      <point x="167.0" y="123.201171875" />
+      <point x="63.0" y="26.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="215.0" y="221.0" />
+  <SelectedNodes>
+    <node>Model</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
