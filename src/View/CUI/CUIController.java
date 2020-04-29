@@ -1,10 +1,10 @@
-import Controller.ArticleController;
+package View.CUI;
+
 import Controller.MainController;
 import Utilities.BooleanString;
 import Utilities.BooleanStringObject;
 import Utilities.PersonType;
 
-import java.io.IOException;
 import java.util.Scanner;
 public class CUIController {
 

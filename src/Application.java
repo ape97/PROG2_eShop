@@ -1,8 +1,7 @@
-import View.ConsoleTest;
+import View.CUI.CUIController;
 
 public class Application {
-    public static void main(String[] args){
-        ConsoleTest console = new ConsoleTest();
-        console.start();
+    public static void main(String[] args) {
+        CUIController.runEmployeeMenu();
     }
 }

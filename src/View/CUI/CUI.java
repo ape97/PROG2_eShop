@@ -1,3 +1,5 @@
+package View.CUI;
+
 public class CUI {
     public CUI() {}
 
@@ -83,11 +85,5 @@ public class CUI {
         //Warenkorb ausgeben
         System.out.println("-------------------------------");
 
-    }
-
-
-
-   public static void main(String[] args) {
-        CUIController.runEmployeeMenu();
     }
 }
