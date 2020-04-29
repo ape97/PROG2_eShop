@@ -253,6 +253,10 @@ public class PersonController implements Serializable {
         return personTypeResult;
     }
 
+    public void logout(){
+        _registeredPerson = null;
+    }
+
     public Person getRegisteredPerson() {
         return _registeredPerson;
     }

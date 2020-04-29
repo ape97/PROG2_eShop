@@ -48,7 +48,7 @@ public class ArticleController implements Serializable {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNameNotEmpty));
         } else if (price <= 0.0) {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticlePriceGreaterThanZero));
-        } else if (!checkArticleNumberExists(articleNumber)) {
+        } else if (checkArticleNumberExists(articleNumber)) {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberExists));
         } else {
             Article article = new Article(name, articleNumber, stock, price);
@@ -77,6 +77,8 @@ public class ArticleController implements Serializable {
         if (stockChangeValue == 0) {
             booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ChangeValueNotZero));
         } else {
+            booleanStringResult.setValueB(true);
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Info_ArticleStockChanged));
             article.setStock(article.getStock() + stockChangeValue);
         }
 
@@ -94,7 +96,7 @@ public class ArticleController implements Serializable {
         String result = "";
         sortArticles(articleSortMode);
 
-        result += "Artikelnummer - Artikelbezeichnung + Preis + Lagerbestand\n";
+        result += "Artikelnummer - Artikelbezeichnung - Preis - Lagerbestand\n";
 
         for (Article article : _articleList) {
             result += article.toString(true) + "\n";

@@ -83,6 +83,10 @@ public class MainController implements Serializable {
         return booleanStringObjectResult;
     }
 
+    public void logout(){
+        _personController.logout();;
+    }
+
 
     // ARTICLE
 

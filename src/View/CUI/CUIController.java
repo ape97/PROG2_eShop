@@ -97,16 +97,10 @@ public class CUIController {
         BooleanString booleanStringResult = _mainController.addArticle(name, articleNumber, stock, price);
 
         if (booleanStringResult.getValueB()) {
-            // Vorgang erfolgreich
-            // AUsgabe:
-            booleanStringResult.getValueS();
+            System.out.println(booleanStringResult.getValueS());
             runAddArticleMenu();
         } else {
-            // Vorgang nicht erfolgreich
-            // Ausgabe:
-            booleanStringResult.getValueS();
-
-            // VORGANG ERNEUT STARTEN
+            System.out.println(booleanStringResult.getValueS());
             runAddArticleMenu();
         }
 
@@ -153,6 +147,7 @@ public class CUIController {
         switch (inputdata) {
             case "q": //Beenden
                 exit();
+                break;
             case "n": //Artikel hinzufügen
                 runAddArticleMenu();
                 break;
@@ -226,10 +221,12 @@ public class CUIController {
             case "q": //Verlassen
                 runEmployeeMenu();
             case "n":
-                articleListByName(); //Funktion Artikel anzeigen sortiert nach Artikelnummer
+                ; //Funktion Artikel anzeigen sortiert nach Artikelnummer
+                articleListByNumber();
                 break;
             case "b":
-                ; //Funktion Artikel anzeigen sortiert nach Artikelbezeichnung
+                //Funktion Artikel anzeigen sortiert nach Artikelbezeichnug
+                articleListByName();
                 break;
 
             case "sub_q":
@@ -255,15 +252,15 @@ public class CUIController {
     public void runShoppingCartMenu() {
         CUI.showShoppingCartMenu();
 
-       // BooleanStringObject booleanStringObjectResult =
+        BooleanString booleanStringObjectResult = _mainController.getShoppingCartString();
 
-//        if (booleanStringObjectResult.getValueB()) {
-//            String shoppingCartList = (String) booleanStringObjectResult.getValueO();
-//            System.out.println(customer.getShoppingCart);
-//        } else {
-//            System.out.print(booleanStringObjectResult.getValueS());
-//            runMainMenu();
-//        }
+        if (booleanStringObjectResult.getValueB()) {
+            String shoppingCartList = (String) booleanStringObjectResult.getValueS();
+            System.out.println(shoppingCartList);
+        } else {
+            System.out.print(booleanStringObjectResult.getValueS());
+            runMainMenu();
+        }
 
         String inputdata = readInput();
         processinputCustomer(inputdata);
@@ -348,7 +345,7 @@ public class CUIController {
 
     }
 
-    public void addArticleToShoppingCart(){
+    public void addArticleToShoppingCart() {
         int articlenumber;
         int numberOfArticle;
 
@@ -360,17 +357,17 @@ public class CUIController {
 
         BooleanString booleanStringResult = _mainController.addArticleToShoppingCart(articlenumber, numberOfArticle);
 
-        if(booleanStringResult.getValueB()){
+        if (booleanStringResult.getValueB()) {
             System.out.println(booleanStringResult.getValueS());
             runShoppingCartMenu();
-        }else{
+        } else {
             System.out.println(booleanStringResult.getValueS());
             runShoppingCartMenu();
         }
 
     }
 
-    public void updateStock(){
+    public void updateStock() {
         int articleNumber;
         int stockChangeValue;
 
@@ -381,10 +378,10 @@ public class CUIController {
 
         BooleanString booleanStringResult = _mainController.updateStock(articleNumber, stockChangeValue);
 
-        if(booleanStringResult.getValueB()){
+        if (booleanStringResult.getValueB()) {
             System.out.println(booleanStringResult.getValueS());
             runChangeArticleMenu();
-        } else{
+        } else {
             System.out.println(booleanStringResult.getValueS());
             runChangeArticleMenu();
         }
@@ -392,15 +389,15 @@ public class CUIController {
 
     }
 
-    public void buy(){
+    public void buy() {
         BooleanStringObject booleanStringObjectResult = _mainController.buyShoppingCart();
-        if(booleanStringObjectResult.getValueB()){
+        if (booleanStringObjectResult.getValueB()) {
             String bill = (String) booleanStringObjectResult.getValueO();
             System.out.println(booleanStringObjectResult.getValueS());
             System.out.println(bill);
             runShoppingCartMenu();
 
-        }else{
+        } else {
             System.out.println(booleanStringObjectResult.getValueS());
             runShoppingCartMenu();
         }
@@ -437,7 +434,7 @@ public class CUIController {
 
         BooleanString booleanStringResult = _mainController.addCustomer(firstname, lastname, username, password, street, housenumber, postcode, city);
 
-        if (booleanStringResult.getValueB()){
+        if (booleanStringResult.getValueB()) {
 
             System.out.println(booleanStringResult.getValueS());
             runMainMenu();
@@ -448,38 +445,41 @@ public class CUIController {
         //TODO
     }
 
-    public void articleListByName(){
+    public void articleListByName() {
         String inputdata;
-        inputdata= "sub_"+readInput();
-        processinputArticleListE(inputdata);
+
         String list = _mainController.getSortedArticleStringList(ArticleSortMode.ArticleName);
         CUI.showArticleList();
         System.out.println(list);
 
+        inputdata = "sub_" + readInput();
+        processinputArticleListE(inputdata);
     }
 
-    public void articleListByNumber(){
+    public void articleListByNumber() {
         String inputdata;
-        inputdata= "sub_"+readInput();
-        processinputArticleListE(inputdata);
+
         String list = _mainController.getSortedArticleStringList(ArticleSortMode.ArticleNumber);
         CUI.showArticleList();
         System.out.println(list);
 
+        inputdata = "sub_" + readInput();
+        processinputArticleListE(inputdata);
+
     }
 
-    public void eventProtocol(){
+    public void eventProtocol() {
         BooleanString booleanStringResult = _mainController.getEventsString();
         String inputdata;
-        if(booleanStringResult.getValueB()){
+        if (booleanStringResult.getValueB()) {
             System.out.println(booleanStringResult.getValueS());
 
-        }else{
+        } else {
             System.out.println(booleanStringResult.getValueS());
             runCustomerMenu();
         }
         System.out.println("Drücke 'q' um zurück zu kehren.");
-        inputdata = "sub_"+readInput();
+        inputdata = "sub_" + readInput();
         processinputEmployee(inputdata);
     }
 

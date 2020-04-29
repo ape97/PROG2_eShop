@@ -18,6 +18,8 @@ public class Application {
         CUIController cuiController = new CUIController(mainController);
         cuiController.runMainMenu();
 
+        mainController.logout();
+
         dataWriterReader.save(mainController);
     }
 }

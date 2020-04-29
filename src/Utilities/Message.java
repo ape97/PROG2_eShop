@@ -108,6 +108,9 @@ public class Message {
             case Info_ShoppingCartClearSuccess:
                 result = "Der Warenkorb wurde geleert.";
                 break;
+            case Info_ArticleStockChanged:
+                result = "Der Artikelbestand wurde geändert.";
+                break;
         }
 
         return result;
@@ -151,7 +154,8 @@ public class Message {
         Error_ArticleItemNumberGreaterZero,
         Info_OrderSuccess,
         Error_ArticleStockCartNotEnough,
-        Info_ShoppingCartClearSuccess
+        Info_ShoppingCartClearSuccess,
+        Info_ArticleStockChanged
     }
 
     public enum Language {
