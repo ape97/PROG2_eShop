@@ -6,6 +6,7 @@ import Model.Employee;
 import Model.Person;
 import Utilities.BooleanString;
 import Utilities.BooleanStringObject;
+import Utilities.Message;
 import Utilities.PersonType;
 
 import java.security.InvalidParameterException;
@@ -54,7 +55,7 @@ public class PersonController {
             _personList.add(employee);
 
             booleanStringResult.setValueB(true);
-            booleanStringResult.setValueS("Mitarbeiter wurde erstellt.");
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Info_EmployeeCreated));
         }
 
         return booleanStringResult;
@@ -84,7 +85,7 @@ public class PersonController {
             _personList.add(customer);
 
             booleanStringResult.setValueB(true);
-            booleanStringResult.setValueS("Kunde wurde erstellt.");
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Info_CustomerCreated));
         }
 
         return booleanStringResult;
@@ -101,13 +102,13 @@ public class PersonController {
      * Das Object gibt den angemeldeten Benutzer Person-Object zurück, sofern der Vorgang erfolgreich war, ansonsten null.
      */
     public BooleanStringObject login(String username, String password) {
-        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, "Login nicht erfolgreich. Passwort oder Benutzername ist falsch.", null);
+        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_LoginFailed), null);
 
         for (Person person : _personList) {
             if (person.getUsername().equals(username) && person.getPassword().equals(password)) {
                 _registeredPerson = person;
                 booleanStringObjectResult.setValueB(true);
-                booleanStringObjectResult.setValueS("Login erfolgreich.");
+                booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Info_LoginSuccess));
                 booleanStringObjectResult.setValueO(PersonType.Employee);
                 break;
             }
@@ -130,15 +131,15 @@ public class PersonController {
         BooleanString booleanStringResult = new BooleanString(false, "");
 
         if (firstname.trim().isEmpty()) {
-            booleanStringResult.setValueS("Vorname darf nicht leer sein.");
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_FirstNameNotEmpty));
         } else if (lastname.trim().isEmpty()) {
-            booleanStringResult.setValueS("Nachname darf nicht leer sein.");
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_LastNameNotEmpty));
         } else if (checkUsernameExists(username)) {
-            booleanStringResult.setValueS("Benutzername existiert bereits.");
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_UsernameExists));
         } else if (!checkUsernameIsValid(username)) {
-            booleanStringResult.setValueS("Benutzername ist ungültig. (nicht leer, keine Leerzeichen, mindestens 3 Zeichen)");
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_UsernameInvalid));
         } else if (!checkPasswordIsValid(password)) {
-            booleanStringResult.setValueS("Passwort ist ungültig. (nicht leer, mindestens 8 Zeichen)");
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_PasswordInvalid));
         } else {
             booleanStringResult.setValueB(true);
         }
@@ -217,12 +218,16 @@ public class PersonController {
         return id;
     }
 
+    public PersonType getRegisteredPersonType(){
+        return getPersonTypeByPerson(_registeredPerson);
+    }
+
     /**
      * Ermittelt den tatsächlichen Typen eines Person-Objektes, Customer oder Employee
      * @param person Das Person-Objekt, dessen Typ ermittelt werden soll
      * @return Gibt den Typen in Form des PersonType enums zurück
      */
-    public PersonType getPersonTypeByPerson(Person person) {
+    private PersonType getPersonTypeByPerson(Person person) {
         PersonType personTypeResult;
         String className = person.getClass().getSimpleName();
         if(className.equals(Customer.class.getSimpleName())){
@@ -230,7 +235,7 @@ public class PersonController {
         } else if(className.equals(Employee.class.getSimpleName())) {
             personTypeResult = PersonType.Employee;
         } else{
-            throw new InvalidParameterException();
+            personTypeResult = PersonType.Guest;
         }
 
         return personTypeResult;

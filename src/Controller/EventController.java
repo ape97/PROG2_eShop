@@ -27,8 +27,6 @@ public class EventController {
      * @param stockChangeValue  Die Summe um die der Bestand verändert wurde
      */
     public void addEvent(Article article, Person person, int stockChangeValue){
-        BooleanString booleanStringResult = new BooleanString(false, "");
-
         Event event = new Event(article, person, stockChangeValue);
         _eventList.add(event);
     }

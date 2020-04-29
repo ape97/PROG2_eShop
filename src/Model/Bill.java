@@ -11,6 +11,8 @@
 
 package Model;
 
+import Utilities.Message;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -29,7 +31,7 @@ public class Bill {
     public String toString() {
         String result = _timeStamp.toString() + "\n" + _customer.getFirstname() + " " + _customer.getLastname();
         result += "\n" + _customer.getAddress().toString();
-        result += "Gesamtpreis: " + _totalPrice + "€";
+        result += Message.get(Message.MessageType.TotalPrice) + ": " + _totalPrice + "€";
 
         for (String billPosition : _invoiceItems) {
             result += "\n" + billPosition;

@@ -1,10 +1,7 @@
 package Controller;
 
 import Model.*;
-import Utilities.ArticleSortMode;
-import Utilities.BooleanString;
-import Utilities.BooleanStringObject;
-import Utilities.PersonType;
+import Utilities.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -39,7 +36,13 @@ public class MainController {
      * @return Gibt das BooleanString-Objekt von PersonController.addEmployee(...) zurück.
      */
     public BooleanString addEmployee(String firstname, String lastname, String username, String password) {
-        return _personController.addEmployee(firstname, lastname, username, password);
+        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+            booleanStringResult = _personController.addEmployee(firstname, lastname, username, password);
+        }
+
+        return booleanStringResult;
     }
 
     /**
@@ -52,14 +55,16 @@ public class MainController {
      */
     public BooleanString addCustomer(String firstname, String lastname, String username, String password,
                                      String street, String houseNumber, String postCode, String city) {
-        BooleanString booleanStringResult = new BooleanString(false, "");
+        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
 
-        BooleanStringObject createAddressResult = _addressController.createAddress(street, houseNumber, postCode, city);
+        if (_personController.getRegisteredPersonType() == PersonType.Guest) {
+            BooleanStringObject createAddressResult = _addressController.createAddress(street, houseNumber, postCode, city);
 
-        if (!createAddressResult.getValueB()) {
-            booleanStringResult.setValueS(createAddressResult.getValueS());
-        } else {
-            booleanStringResult = _personController.addCustomer(firstname, lastname, username, password, (Address) createAddressResult.getValueO());
+            if (!createAddressResult.getValueB()) {
+                booleanStringResult.setValueS(createAddressResult.getValueS());
+            } else {
+                booleanStringResult = _personController.addCustomer(firstname, lastname, username, password, (Address) createAddressResult.getValueO());
+            }
         }
 
         return booleanStringResult;
@@ -70,7 +75,13 @@ public class MainController {
      * Für weitere Informationen siehe: PersonController:login(...)
      */
     public BooleanStringObject login(String username, String password) {
-        return _personController.login(username, password);
+        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_NoPrivileges), null);
+
+        if (_personController.getRegisteredPersonType() == PersonType.Guest) {
+            booleanStringObjectResult = _personController.login(username, password);
+        }
+
+        return booleanStringObjectResult;
     }
 
 
@@ -91,13 +102,21 @@ public class MainController {
      * damit die Bestandsveränderung protokolliert wird.
      */
     public BooleanString addArticle(String name, int articleNumber, int stock, double price) {
-        BooleanStringObject addArticleResult = _articleController.addArticle(name, articleNumber, stock, price);
 
-        if (addArticleResult.getValueB()) {
-            addEvent((Article) addArticleResult.getValueO(), stock);
+        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+
+            BooleanStringObject addArticleResult = _articleController.addArticle(name, articleNumber, stock, price);
+
+            if (addArticleResult.getValueB()) {
+                addEvent((Article) addArticleResult.getValueO(), stock);
+            }
+
+            booleanStringResult = (BooleanString) addArticleResult;
         }
 
-        return (BooleanString) addArticleResult;
+        return booleanStringResult;
     }
 
     /**
@@ -107,31 +126,42 @@ public class MainController {
      * damit die Bestandsveränderung protokolliert wird.
      */
     public BooleanString updateStock(Article article, int stockChangeValue) {
-        BooleanString articleUpdateStockResult = _articleController.updateStock(article, stockChangeValue);
+        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
 
-        if (articleUpdateStockResult.getValueB()) {
-            addEvent(article, stockChangeValue);
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+            BooleanString articleUpdateStockResult = _articleController.updateStock(article, stockChangeValue);
+
+            if (articleUpdateStockResult.getValueB()) {
+                addEvent(article, stockChangeValue);
+            }
+
+            booleanStringResult = articleUpdateStockResult;
         }
 
-        return articleUpdateStockResult;
+        return booleanStringResult;
     }
 
     public BooleanString addArticleToShoppingCart(int articleNumber, int numberOfArticles) {
-        BooleanString booleanStringResult = new BooleanString(true, "Der Artikel wurde erfolgreich dem Warenkorb hinzugefügt.");
+        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
 
-        Article article = _articleController.getArticleByArticleNumber(articleNumber);
-        if (article == null) {
-            booleanStringResult.setValueB(false);
-            booleanStringResult.setValueS("Kein Artikel mit dieser Artikelnummer gefunden.");
-        } else if (!_articleController.checkArticleIsStock(article, numberOfArticles)) {
-            booleanStringResult.setValueB(false);
-            booleanStringResult.setValueS("Nicht genug Bestand vorhanden.");
-        } else if (numberOfArticles <= 0) {
-            booleanStringResult.setValueB(false);
-            booleanStringResult.setValueS("Die Artikelanzahl darf nicht <= 0 sein.");
-        } else {
-            Customer customer = (Customer) _personController.getRegisteredPerson();
-            _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
+        if (_personController.getRegisteredPersonType() == PersonType.Customer) {
+
+            booleanStringResult = new BooleanString(true, Message.get(Message.MessageType.Info_ArticleAddedToCart));
+
+            Article article = _articleController.getArticleByArticleNumber(articleNumber);
+            if (article == null) {
+                booleanStringResult.setValueB(false);
+                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberNotFound));
+            } else if (!_articleController.checkArticleIsStock(article, numberOfArticles)) {
+                booleanStringResult.setValueB(false);
+                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotEnough));
+            } else if (numberOfArticles <= 0) {
+                booleanStringResult.setValueB(false);
+                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleItemNumberGreaterZero));
+            } else {
+                Customer customer = (Customer) _personController.getRegisteredPerson();
+                _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
+            }
         }
 
         return booleanStringResult;
@@ -146,32 +176,37 @@ public class MainController {
      * Object -> Enthält die Rechnung als formatierten String, sofern der Kauf erfolgreich war
      */
     public BooleanStringObject buyShoppingCart() {
-        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(true, "Bestellung erfolgreich abgeschlossen.", null);
-        Customer customer = (Customer) _personController.getRegisteredPerson();
-        ShoppingCart shoppingCart = customer.getShoppingCart();
-        Bill bill = _billController.createBill(customer);
+        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
-        // Prüft ob alle Artikel noch auf Lager sind
-        for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
-            boolean articleInStock = _articleController.checkArticleIsStock(article, shoppingCart.getArticleAndQuantityMap().get(article));
-            if (!articleInStock) {
-                booleanStringObjectResult.setValueB(false);
-                booleanStringObjectResult.setValueS("Mindestens ein Artikel im Warenkorb ist nicht auf Lager, bitte überprüfen Sie Ihren Warenkorb.");
-                break;
-            }
-        }
+        if (_personController.getRegisteredPersonType() == PersonType.Customer) {
+             booleanStringObjectResult = new BooleanStringObject(true, Message.get(Message.MessageType.Info_OrderSuccess), null);
+            Customer customer = (Customer) _personController.getRegisteredPerson();
+            ShoppingCart shoppingCart = customer.getShoppingCart();
+            Bill bill = _billController.createBill(customer);
 
-        // Lagerbestand der Artikel wird angepasst, sofern der booleanStringResult Wert nicht auf false gesetzt wurde
-        if (booleanStringObjectResult.getValueB()) {
-            double totalPrice = 0;
+            // Prüft ob alle Artikel noch auf Lager sind
             for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
-                updateStock(article, -shoppingCart.getArticleAndQuantityMap().get(article)); // Achtung: Negierung der Artikelanzahl -
-
-                totalPrice += article.getPrice();
-                _billController.addBillPosition(bill, article.toString(false));
+                boolean articleInStock = _articleController.checkArticleIsStock(article, shoppingCart.getArticleAndQuantityMap().get(article));
+                if (!articleInStock) {
+                    booleanStringObjectResult.setValueB(false);
+                    booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockCartNotEnough));
+                    break;
+                }
             }
-            bill.setTotalPrice(totalPrice);
-            booleanStringObjectResult.setValueO(bill.toString());
+
+            // Lagerbestand der Artikel wird angepasst, sofern der booleanStringResult Wert nicht auf false gesetzt wurde
+            if (booleanStringObjectResult.getValueB()) {
+                double totalPrice = 0;
+                for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
+                    // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf EMplyee prüft
+                    _articleController.updateStock(article, -shoppingCart.getArticleAndQuantityMap().get(article)); // Achtung: Negierung der Artikelanzahl -
+
+                    totalPrice += article.getPrice();
+                    _billController.addBillPosition(bill, article.toString(false));
+                }
+                bill.setTotalPrice(totalPrice);
+                booleanStringObjectResult.setValueO(bill.toString());
+            }
         }
 
         return booleanStringObjectResult;

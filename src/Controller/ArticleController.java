@@ -4,6 +4,7 @@ import Model.Article;
 import Utilities.ArticleSortMode;
 import Utilities.BooleanString;
 import Utilities.BooleanStringObject;
+import Utilities.Message;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
@@ -43,17 +44,17 @@ public class ArticleController {
         BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, "", null);
 
         if (name.trim().isEmpty()) {
-            booleanStringObjectResult.setValueS("Artikel Bezeichnung darf nicht leer sein.");
+            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNameNotEmpty));
         } else if (price <= 0.0) {
-            booleanStringObjectResult.setValueS("Der Preis muss größer als 0 sein.");
+            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticlePriceGreaterThanZero));
         } else if (!checkArticleNumberExists(articleNumber)) {
-            booleanStringObjectResult.setValueS("Die Artikelnummer ist bereits vergeben.");
+            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberExists));
         } else {
             Article article = new Article(name, articleNumber, stock, price);
             _articleList.add(article);
 
             booleanStringObjectResult.setValueB(true);
-            booleanStringObjectResult.setValueS("Der Artikel wurde erfolgreich erstellt.");
+            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Info_ArticleCreated));
             booleanStringObjectResult.setValueO(article);
         }
 
@@ -73,7 +74,7 @@ public class ArticleController {
         BooleanString booleanStringResult = new BooleanString(false, "");
 
         if (stockChangeValue == 0) {
-            booleanStringResult.setValueS("Die Bestandsveränderung darf nicht 0 sein.");
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ChangeValueNotZero));
         } else {
             article.setStock(article.getStock() + stockChangeValue);
         }

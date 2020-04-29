@@ -2,5 +2,6 @@ package Utilities;
 
 public enum PersonType {
     Employee,
-    Customer
+    Customer,
+    Guest
 }
