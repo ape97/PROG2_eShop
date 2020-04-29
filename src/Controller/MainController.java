@@ -215,7 +215,7 @@ public class MainController implements Serializable {
             if (booleanStringObjectResult.getValueB()) {
                 double totalPrice = 0;
                 for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
-                    // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf EMplyee prüft
+                    // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf Employee prüft
                     int numberOfArticles = shoppingCart.getArticleAndQuantityMap().get(article);
                     _articleController.updateStock(article, -numberOfArticles); // Achtung: Negierung der Artikelanzahl -
 
