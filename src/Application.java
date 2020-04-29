@@ -5,9 +5,6 @@ import Utilities.Message;
 public class Application {
     public static void main(String[] args) {
         DataWriterReader dataWriterReader = new DataWriterReader("data.bn");
-        MainController mainController;
-        Object object = dataWriterReader.load();
-
         if (object == null) {
             mainController = new MainController();
         } else {
@@ -18,5 +15,8 @@ public class Application {
         // TODO: Programm starten
 
         dataWriterReader.save(mainController);
+        Object object = dataWriterReader.load();
+        MainController mainController;
+
     }
 }
