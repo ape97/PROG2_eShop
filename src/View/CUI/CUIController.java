@@ -33,7 +33,7 @@ public class CUIController {
                 login();
                 break;
             case "r": //Registrieren
-                // register();
+                register();
                 break;
         }
     }
@@ -168,6 +168,12 @@ public class CUIController {
             case "o":
                 ;//Logout
                 break;
+            case "e": //Event Protokoll
+                eventProtocol();
+                break;
+            case "sub_q":
+                runEmployeeMenu();
+                break;
 
         }
     }
@@ -193,7 +199,7 @@ public class CUIController {
             case "q": //Verlassen
                 runEmployeeMenu();
             case "s":
-                ;//Funktion Artikel ändern
+                updateStock();//Funktion Artikel ändern
                 break;
 
         }
@@ -220,10 +226,14 @@ public class CUIController {
             case "q": //Verlassen
                 runEmployeeMenu();
             case "n":
-                ; //Funktion Artikel anzeigen sortiert nach Artikelnummer
+                articleListByName(); //Funktion Artikel anzeigen sortiert nach Artikelnummer
                 break;
             case "b":
                 ; //Funktion Artikel anzeigen sortiert nach Artikelbezeichnung
+                break;
+
+            case "sub_q":
+                runArticleListEMenu();
                 break;
 
         }
@@ -243,7 +253,18 @@ public class CUIController {
     }
 
     public void runShoppingCartMenu() {
-        CUI.showCustomerMenu();
+        CUI.showShoppingCartMenu();
+
+       // BooleanStringObject booleanStringObjectResult =
+
+//        if (booleanStringObjectResult.getValueB()) {
+//            String shoppingCartList = (String) booleanStringObjectResult.getValueO();
+//            System.out.println(customer.getShoppingCart);
+//        } else {
+//            System.out.print(booleanStringObjectResult.getValueS());
+//            runMainMenu();
+//        }
+
         String inputdata = readInput();
         processinputCustomer(inputdata);
 
@@ -270,15 +291,34 @@ public class CUIController {
         switch (inputdata) {
             case "q": //Beenden
                 exit();
+                break;
             case "s": //Artikel Liste anzeigen
                 runArticleListCMenu();
                 break;
 
             case "w":
-                System.out.println("Test erfolgreich!");
+                runShoppingCartMenu();
                 break;
             case "o": //Logout
                 ;
+                break;
+
+        }
+    }
+
+    public void processinputShoppingCart(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
+        System.out.println("-------------------------------");
+        switch (inputdata) {
+            case "q": //Beenden
+                runCustomerMenu();
+                break;
+            case "k": //Kaufen
+                buy();
+                break;
+
+            case "s": //Artikel hinzugügen
+                addArticleToShoppingCart();
                 break;
 
         }
@@ -308,8 +348,139 @@ public class CUIController {
 
     }
 
+    public void addArticleToShoppingCart(){
+        int articlenumber;
+        int numberOfArticle;
+
+        System.out.println("Bitte geben Sie die Artikenummer ein.");
+        articlenumber = readInt();
+        System.out.println("Bitte gebebn Sie die Anzahl an Artikel ein.");
+        numberOfArticle = readInt();
+
+
+        BooleanString booleanStringResult = _mainController.addArticleToShoppingCart(articlenumber, numberOfArticle);
+
+        if(booleanStringResult.getValueB()){
+            System.out.println(booleanStringResult.getValueS());
+            runShoppingCartMenu();
+        }else{
+            System.out.println(booleanStringResult.getValueS());
+            runShoppingCartMenu();
+        }
+
+    }
+
+    public void updateStock(){
+        int articleNumber;
+        int stockChangeValue;
+
+        System.out.println("Bitte geben Sie die Artikelnummern ein.");
+        articleNumber = readInt();
+        System.out.println("Bitte geben den neuen Bestand ein.");
+        stockChangeValue = readInt();
+
+        BooleanString booleanStringResult = _mainController.updateStock(articleNumber, stockChangeValue);
+
+        if(booleanStringResult.getValueB()){
+            System.out.println(booleanStringResult.getValueS());
+            runChangeArticleMenu();
+        } else{
+            System.out.println(booleanStringResult.getValueS());
+            runChangeArticleMenu();
+        }
+
+
+    }
+
+    public void buy(){
+        BooleanStringObject booleanStringObjectResult = _mainController.buyShoppingCart();
+        if(booleanStringObjectResult.getValueB()){
+            String bill = (String) booleanStringObjectResult.getValueO();
+            System.out.println(booleanStringObjectResult.getValueS());
+            System.out.println(bill);
+            runShoppingCartMenu();
+
+        }else{
+            System.out.println(booleanStringObjectResult.getValueS());
+            runShoppingCartMenu();
+        }
+    }
+
+
     public void register() {
+        String firstname;
+        String lastname;
+        String username;
+        String password;
+        String street;
+        String housenumber;
+        String postcode;
+        String city;
+
+        System.out.println("Registrieren:");
+        System.out.println("Bitte geben Sie Ihren Vornamen ein.");
+        firstname = readInput();
+        System.out.println("Bitte geben Sie Ihren Nachnamen ein.");
+        lastname = readInput();
+        System.out.println("Bitte geben Sie einen Benutzernamen ein.");
+        username = readInput();
+        System.out.println("Bitte geben Sie ein Passwort ein.");
+        password = readInput();
+        System.out.println("Bitte geben Sie Ihre Straße ein.");
+        street = readInput();
+        System.out.println("Bitte geben Sie Ihre Hausnummer ein.");
+        housenumber = readInput();
+        System.out.println("Bitte geben Sie eine Postleitzahl ein.");
+        postcode = readInput();
+        System.out.println("Bitte geben Sie den Ort ein.");
+        city = readInput();
+
+        BooleanString booleanStringResult = _mainController.addCustomer(firstname, lastname, username, password, street, housenumber, postcode, city);
+
+        if (booleanStringResult.getValueB()){
+
+            System.out.println(booleanStringResult.getValueS());
+            runMainMenu();
+        } else {
+            System.out.println(booleanStringResult.getValueS());
+            runMainMenu();
+        }
         //TODO
+    }
+
+    public void articleListByName(){
+        String inputdata;
+        inputdata= "sub_"+readInput();
+        processinputArticleListE(inputdata);
+        String list = _mainController.getSortedArticleStringList(ArticleSortMode.ArticleName);
+        CUI.showArticleList();
+        System.out.println(list);
+
+    }
+
+    public void articleListByNumber(){
+        String inputdata;
+        inputdata= "sub_"+readInput();
+        processinputArticleListE(inputdata);
+        String list = _mainController.getSortedArticleStringList(ArticleSortMode.ArticleNumber);
+        CUI.showArticleList();
+        System.out.println(list);
+
+    }
+
+    public void eventProtocol(){
+        BooleanString booleanStringResult = _mainController.getEventsString();
+        String inputdata;
+        if(booleanStringResult.getValueB()){
+            System.out.println(booleanStringResult.getValueS());
+
+        }else{
+            System.out.println(booleanStringResult.getValueS());
+            runCustomerMenu();
+        }
+        System.out.println("Drücke 'q' um zurück zu kehren.");
+        inputdata = "sub_"+readInput();
+        processinputEmployee(inputdata);
     }
 
     public void login() {
@@ -337,7 +508,7 @@ public class CUIController {
 
         } else {
             System.out.print(booleanStringObjectResult.getValueS());
-            login();
+            runMainMenu();
         }
     }
 
