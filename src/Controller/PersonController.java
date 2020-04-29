@@ -95,6 +95,7 @@ public class PersonController implements Serializable {
     /**
      * Login:
      * Prüft ob die Anmeldeinformationen auf ein Person-Objekt zutreffen.
+     *
      * @param username Der Benutzername
      * @param password Das Passwort
      * @return Gibt ein BooleanStringObject-Objekt zurück.
@@ -110,7 +111,7 @@ public class PersonController implements Serializable {
                 _registeredPerson = person;
                 booleanStringObjectResult.setValueB(true);
                 booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Info_LoginSuccess));
-                booleanStringObjectResult.setValueO(PersonType.Employee);
+                booleanStringObjectResult.setValueO(getRegisteredPersonType());
                 break;
             }
         }
@@ -120,10 +121,11 @@ public class PersonController implements Serializable {
 
     /**
      * Prüft ob die Person-Konstrukor relevanten Parameter den Anforderungen entsprechen.
+     *
      * @param firstname Der Vorname der Person
-     * @param lastname Der Nachname der Person
-     * @param username Der Benutzername der Person
-     * @param password Das Passwort der Person
+     * @param lastname  Der Nachname der Person
+     * @param username  Der Benutzername der Person
+     * @param password  Das Passwort der Person
      * @return Gibt ein BooleanSTring-Objekt zurück.
      * Der boolean gibt an, ob die angegebenen Werte den Anforderungen entsprechen und somit gültig sind oder nicht.
      * Der String gibt die entsprechende (Fehler-) Meldung an.
@@ -150,6 +152,7 @@ public class PersonController implements Serializable {
 
     /**
      * Prüft ob der angegebene Benutzername bereits einem Person-Objekt zugeordnet ist.
+     *
      * @param username Der Benutzername der gesucht wird
      * @return Gibt einen boolean zurück.
      * true -> Benutzername ist bereits vergeben
@@ -170,6 +173,7 @@ public class PersonController implements Serializable {
 
     /**
      * Prüft ob der angegebene Benutzername den Anforderungen entspricht und somit gültig ist oder nicht.
+     *
      * @param username Der Benutzername, welcher geprüft werden soll
      * @return Gibt einen boolean zurück.
      * true -> Benutzername entspricht den Anforderungen, also gültig
@@ -188,6 +192,7 @@ public class PersonController implements Serializable {
 
     /**
      * Prüft ob das angegebene Passwort den Anforderungen entspricht und somit gültig ist oder nicht.
+     *
      * @param password Das Passwort, welches geprüft werden soll
      * @return Gibt einen boolean zurück.
      * true -> Passwort entspricht den Anforderungen, also gültig
@@ -206,6 +211,7 @@ public class PersonController implements Serializable {
 
     /**
      * Generiert eine neue Identifikationsnummer Id für ein neues Person-Objekt.
+     *
      * @return Gibt die neue Id als int zurück.
      * Die neue Id ist immer die größte Id die in einem Person-Objekt gefunden wurde + 1
      */
@@ -219,30 +225,35 @@ public class PersonController implements Serializable {
         return id;
     }
 
-    public PersonType getRegisteredPersonType(){
+    public PersonType getRegisteredPersonType() {
         return getPersonTypeByPerson(_registeredPerson);
     }
 
     /**
      * Ermittelt den tatsächlichen Typen eines Person-Objektes, Customer oder Employee
+     *
      * @param person Das Person-Objekt, dessen Typ ermittelt werden soll
      * @return Gibt den Typen in Form des PersonType enums zurück
      */
     private PersonType getPersonTypeByPerson(Person person) {
         PersonType personTypeResult;
-        String className = person.getClass().getSimpleName();
-        if(className.equals(Customer.class.getSimpleName())){
-            personTypeResult = PersonType.Customer;
-        } else if(className.equals(Employee.class.getSimpleName())) {
-            personTypeResult = PersonType.Employee;
-        } else{
+
+        if (person == null) {
             personTypeResult = PersonType.Guest;
+        } else {
+            String className = person.getClass().getSimpleName();
+
+            if (className.equals(Customer.class.getSimpleName())) {
+                personTypeResult = PersonType.Customer;
+            } else { // Employee
+                personTypeResult = PersonType.Employee;
+            }
         }
 
         return personTypeResult;
     }
 
-    public Person getRegisteredPerson(){
+    public Person getRegisteredPerson() {
         return _registeredPerson;
     }
 }

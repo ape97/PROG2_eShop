@@ -78,9 +78,7 @@ public class MainController implements Serializable {
     public BooleanStringObject login(String username, String password) {
         BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
-        if (_personController.getRegisteredPersonType() == PersonType.Guest) {
-            booleanStringObjectResult = _personController.login(username, password);
-        }
+        booleanStringObjectResult = _personController.login(username, password);
 
         return booleanStringObjectResult;
     }
@@ -126,6 +124,7 @@ public class MainController implements Serializable {
      * Wenn updateStock(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
      */
+    //TODO: Int articleNumber, int stockValue
     public BooleanString updateStock(Article article, int stockChangeValue) {
         BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
 
@@ -214,11 +213,26 @@ public class MainController implements Serializable {
         return booleanStringObjectResult;
     }
 
+    public String clearShoppingCart(){
+
+        //TODO:
+        return "";
+    }
+
+    public String showShoppingCart(){
+        //TODO:
+        return "";
+    }
+
     /**
      * Reicht den Funktionsaufruf weiter an EventController
      * Für weitere Informationen siehe: EventController:addEvent(...)
      */
     private void addEvent(Article article, int stockChangeValue) {
         _eventController.addEvent(article, _personController.getRegisteredPerson(), stockChangeValue);
+
     }
+
+    //TODO:
+    //public String showEvents{} (LAgerprotokoll anzeigen)
 }

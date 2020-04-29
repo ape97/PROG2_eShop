@@ -1,73 +1,78 @@
 package View.CUI;
 
 import Controller.MainController;
+import Utilities.ArticleSortMode;
 import Utilities.BooleanString;
 import Utilities.BooleanStringObject;
 import Utilities.PersonType;
 
 import java.util.Scanner;
+
 public class CUIController {
 
+    private MainController _mainController;
 
-
-    public CUIController(MainController _mainController){
-
+    public CUIController(MainController mainController) {
+        _mainController = mainController;
     }
 
-    public static void runMainMenu(){
+    public void runMainMenu() {
         CUI.showMainMenu();
         String inputdata = readInput();
         processinputMainMenu(inputdata);
     }
 
-    public static void processinputMainMenu(String inputdata){
-        System.out.println("Eingabe: "+inputdata);
+    public void processinputMainMenu(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
-        switch(inputdata){
+        switch (inputdata) {
             case "q": //Beenden
                 exit();
+                break;
             case "o": //Login
                 login();
                 break;
             case "r": //Registrieren
-                ;
+                // register();
                 break;
         }
     }
 
-    public static void exit(){
+    public void exit() {
         return;
     }
 
-    /**Employee**/
-    public static void runEmployeeMenu(){
+    /**
+     * Employee
+     **/
+    public void runEmployeeMenu() {
         CUI.showEmployeeMenu();
         String inputdata = readInput();
         processinputEmployee(inputdata);
     }
 
 
-    public static void runAddArticleMenu(){
+    public void runAddArticleMenu() {
         CUI.showAddArticleMenu();
         String inputdata = readInput();
         processinputAddArticle(inputdata);
     }
 
-    public static void runChangeArticleMenu(){
+    public void runChangeArticleMenu() {
         CUI.showChangeArticleMenu();
         String inputdata = readInput();
         processinputChangeArticle(inputdata);
 
     }
 
-    public static void runAddEmployeeMenu(){
+    public void runAddEmployeeMenu() {
         CUI.showAddEmployeeMenu();
         String inputdata = readInput();
         processinputAddEmployee(inputdata);
 
     }
 
-    public static void runArticleListEMenu(){
+    public void runArticleListEMenu() {
         CUI.showArticleListMenu();
         String inputdata = readInput();
         processinputArticleListE(inputdata);
@@ -75,8 +80,7 @@ public class CUIController {
     }
 
 
-
-    public static void addArticleSubMenu(){
+    public void addArticleSubMenu() {
         String name;
         int articleNumber;
         int stock;
@@ -92,12 +96,12 @@ public class CUIController {
 
         BooleanString booleanStringResult = _mainController.addArticle(name, articleNumber, stock, price);
 
-        if(booleanStringResult.getValueB()){
+        if (booleanStringResult.getValueB()) {
             // Vorgang erfolgreich
             // AUsgabe:
             booleanStringResult.getValueS();
             runAddArticleMenu();
-        } else{
+        } else {
             // Vorgang nicht erfolgreich
             // Ausgabe:
             booleanStringResult.getValueS();
@@ -109,7 +113,7 @@ public class CUIController {
 
     }
 
-    public static void addEmployeeMenu(){
+    public void addEmployeeMenu() {
         String firstname;
         String lastname;
         String username;
@@ -125,12 +129,12 @@ public class CUIController {
 
         BooleanString booleanStringResult = _mainController.addEmployee(firstname, lastname, username, password);
 
-        if(booleanStringResult.getValueB()){
+        if (booleanStringResult.getValueB()) {
             // Vorgang erfolgreich
             // AUsgabe:
             booleanStringResult.getValueS();
             runAddEmployeeMenu();
-        } else{
+        } else {
             // Vorgang nicht erfolgreich
             // Ausgabe:
             booleanStringResult.getValueS();
@@ -143,10 +147,10 @@ public class CUIController {
     }
 
 
-    public static void processinputEmployee(String inputdata){
-        System.out.println("Eingabe: "+inputdata);
+    public void processinputEmployee(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
-        switch(inputdata){
+        switch (inputdata) {
             case "q": //Beenden
                 exit();
             case "n": //Artikel hinzufügen
@@ -162,16 +166,16 @@ public class CUIController {
                 runAddEmployeeMenu();
                 break;
             case "o":
-               ;//Logout
+                ;//Logout
                 break;
 
         }
     }
 
-    public static void processinputAddArticle(String inputdata){
-        System.out.println("Eingabe: "+inputdata);
+    public void processinputAddArticle(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
-        switch(inputdata){
+        switch (inputdata) {
             case "q": //Verlassen
                 runEmployeeMenu();
                 break;
@@ -182,10 +186,10 @@ public class CUIController {
         }
     }
 
-    public static void processinputChangeArticle(String inputdata){
-        System.out.println("Eingabe: "+inputdata);
+    public void processinputChangeArticle(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
-        switch(inputdata){
+        switch (inputdata) {
             case "q": //Verlassen
                 runEmployeeMenu();
             case "s":
@@ -195,10 +199,10 @@ public class CUIController {
         }
     }
 
-    public static void processinputAddEmployee(String inputdata){
-        System.out.println("Eingabe: "+inputdata);
+    public void processinputAddEmployee(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
-        switch(inputdata){
+        switch (inputdata) {
             case "q": //Verlassen
                 runEmployeeMenu();
             case "s":
@@ -209,10 +213,10 @@ public class CUIController {
 
     }
 
-    public static void processinputArticleListE(String inputdata){
-        System.out.println("Eingabe: "+inputdata);
+    public void processinputArticleListE(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
-        switch(inputdata){
+        switch (inputdata) {
             case "q": //Verlassen
                 runEmployeeMenu();
             case "n":
@@ -227,48 +231,43 @@ public class CUIController {
     }
 
 
+    /**
+     * Customer
+     **/
 
-
-
-
-
-    /**Customer**/
-
-    public static void runCustomerMenu(){
+    public void runCustomerMenu() {
         CUI.showCustomerMenu();
         String inputdata = readInput();
         processinputCustomer(inputdata);
 
     }
 
-    public static void runShoppingCartMenu(){
+    public void runShoppingCartMenu() {
         CUI.showCustomerMenu();
         String inputdata = readInput();
         processinputCustomer(inputdata);
 
     }
 
-    public static void runArticleListCMenu(){
+    public void runArticleListCMenu() {
         CUI.showArticleListMenu();
-        String inputdata = "main_"+readInput();
+        String inputdata = "main_" + readInput();
         processinputArticleListC(inputdata);
 
     }
 
-    public static void runArticleListCSubMenu(){
+    public void runArticleListCSubMenu() {
         CUI.showArticleListSubMenu();
-        String inputdata = "sub_"+readInput();
+        String inputdata = "sub_" + readInput();
         processinputArticleListC(inputdata);
 
     }
 
 
-
-
-    public static void processinputCustomer(String inputdata){
-        System.out.println("Eingabe: "+inputdata);
+    public void processinputCustomer(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
-        switch(inputdata){
+        switch (inputdata) {
             case "q": //Beenden
                 exit();
             case "s": //Artikel Liste anzeigen
@@ -286,10 +285,10 @@ public class CUIController {
     }
 
 
-    public static void processinputArticleListC(String inputdata){
-        System.out.println("Eingabe: "+inputdata);
+    public void processinputArticleListC(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
-        switch(inputdata){
+        switch (inputdata) {
             case "main_q": //Verlassen
                 runEmployeeMenu();
             case "main_n":
@@ -309,12 +308,11 @@ public class CUIController {
 
     }
 
+    public void register() {
+        //TODO
+    }
 
-
-
-
-
-    public static void login(){
+    public void login() {
 
         String user;
         String password;
@@ -326,41 +324,37 @@ public class CUIController {
 
         BooleanStringObject booleanStringObjectResult = _mainController.login(user, password);
 
-        if(booleanStringObjectResult.getValueB()){
+        if (booleanStringObjectResult.getValueB()) {
 
-            System.out.println("Login erfolgreich!");
-
+            System.out.println(booleanStringObjectResult.getValueS());
             PersonType personType = (PersonType) booleanStringObjectResult.getValueO();
 
-            if(personType == PersonType.Customer){
-                CUI.showCustomerMenu();
-            } else{
-                CUI.showEmployeeMenu();
+            if (personType == PersonType.Customer) {
+                runCustomerMenu();
+            } else {
+                runEmployeeMenu();
             }
 
-
-        }else{
-            System.out.print("Login nicht erfolgreich! Bitte erneut versuchen.");
+        } else {
+            System.out.print(booleanStringObjectResult.getValueS());
             login();
         }
     }
 
 
-
-
-    public static String readInput(){
+    public String readInput() {
         Scanner input = new Scanner(System.in);
         String in = input.nextLine();
         return in;
     }
 
-    public static int readInt(){
+    public int readInt() {
         Scanner inputInt = new Scanner(System.in);
         int input = inputInt.nextInt();
         return input;
     }
 
-    public static double readDouble(){
+    public double readDouble() {
         Scanner inputDouble = new Scanner(System.in);
         double input = inputDouble.nextDouble();
         return input;
