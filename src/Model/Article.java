@@ -1,6 +1,8 @@
 package Model;
 
-public class Article {
+import java.io.Serializable;
+
+public class Article implements Serializable {
     private String _name; // Artikel-Bezeichnung
     private int _articleNumber; // Artikel-Nummer
     private int _stock; // Lagerbestand/Anzahl
@@ -13,10 +15,10 @@ public class Article {
         _price = price;
     }
 
-    public String toString(boolean withStock){
+    public String toString(boolean withStock) {
         String result = _articleNumber + " - " + _name + " - " + _price + "€";
 
-        if(withStock){
+        if (withStock) {
             result += " - " + _stock;
         }
 

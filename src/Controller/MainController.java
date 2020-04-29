@@ -3,13 +3,14 @@ package Controller;
 import Model.*;
 import Utilities.*;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Verbindet alle Controller miteinader.
  */
-public class MainController {
+public class MainController implements Serializable {
 
     private PersonController _personController;
     private AddressController _addressController;

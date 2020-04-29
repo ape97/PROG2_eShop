@@ -6,9 +6,10 @@
 
 package Model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class ShoppingCart {
+public class ShoppingCart implements Serializable {
     private HashMap<Article, Integer> _articleAndQuantityMap;
 
     public ShoppingCart() {

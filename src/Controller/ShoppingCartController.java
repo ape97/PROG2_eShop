@@ -3,7 +3,9 @@ package Controller;
 import Model.Article;
 import Model.ShoppingCart;
 
-public class ShoppingCartController {
+import java.io.Serializable;
+
+public class ShoppingCartController implements Serializable {
 
     /**
      * Fügt einen Article-Objekt und die Anzahl int dem ShoppingCart-Objekt hinzu

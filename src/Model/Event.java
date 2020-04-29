@@ -7,9 +7,10 @@
 
 package Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Event {
+public class Event implements Serializable {
     private Date _timeStamp; // Zeitstempel
     private Article _article; // Der betreffende Artiekl
     private Person _person; // Person die für die Änderung des Lagerbestandes verantwortlich ist (Kunde beim Kauf, Mitarbeiter beim Buchen neuer Bestände)

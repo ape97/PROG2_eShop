@@ -13,10 +13,11 @@ package Model;
 
 import Utilities.Message;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Bill {
+public class Bill implements Serializable {
     private Customer _customer; // Kunde
     private ArrayList<String> _invoiceItems; // Liste mit den Positionen der Rechnung, jeder Srring steht für eine Position
     private Date _timeStamp; // Zeitstempel

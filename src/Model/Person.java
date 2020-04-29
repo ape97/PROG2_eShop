@@ -6,7 +6,9 @@
 
 package Model;
 
-public abstract class Person {
+import java.io.Serializable;
+
+public abstract class Person implements Serializable {
     private String _firstname; // Vorname
     private String _lastname; // Nachname
     private int _id; // Eindeutige Identifikationsnummer

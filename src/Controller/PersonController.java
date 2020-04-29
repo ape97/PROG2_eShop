@@ -9,6 +9,7 @@ import Utilities.BooleanStringObject;
 import Utilities.Message;
 import Utilities.PersonType;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * WARNING: Sollte nur vom MainController verwendet werden
  * Verwaltet die Person-Objekte.
  */
-public class PersonController {
+public class PersonController implements Serializable {
 
     private ArrayList<Person> _personList;
     private Person _registeredPerson; // Angemeldete Person

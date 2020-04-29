@@ -4,13 +4,15 @@ import Model.Address;
 import Utilities.BooleanStringObject;
 import Utilities.Message;
 
+import java.io.Serializable;
+
 /**
  * WARNING: Sollte nur vom MainController verwendet werden
  * Verwaltet die Address-Objekte.
  * Die Verwaltung der Address-Objekte ist hier nur begrenzt möglich,
  * da diese jeweils den Person-Objekten zugeordnet sind.
  */
-public class AddressController {
+public class AddressController implements Serializable {
 
     /**
      * Erzeugt ein neues Address-Objekt und gibt dieses zurück, sofern die Parameter den Anforderungen entsprechen

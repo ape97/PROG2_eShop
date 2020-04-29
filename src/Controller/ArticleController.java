@@ -6,6 +6,7 @@ import Utilities.BooleanString;
 import Utilities.BooleanStringObject;
 import Utilities.Message;
 
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +17,7 @@ import java.util.Comparator;
  * WARNING: Sollte nur vom MainController verwendet werden
  * Verwaltet die Article-Objekte.
  */
-public class ArticleController {
+public class ArticleController implements Serializable {
 
     private ArrayList<Article> _articleList;
 
