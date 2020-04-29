@@ -23,6 +23,12 @@ public class Event implements Serializable {
         _stockChangeValue = changeValue;
     }
 
+    public String toString() {
+        return "Zeitstempel: " + _timeStamp + " - " + " Bestandsveränderung: " + _stockChangeValue +
+                " Artikel:" + _article.getName() + "Artikelnummer:" + _article.getArticleNumber() +
+                " - " + " Person: " + _person.getFirstname() + " " + _person.getLastname();
+    }
+
     public Date getTimeStamp() {
         return _timeStamp;
     }
