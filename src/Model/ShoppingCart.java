@@ -19,4 +19,14 @@ public class ShoppingCart implements Serializable {
     public HashMap<Article, Integer> getArticleAndQuantityMap() {
         return _articleAndQuantityMap;
     }
+
+    public String toString() {
+        String result = "";
+
+        for (Article article : _articleAndQuantityMap.keySet()) {
+            result += article.toString(false) + "\n";
+        }
+
+        return result;
+    }
 }

@@ -76,10 +76,10 @@ public class Message {
                 result = "Der angegebene Benutzername ist bereits vergeben.";
                 break;
             case Error_UsernameInvalid:
-                result = "Der angegebene Benutzername ist ungültig. (KRITERIEN)"; //TODO: Kriterien
+                result = "Der angegebene Benutzername ist ungültig. (nicht leer, keine Leerzeichen, mindestens 3 Zeichen)"; //TODO: Kriterien
                 break;
             case Error_PasswordInvalid:
-                result = "Das angegebene Passwort ist ungültig. (KRITERIEN)"; //TODO: Kriterien
+                result = "Das angegebene Passwort ist ungültig. (nicht leer, mindestens 8 Zeichen)"; //TODO: Kriterien
                 break;
             case TotalPrice:
                 result = "Gesamtsumme";
@@ -104,6 +104,9 @@ public class Message {
                 break;
             case Error_ArticleStockCartNotEnough:
                 result = "Von einem der Artikel im Warenkorb ist nicht mehr genug Lagerbestand vorhanden.";
+                break;
+            case Info_ShoppingCartClearSuccess:
+                result = "Der Warenkorb wurde geleert.";
                 break;
         }
 
@@ -147,7 +150,8 @@ public class Message {
         Error_ArticleStockNotEnough,
         Error_ArticleItemNumberGreaterZero,
         Info_OrderSuccess,
-        Error_ArticleStockCartNotEnough
+        Error_ArticleStockCartNotEnough,
+        Info_ShoppingCartClearSuccess
     }
 
     public enum Language {
