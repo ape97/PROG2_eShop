@@ -90,8 +90,8 @@ public class MainController implements Serializable {
      * Reicht den Funktionsaufruf weiter an ArticleController
      * Für weitere Informationen siehe: ArticleConctroller:getSortedArticleStringList(...)
      */
-    public ArrayList<String> getSortedArticleStringList(ArticleSortMode articleSortMode) {
-        return _articleController.getSortedArticleStringList(articleSortMode);
+    public String getSortedArticleStringList(ArticleSortMode articleSortMode) {
+        return _articleController.getSortedArticlesString(articleSortMode);
     }
 
     /**

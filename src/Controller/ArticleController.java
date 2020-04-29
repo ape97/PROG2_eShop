@@ -88,17 +88,19 @@ public class ArticleController implements Serializable {
      * Ist für die CUI gedacht, weil dort String Ausgaben gemacht werden
      *
      * @param articleSortMode Gibt an, wie die Artikel sortiert werden sollen
-     * @return Gibt eine ArrayList mit Artikel Strings (article.toString) zurück
+     * @return Gibt einen formatierten String mit Artikel Strings (article.toString) zurück
      */
-    public ArrayList<String> getSortedArticleStringList(ArticleSortMode articleSortMode) {
-        ArrayList<String> sortedArticleStringList = new ArrayList<>();
+    public String getSortedArticlesString(ArticleSortMode articleSortMode) {
+        String result = "";
         sortArticles(articleSortMode);
 
+        result += "Artikelnummer - Artikelbezeichnung + Preis + Lagerbestand\n";
+
         for (Article article : _articleList) {
-            sortedArticleStringList.add(article.toString(true));
+            result += article.toString(true) + "\n";
         }
 
-        return sortedArticleStringList;
+        return result;
     }
 
     /**
