@@ -180,7 +180,7 @@ public class MainController implements Serializable {
         BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
-             booleanStringObjectResult = new BooleanStringObject(true, Message.get(Message.MessageType.Info_OrderSuccess), null);
+            booleanStringObjectResult = new BooleanStringObject(true, Message.get(Message.MessageType.Info_OrderSuccess), null);
             Customer customer = (Customer) _personController.getRegisteredPerson();
             ShoppingCart shoppingCart = customer.getShoppingCart();
             Bill bill = _billController.createBill(customer);
@@ -200,9 +200,10 @@ public class MainController implements Serializable {
                 double totalPrice = 0;
                 for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
                     // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf EMplyee prüft
-                    _articleController.updateStock(article, -shoppingCart.getArticleAndQuantityMap().get(article)); // Achtung: Negierung der Artikelanzahl -
+                    int numberOfArticles = shoppingCart.getArticleAndQuantityMap().get(article);
+                    _articleController.updateStock(article, -numberOfArticles); // Achtung: Negierung der Artikelanzahl -
 
-                    totalPrice += article.getPrice();
+                    totalPrice += article.getPrice() * numberOfArticles;
                     _billController.addBillPosition(bill, article.toString(false));
                 }
                 bill.setTotalPrice(totalPrice);

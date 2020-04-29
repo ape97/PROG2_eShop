@@ -64,7 +64,7 @@ public class Message {
                 result = "Sie wurden erfolgreich angemeldet.";
                 break;
             case Error_LoginFailed:
-                result = "Die Anmeldung fehlgeschlagen. Bitte überprüfen Sie den Benutzernamen und das Passwort.";
+                result = "Die Anmeldung ist fehlgeschlagen. Bitte überprüfen Sie den Benutzernamen und das Passwort.";
                 break;
             case Error_FirstNameNotEmpty:
                 result = "Der Vorname darf nicht leer sein.";
