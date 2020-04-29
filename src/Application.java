@@ -1,13 +1,17 @@
 import Controller.MainController;
 import Data.DataWriterReader;
+import Utilities.Message;
 
 public class Application {
     public static void main(String[] args) {
         DataWriterReader dataWriterReader = new DataWriterReader("data.bn");
-        MainController mainController = (MainController) dataWriterReader.load();
+        MainController mainController;
+        Object object = dataWriterReader.load();
 
-        if (mainController == null) {
+        if (object == null) {
             mainController = new MainController();
+        } else {
+            mainController = (MainController) object;
         }
 
         // TODO: New Console, der den MainController geben
