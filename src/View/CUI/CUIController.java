@@ -8,10 +8,35 @@ import Utilities.PersonType;
 import java.util.Scanner;
 public class CUIController {
 
-    private static MainController _mainController;
 
-    public CUIController(){
-        this._mainController = new MainController();
+
+    public CUIController(MainController _mainController){
+
+    }
+
+    public static void runMainMenu(){
+        CUI.showMainMenu();
+        String inputdata = readInput();
+        processinputMainMenu(inputdata);
+    }
+
+    public static void processinputMainMenu(String inputdata){
+        System.out.println("Eingabe: "+inputdata);
+        System.out.println("-------------------------------");
+        switch(inputdata){
+            case "q": //Beenden
+                exit();
+            case "o": //Login
+                login();
+                break;
+            case "r": //Registrieren
+                ;
+                break;
+        }
+    }
+
+    public static void exit(){
+        return;
     }
 
     /**Employee**/
@@ -123,7 +148,7 @@ public class CUIController {
         System.out.println("-------------------------------");
         switch(inputdata){
             case "q": //Beenden
-                System.exit(0);
+                exit();
             case "n": //Artikel hinzufügen
                 runAddArticleMenu();
                 break;
@@ -135,6 +160,9 @@ public class CUIController {
                 break;
             case "m": //Mitarbeiter anlegen
                 runAddEmployeeMenu();
+                break;
+            case "o":
+               ;//Logout
                 break;
 
         }
@@ -242,13 +270,15 @@ public class CUIController {
         System.out.println("-------------------------------");
         switch(inputdata){
             case "q": //Beenden
-                System.exit(0);
+                exit();
             case "s": //Artikel Liste anzeigen
                 runArticleListCMenu();
                 break;
 
             case "w":
                 System.out.println("Test erfolgreich!");
+                break;
+            case "o": //Logout
                 ;
                 break;
 
@@ -284,7 +314,7 @@ public class CUIController {
 
 
 
-    public void login(){
+    public static void login(){
 
         String user;
         String password;

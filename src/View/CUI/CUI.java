@@ -11,6 +11,16 @@ public class CUI {
         System.out.println("Artikel anzeigen: 's'");
         System.out.println("Neuen Mitarbeiter anlegen: 'm'");
         System.out.println("Beenden: 'q'");
+        System.out.println("Logout: 'o'");
+        System.out.println("-------------------------------");
+        System.out.flush();
+    }
+
+    public static void showMainMenu(){
+        System.out.println("Hauptmenü:");
+        System.out.println("Zum Login: 'o'");
+        System.out.println("Registrieren: 'r'");
+        System.out.println("Beenden: 'q'");
         System.out.println("-------------------------------");
         System.out.flush();
     }
@@ -70,6 +80,7 @@ public class CUI {
         System.out.println("Artikel anzeigen: 's'");
         System.out.println("Warenkorb anzeigen: 'w'");
         System.out.println("Beenden: 'q'");
+        System.out.println("Logout: 'o'");
         System.out.println("-------------------------------");
         System.out.flush();
     }
