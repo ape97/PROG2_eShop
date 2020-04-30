@@ -24,10 +24,10 @@ public class ShoppingCartController implements Serializable {
             if (shoppingCart.getArticleAndQuantityMap().containsKey(article)) {
                 shoppingCart.getArticleAndQuantityMap().remove(article);
                 booleanStringResult.setValueB(true);
-                booleanStringResult.setValueS("ENTFERNT");
+                booleanStringResult.setValueS(Message.get(Message.MessageType.Info_ArticleRemovedFromCartSuccess));
             } else{
                 booleanStringResult.setValueB(false);
-                booleanStringResult.setValueS("NICHT 0");
+                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleItemNumberNotZero));
             }
         } else {
             shoppingCart.getArticleAndQuantityMap().put(article, numberOfArticles);
