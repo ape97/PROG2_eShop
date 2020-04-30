@@ -398,7 +398,7 @@ public class CUIController {
         System.out.println("-------------------------------");
         switch (inputdata) {
             case "q": //Verlassen
-                runEmployeeMenu();
+                runCustomerMenu();
                 break;
             case "n":
                 runArticleListCSubMenuByNumber(); //Funktion Artikel anzeigen sortiert nach Artikelnummer
