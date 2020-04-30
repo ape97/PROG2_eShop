@@ -83,8 +83,9 @@ public class MainController implements Serializable {
         return booleanStringObjectResult;
     }
 
-    public void logout(){
-        _personController.logout();;
+    public void logout() {
+        _personController.logout();
+        ;
     }
 
 
@@ -176,9 +177,9 @@ public class MainController implements Serializable {
             } else if (!_articleController.checkArticleIsStock(article, numberOfArticles)) {
                 booleanStringResult.setValueB(false);
                 booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotEnough));
-            } else if (numberOfArticles <= 0) {
+            } else if (numberOfArticles < 0) {
                 booleanStringResult.setValueB(false);
-                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleItemNumberGreaterZero));
+                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleItemNumberNotNegative));
             } else {
                 Customer customer = (Customer) _personController.getRegisteredPerson();
                 _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
@@ -227,6 +228,7 @@ public class MainController implements Serializable {
                     _billController.addBillPosition(bill, article.toString(false));
                 }
                 bill.setTotalPrice(totalPrice);
+                _shoppingCartController.clear(shoppingCart);
                 booleanStringObjectResult.setValueO(bill.toString());
             }
         }
@@ -286,6 +288,7 @@ public class MainController implements Serializable {
 
     /**
      * Zeigt das Lagerprotokoll an blabla TODO
+     *
      * @return Gibt ein BooleanString-Objekt zurück.
      * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
      * String --> enthält die Fehlermeldung oder das Lagerprotokoll als String

@@ -96,8 +96,8 @@ public class Message {
             case Error_ArticleStockNotEnough:
                 result = "Mindestens von einem Artikel im Warenkorb ist nicht genug Lagerbestand vorhanden.";
                 break;
-            case Error_ArticleItemNumberGreaterZero:
-                result = "Die Artikel Anzahl muss größer als 0 betragen.";
+            case Error_ArticleItemNumberNotNegative:
+                result = "Die Artikel Anzahl darf nicht negativ sein.";
                 break;
             case Info_OrderSuccess:
                 result = "Die Bestellung wurde erfolgreich abgeschlossen.";
@@ -151,7 +151,7 @@ public class Message {
         Info_ArticleAddedToCart,
         Error_ArticleNumberNotFound,
         Error_ArticleStockNotEnough,
-        Error_ArticleItemNumberGreaterZero,
+        Error_ArticleItemNumberNotNegative,
         Info_OrderSuccess,
         Error_ArticleStockCartNotEnough,
         Info_ShoppingCartClearSuccess,
