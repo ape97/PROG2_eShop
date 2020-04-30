@@ -35,6 +35,9 @@ public class CUIController {
             case "r": //Registrieren
                 register();
                 break;
+            default: //Default Case
+                runMainMenu();
+                break;
         }
     }
 
@@ -161,16 +164,30 @@ public class CUIController {
                 runAddEmployeeMenu();
                 break;
             case "o":
-                ;//Logout
+                _mainController.logout();//Logout
                 break;
             case "e": //Event Protokoll
                 eventProtocol();
                 break;
-            case "sub_q":
+            default:
                 runEmployeeMenu();
                 break;
 
         }
+    }
+
+    public void processinputEventProtocol(String inputdata){
+        System.out.println("Eingabe: " + inputdata);
+        System.out.println("-------------------------------");
+        switch (inputdata){
+            case "q"://Menü verlassen
+                runEmployeeMenu();
+                break;
+            default:
+                eventProtocol();
+                break;
+        }
+
     }
 
     public void processinputAddArticle(String inputdata) {
@@ -183,6 +200,9 @@ public class CUIController {
             case "s":
                 addArticleSubMenu();
                 break;
+            default:
+                runAddArticleMenu();
+                break;
 
         }
     }
@@ -193,9 +213,14 @@ public class CUIController {
         switch (inputdata) {
             case "q": //Verlassen
                 runEmployeeMenu();
+                break;
             case "s":
                 updateStock();//Funktion Artikel ändern
                 break;
+            default:
+                runChangeArticleMenu();
+                break;
+
 
         }
     }
@@ -206,9 +231,14 @@ public class CUIController {
         switch (inputdata) {
             case "q": //Verlassen
                 runEmployeeMenu();
+                break;
             case "s":
                 addEmployeeMenu();
                 break;
+            default:
+                runAddEmployeeMenu();
+                break;
+
 
         }
 
@@ -220,6 +250,7 @@ public class CUIController {
         switch (inputdata) {
             case "q": //Verlassen
                 runEmployeeMenu();
+                break;
             case "n":
                 ; //Funktion Artikel anzeigen sortiert nach Artikelnummer
                 articleListByNumber();
@@ -229,9 +260,27 @@ public class CUIController {
                 articleListByName();
                 break;
 
-            case "sub_q":
+
+            default:
                 runArticleListEMenu();
                 break;
+
+
+        }
+
+    }
+
+    public void processinputArticleListESub(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
+        System.out.println("-------------------------------");
+        switch (inputdata) {
+            case "q": //Verlassen
+                runArticleListEMenu();
+                break;
+            default:
+                runArticleListEMenu();
+                break;
+
 
         }
 
@@ -263,21 +312,36 @@ public class CUIController {
         }
 
         String inputdata = readInput();
-        processinputCustomer(inputdata);
+        processinputShoppingCart(inputdata);
 
     }
 
     public void runArticleListCMenu() {
         CUI.showArticleListMenu();
-        String inputdata = "main_" + readInput();
+        String inputdata = readInput();
         processinputArticleListC(inputdata);
 
     }
 
-    public void runArticleListCSubMenu() {
+    public void runArticleListCSubMenuByName() {
+
+        String list = _mainController.getSortedArticleStringList(ArticleSortMode.ArticleName);
         CUI.showArticleListSubMenu();
-        String inputdata = "sub_" + readInput();
-        processinputArticleListC(inputdata);
+        System.out.println(list);
+
+        String inputdata = readInput();
+        processinputArticleListCSub(inputdata);
+
+    }
+
+    public void runArticleListCSubMenuByNumber() {
+
+        String list = _mainController.getSortedArticleStringList(ArticleSortMode.ArticleNumber);
+        CUI.showArticleListSubMenu();
+        System.out.println(list);
+
+        String inputdata = readInput();
+        processinputArticleListCSub(inputdata);
 
     }
 
@@ -297,8 +361,12 @@ public class CUIController {
                 runShoppingCartMenu();
                 break;
             case "o": //Logout
-                ;
+                _mainController.logout();
                 break;
+            default:
+                runCustomerMenu();
+                break;
+
 
         }
     }
@@ -313,10 +381,13 @@ public class CUIController {
             case "k": //Kaufen
                 buy();
                 break;
-
             case "s": //Artikel hinzugügen
                 addArticleToShoppingCart();
                 break;
+            default:
+                runShoppingCartMenu();
+                break;
+
 
         }
     }
@@ -326,19 +397,41 @@ public class CUIController {
         System.out.println("Eingabe: " + inputdata);
         System.out.println("-------------------------------");
         switch (inputdata) {
-            case "main_q": //Verlassen
+            case "q": //Verlassen
                 runEmployeeMenu();
-            case "main_n":
-                runArticleListCSubMenu(); //Funktion Artikel anzeigen sortiert nach Artikelnummer
                 break;
-            case "main_b":
-                runArticleListCSubMenu(); //Funktion Artikel anzeigen sortiert nach Artikelbezeichnung
+            case "n":
+                runArticleListCSubMenuByNumber(); //Funktion Artikel anzeigen sortiert nach Artikelnummer
                 break;
-            case "sub_q": //Verlassen
+            case "b":
+                runArticleListCSubMenuByName(); //Funktion Artikel anzeigen sortiert nach Artikelbezeichnung
+                break;
+
+            default:
                 runArticleListCMenu();
-            case "sub_k":
-                ; //Funktion Artikel in den Warenkorb
                 break;
+
+
+
+        }
+
+    }
+
+    public void processinputArticleListCSub(String inputdata) {
+        System.out.println("Eingabe: " + inputdata);
+        System.out.println("-------------------------------");
+        switch (inputdata) {
+
+            case "q": //Verlassen
+                runArticleListCMenu();
+                break;
+            case "k":
+                addArticleToShoppingCart(); //Funktion Artikel in den Warenkorb
+                break;
+            default:
+                runArticleListCMenu();
+                break;
+
 
 
         }
@@ -349,9 +442,9 @@ public class CUIController {
         int articlenumber;
         int numberOfArticle;
 
-        System.out.println("Bitte geben Sie die Artikenummer ein.");
+        System.out.println("Bitte geben Sie die Artikelnummer ein.");
         articlenumber = readInt();
-        System.out.println("Bitte gebebn Sie die Anzahl an Artikel ein.");
+        System.out.println("Bitte geben Sie die Anzahl an Artikel ein.");
         numberOfArticle = readInt();
 
 
@@ -373,7 +466,7 @@ public class CUIController {
 
         System.out.println("Bitte geben Sie die Artikelnummern ein.");
         articleNumber = readInt();
-        System.out.println("Bitte geben den neuen Bestand ein.");
+        System.out.println("Bitte geben die Bestandsänderung ein.");
         stockChangeValue = readInt();
 
         BooleanString booleanStringResult = _mainController.updateStock(articleNumber, stockChangeValue);
@@ -452,8 +545,8 @@ public class CUIController {
         CUI.showArticleList();
         System.out.println(list);
 
-        inputdata = "sub_" + readInput();
-        processinputArticleListE(inputdata);
+        inputdata = readInput();
+        processinputArticleListESub(inputdata);
     }
 
     public void articleListByNumber() {
@@ -463,8 +556,8 @@ public class CUIController {
         CUI.showArticleList();
         System.out.println(list);
 
-        inputdata = "sub_" + readInput();
-        processinputArticleListE(inputdata);
+        inputdata = readInput();
+        processinputArticleListESub(inputdata);
 
     }
 
@@ -479,8 +572,8 @@ public class CUIController {
             runCustomerMenu();
         }
         System.out.println("Drücke 'q' um zurück zu kehren.");
-        inputdata = "sub_" + readInput();
-        processinputEmployee(inputdata);
+        inputdata = readInput();
+        processinputEventProtocol(inputdata);
     }
 
     public void login() {
