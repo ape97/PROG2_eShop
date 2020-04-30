@@ -129,12 +129,12 @@ public class CUIController {
         if (booleanStringResult.getValueB()) {
             // Vorgang erfolgreich
             // AUsgabe:
-            booleanStringResult.getValueS();
+            System.out.println(booleanStringResult.getValueS());
             runAddEmployeeMenu();
         } else {
             // Vorgang nicht erfolgreich
             // Ausgabe:
-            booleanStringResult.getValueS();
+            System.out.println(booleanStringResult.getValueS());
 
             // VORGANG ERNEUT STARTEN
             runAddEmployeeMenu();
