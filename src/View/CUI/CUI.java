@@ -98,6 +98,7 @@ public class CUI {
         System.out.println("Artikel hinuzufügen: 's'");
         System.out.println("Kaufen: 'k'");
         System.out.println("Verlassen: 'q'");
+        System.out.println("Warenkorb leeren: 'c'");
         System.out.println("-------------------------------");
         System.out.println("Warenkorb:");
         //Warenkorb ausgeben
