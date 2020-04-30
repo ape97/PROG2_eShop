@@ -10,7 +10,7 @@ public class CUI {
         System.out.println("Artikelbestand bearbeiten: 'b'");
         System.out.println("Artikel anzeigen: 's'");
         System.out.println("Neuen Mitarbeiter anlegen: 'm'");
-        System.out.println("Neuen Mitarbeiter anlegen: 'm'");
+        System.out.println("Event Protokoll: 'e'");
         System.out.println("Beenden: 'q'");
         System.out.println("Logout: 'o'");
         System.out.println("-------------------------------");
