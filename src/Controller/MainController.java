@@ -168,7 +168,7 @@ public class MainController implements Serializable {
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
 
-            booleanStringResult = new BooleanString(true, Message.get(Message.MessageType.Info_ArticleAddedToCart));
+            booleanStringResult = new BooleanString(true, "");
 
             Article article = _articleController.getArticleByArticleNumber(articleNumber);
             if (article == null) {
@@ -182,7 +182,7 @@ public class MainController implements Serializable {
                 booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleItemNumberNotNegative));
             } else {
                 Customer customer = (Customer) _personController.getRegisteredPerson();
-                _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
+               booleanStringResult = _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
             }
         }
 

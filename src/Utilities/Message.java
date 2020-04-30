@@ -99,6 +99,12 @@ public class Message {
             case Error_ArticleItemNumberNotNegative:
                 result = "Die Artikel Anzahl darf nicht negativ sein.";
                 break;
+            case Error_ArticleRemoveSuccess:
+                result = "Artikel erfolgreich aus dem Warenkorb entfernt.";
+                break;
+            case Error_ArticleItemNumberNotZero:
+                result = "Artikel Anzahl darf nicht negativ sein.";
+                break;
             case Info_OrderSuccess:
                 result = "Die Bestellung wurde erfolgreich abgeschlossen.";
                 break;
@@ -152,6 +158,8 @@ public class Message {
         Error_ArticleNumberNotFound,
         Error_ArticleStockNotEnough,
         Error_ArticleItemNumberNotNegative,
+        Error_ArticleRemoveSuccess,
+        Error_ArticleItemNumberNotZero,
         Info_OrderSuccess,
         Error_ArticleStockCartNotEnough,
         Info_ShoppingCartClearSuccess,
