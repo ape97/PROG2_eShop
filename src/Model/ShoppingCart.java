@@ -24,7 +24,7 @@ public class ShoppingCart implements Serializable {
         String result = "";
 
         for (Article article : _articleAndQuantityMap.keySet()) {
-            result += article.toString(false) + "\n";
+            result += article.toString(false) + "Anzahl: " +  _articleAndQuantityMap.get(article) + "\n";
         }
 
         return result;
