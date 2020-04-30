@@ -129,12 +129,12 @@ public class CUIController {
         if (booleanStringResult.getValueB()) {
             // Vorgang erfolgreich
             // AUsgabe:
-            booleanStringResult.getValueS();
+            System.out.println(booleanStringResult.getValueS());
             runAddEmployeeMenu();
         } else {
             // Vorgang nicht erfolgreich
             // Ausgabe:
-            booleanStringResult.getValueS();
+            System.out.println(booleanStringResult.getValueS());
 
             // VORGANG ERNEUT STARTEN
             runAddEmployeeMenu();
@@ -384,6 +384,9 @@ public class CUIController {
             case "s": //Artikel hinzugügen
                 addArticleToShoppingCart();
                 break;
+            case "c": //Arikel leeren
+                clearShoppingCart();
+                break;
             default:
                 runShoppingCartMenu();
                 break;
@@ -622,6 +625,12 @@ public class CUIController {
         Scanner inputDouble = new Scanner(System.in);
         double input = inputDouble.nextDouble();
         return input;
+    }
+
+    public void clearShoppingCart(){
+        BooleanString booleanStringResult = _mainController.clearShoppingCart();
+        System.out.println(booleanStringResult.getValueS());
+        runShoppingCartMenu();
     }
 
 }
