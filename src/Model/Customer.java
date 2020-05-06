@@ -4,6 +4,8 @@
  * Leitet von Person ab und erweitert den super-Konstruktor um ein Adress-Objekt
  **/
 
+
+
 package Model;
 
 public class Customer extends Person {
