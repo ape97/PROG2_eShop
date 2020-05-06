@@ -1,5 +1,6 @@
 import Controller.MainController;
 import Data.DataWriterReader;
+import Data.TestDataCreator;
 import View.CUI.CUIController;
 
 public class Application {
@@ -11,6 +12,8 @@ public class Application {
 
         if (loadObject == null) {
             mainController = new MainController();
+            TestDataCreator testDataCreator = new TestDataCreator(mainController);
+            testDataCreator.CreateData();
         } else {
             mainController = (MainController) loadObject;
         }
