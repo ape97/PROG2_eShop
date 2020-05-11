@@ -611,19 +611,37 @@ public class CUIController {
 
     public String readInput() {
         Scanner input = new Scanner(System.in);
-        String in = input.nextLine();
+        String in;
+        try{
+            in = input.nextLine();
+        }catch(Exception stringerror){
+            System.out.println("Eingabe ungültig! Bitte erneut versuchen.");
+            in = readInput();
+        }
         return in;
     }
 
     public int readInt() {
         Scanner inputInt = new Scanner(System.in);
-        int input = inputInt.nextInt();
+        int input;
+        try{
+            input = inputInt.nextInt();
+        } catch(Exception interror){
+            System.out.println("Eingabe ungültig! Bitte erneut versuchen.");
+            input = readInt();
+        }
         return input;
     }
 
     public double readDouble() {
         Scanner inputDouble = new Scanner(System.in);
-        double input = inputDouble.nextDouble();
+        double input;
+        try{
+            input =  inputDouble.nextDouble();
+        } catch (Exception doubleerror){
+            System.out.println("Eingabe ungültig! Bitte erneut versuchen.");
+            input = readDouble();
+        }
         return input;
     }
 
