@@ -24,8 +24,14 @@ public class Event implements Serializable {
     }
 
     public String toString() {
+        String stockText = "eingelagert";
+
+        if (_stockChangeValue < 0) {
+            stockText = "verkauft";
+        }
+
         return "Zeitstempel: " + _timeStamp + " - " + " Bestandsveränderung: " + _stockChangeValue +
-                " Artikel:" + _article.getName() + "Artikelnummer:" + _article.getArticleNumber() +
+                " Artikel:" + _article.getName() + " " + stockText + " Artikelnummer:" + _article.getArticleNumber() +
                 " - " + " Person: " + _person.getFirstname() + " " + _person.getLastname();
     }
 
