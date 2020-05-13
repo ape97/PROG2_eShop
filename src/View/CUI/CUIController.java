@@ -88,16 +88,19 @@ public class CUIController {
         int articleNumber;
         int stock;
         double price;
+        int packageUnit;
         System.out.println("Bitte geben Sie die Aritkelnummer ein:");
         articleNumber = readInt();
         System.out.println("Bitte geben Sie die Artiekbezeichnung ein:");
         name = readInput();
+        System.out.println("Bitte geben Sie die Verpackungseinheit ein:");
+        packageUnit = readInt();
         System.out.println("Bitte geben Sie die Bestandsmenge ein:");
         stock = readInt();
         System.out.println("Bitte geben Sie den Preis ein:");
         price = readDouble();
 
-        BooleanString booleanStringResult = _mainController.addArticle(name, articleNumber, stock, price);
+        BooleanString booleanStringResult = _mainController.addArticle(name, articleNumber, stock, price, packageUnit);
 
         if (booleanStringResult.getValueB()) {
             System.out.println(booleanStringResult.getValueS());
