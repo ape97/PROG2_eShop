@@ -34,7 +34,7 @@ public class EventController implements Serializable {
      */
     public void addEvent(Article article, Person person, int stockChangeValue) {
         Event event = new Event(article, person, stockChangeValue);
-        _eventList.add(event);
+        _eventList.add ( event);
     }
 
     public String getEventsString() {

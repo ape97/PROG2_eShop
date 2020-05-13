@@ -50,8 +50,10 @@ public class ArticleController implements Serializable {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticlePriceGreaterThanZero));
         } else if (checkArticleNumberExists(articleNumber)) {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberExists));
-        } else if (packagingUnit > 1 && !checkArticleStockMatchPackagingUnit(stock, packagingUnit)) {
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
+        } else if (packagingUnit > 1){
+            if(!checkArticleStockMatchPackagingUnit(packagingUnit, stock )) {
+                booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
+            }
         } else {
             Article article;
 
