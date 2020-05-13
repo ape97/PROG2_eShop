@@ -13,7 +13,7 @@ public class Application {
         if (loadObject == null) {
             mainController = new MainController();
             TestDataCreator testDataCreator = new TestDataCreator(mainController);
-            testDataCreator.CreateData();
+            testDataCreator.createData();
         } else {
             mainController = (MainController) loadObject;
         }

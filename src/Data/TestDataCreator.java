@@ -1,6 +1,7 @@
 package Data;
 
 import Controller.MainController;
+import Utilities.BooleanString;
 
 public class TestDataCreator {
 
@@ -10,7 +11,7 @@ public class TestDataCreator {
         _mainController = mainController;
     }
 
-    public void CreateData(){
+    public void createData(){
         createEmployees();
         createCustomers();
         createArticles();
@@ -41,6 +42,8 @@ public class TestDataCreator {
     }
 
     private void createArticles(){
+        _mainController.login("admin","admin");
+
         _mainController.addArticle("Teelicht", 1, 100, 0.99, 1);
         _mainController.addArticle("Kerze: Vanille", 2, 25, 3.99, 1);
         _mainController.addArticle("Kerze: Pfirsich", 3, 30, 3.99, 1);
@@ -50,6 +53,7 @@ public class TestDataCreator {
         _mainController.addArticle("Räucherstäbchen: Rose", 7, 20, 9.99, 1);
         _mainController.addArticle("Teelichtglass: Rot", 8, 30, 4.99, 1);
         _mainController.addArticle("Teelichtglass: Blau", 9, 20, 4.99, 1);
+        _mainController.logout();
     }
 
     private void fillShoppingCarts(){

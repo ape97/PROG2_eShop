@@ -2,7 +2,7 @@ package Model;
 
 import java.io.Serializable;
 
-public class BulkArticle extends Article implements Serializable {
+public class BulkArticle extends Article {
     int _packagingUnit; // Verpackungseinheit
 
     public BulkArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
@@ -12,10 +12,10 @@ public class BulkArticle extends Article implements Serializable {
 
     // Muss überschrieben werden, weil hier die Verpackungseinheit mit ausgegeben wird
     public String toString(boolean withStock) {
-        String result = super.toString();
+        String result = getArticleNumber() + " - " + getName() + " - " + getPrice() + "€";
 
         if (withStock) {
-            result += " " + _packagingUnit;
+            result += " - " + getStock() + " " + _packagingUnit;
         }
 
         return result;
