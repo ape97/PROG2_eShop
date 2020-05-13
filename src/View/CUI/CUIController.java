@@ -91,7 +91,7 @@ public class CUIController {
         int packageUnit;
         System.out.println("Bitte geben Sie die Aritkelnummer ein:");
         articleNumber = readInt();
-        System.out.println("Bitte geben Sie die Artiekbezeichnung ein:");
+        System.out.println("Bitte geben Sie die Artikelbezeichnung ein:");
         name = readInput();
         System.out.println("Bitte geben Sie die Verpackungseinheit ein:");
         packageUnit = readInt();

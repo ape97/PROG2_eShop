@@ -50,30 +50,32 @@ public class ArticleController implements Serializable {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticlePriceGreaterThanZero));
         } else if (checkArticleNumberExists(articleNumber)) {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberExists));
-        } else if (packagingUnit > 1){
-            if(!checkArticleStockMatchPackagingUnit(packagingUnit, stock )) {
+        } else if (packagingUnit > 1) {
+            if (!checkArticleStockMatchPackagingUnit(packagingUnit, stock)) {
                 booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
-            }
-        } else {
-            Article article;
 
-            // Entescheidung ob ein Article oder ein BulkArticle Objekt erstellt werden soll
-            // Wenn die angegebene Verpackungseinheit größer als 1 ist, wird ein BulkArticle erstellt (>=1 wird immer als normaler Article erstellt)
-            if (packagingUnit > 1) {
-                article = new BulkArticle(name, articleNumber, stock, price, packagingUnit);
             } else {
-                article = new Article(name, articleNumber, stock, price);
+                Article article;
+
+                // Entescheidung ob ein Article oder ein BulkArticle Objekt erstellt werden soll
+                // Wenn die angegebene Verpackungseinheit größer als 1 ist, wird ein BulkArticle erstellt (>=1 wird immer als normaler Article erstellt)
+                if (packagingUnit > 1) {
+                    article = new BulkArticle(name, articleNumber, stock, price, packagingUnit);
+                } else {
+                    article = new Article(name, articleNumber, stock, price);
+                }
+
+                _articleList.add(article);
+
+                booleanStringObjectResult.setValueB(true);
+                booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Info_ArticleCreated));
+                booleanStringObjectResult.setValueO(article);
             }
-
-            _articleList.add(article);
-
-            booleanStringObjectResult.setValueB(true);
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Info_ArticleCreated));
-            booleanStringObjectResult.setValueO(article);
         }
 
-        return booleanStringObjectResult;
-    }
+            return booleanStringObjectResult;
+        }
+
 
     /**
      * Bestandsänderung des Artikels

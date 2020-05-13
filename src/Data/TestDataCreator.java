@@ -21,6 +21,7 @@ public class TestDataCreator {
     }
 
     private void createEmployees(){
+        _mainController.login("admin", "admin");
         _mainController.addEmployee("Luis", "Müller", "LMüller", "1Apfelkuchen!");
         _mainController.addEmployee("Anna", "Christ", "Christ2502", "IceTea25$");
         _mainController.addEmployee("Ben", "Tempo", "Ben10", "G&250899");
@@ -29,6 +30,7 @@ public class TestDataCreator {
         _mainController.addEmployee("Thomas", "Licht", "Thomas1208", "Bruno$25");
         _mainController.addEmployee("Maximilian", "Haagen", "MaxiDerGroße", "Scr4b&bl3");
         _mainController.addEmployee("Laura", "Richter", "LauraR", "Heidi27!");
+        _mainController.logout();
     }
 
     private void createCustomers(){
