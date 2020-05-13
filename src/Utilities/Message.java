@@ -117,6 +117,9 @@ public class Message {
             case Info_ArticleStockChanged:
                 result = "Der Artikelbestand wurde geändert.";
                 break;
+            case Error_ArticleStockNotMatchPackagingUnit:
+                result = "Artikel Anzahl stimmt nicht mit der Verpackungseinheit überein.";
+                break;
         }
 
         return result;
@@ -163,7 +166,8 @@ public class Message {
         Info_OrderSuccess,
         Error_ArticleStockCartNotEnough,
         Info_ShoppingCartClearSuccess,
-        Info_ArticleStockChanged
+        Info_ArticleStockChanged,
+        Error_ArticleStockNotMatchPackagingUnit
     }
 
     public enum Language {

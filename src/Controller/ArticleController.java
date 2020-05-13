@@ -1,10 +1,9 @@
 package Controller;
 
 import Model.Article;
-import Utilities.ArticleSortMode;
-import Utilities.BooleanString;
-import Utilities.BooleanStringObject;
-import Utilities.Message;
+import Model.BulkArticle;
+import Model.Customer;
+import Utilities.*;
 
 import java.io.Serializable;
 import java.security.InvalidParameterException;
@@ -20,6 +19,7 @@ import java.util.Comparator;
 public class ArticleController implements Serializable {
 
     private ArrayList<Article> _articleList;
+    private boolean result;
 
     /**
      * Der Konstruktor erzeugt eine leere ArrayList _articleList für Article-Objekte.
@@ -41,7 +41,7 @@ public class ArticleController implements Serializable {
      * Der String gibt die entsprechende (Fehler-) Meldung an.
      * Das Object gibt ist das erstellte Article-Object, ansonsten null.
      */
-    public BooleanStringObject addArticle(String name, int articleNumber, int stock, double price) {
+    public BooleanStringObject addArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
         BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, "", null);
 
         if (name.trim().isEmpty()) {
@@ -50,8 +50,19 @@ public class ArticleController implements Serializable {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticlePriceGreaterThanZero));
         } else if (checkArticleNumberExists(articleNumber)) {
             booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberExists));
+        } else if (!checkArticleStockMatchPackagingUnit(stock, packagingUnit)) {
+            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
         } else {
-            Article article = new Article(name, articleNumber, stock, price);
+            Article article;
+
+            // Entescheidung ob ein Article oder ein BulkArticle Objekt erstellt werden soll
+            // Wenn die angegebene Verpackungseinheit größer als 1 ist, wird ein BulkArticle erstellt (>=1 wird immer als normaler Article erstellt)
+            if (packagingUnit > 1) {
+                article = new BulkArticle(name, articleNumber, stock, price, packagingUnit);
+            } else {
+                article = new Article(name, articleNumber, stock, price);
+            }
+
             _articleList.add(article);
 
             booleanStringObjectResult.setValueB(true);
@@ -76,6 +87,8 @@ public class ArticleController implements Serializable {
 
         if (stockChangeValue == 0) {
             booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ChangeValueNotZero));
+        } else if (!checkArticleStockMatchPackagingUnit(article, stockChangeValue)) {
+            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
         } else {
             booleanStringResult.setValueB(true);
             booleanStringResult.setValueS(Message.get(Message.MessageType.Info_ArticleStockChanged));
@@ -96,7 +109,7 @@ public class ArticleController implements Serializable {
         String result = "";
         sortArticles(articleSortMode);
 
-        result += "Artikelnummer - Artikelbezeichnung - Preis - Lagerbestand\n";
+        result += "Artikelnummer  -  Artikelbezeichnung  -  Preis  -  Lagerbestand  -  Verpackungseinheit\n";
 
         for (Article article : _articleList) {
             result += article.toString(true) + "\n";
@@ -115,7 +128,7 @@ public class ArticleController implements Serializable {
     }
 
     /**
-     * Prüft ob die angegebene ARtikelnummer bereits einem Article-Objekt zugeordnet ist.
+     * Prüft ob die angegebene Artikelnummer bereits einem Article-Objekt zugeordnet ist.
      *
      * @param articleNumber Die Artikelnummer die gesucht wird
      * @return Gibt einen boolean zurück.
@@ -135,6 +148,46 @@ public class ArticleController implements Serializable {
         return result;
     }
 
+    /**
+     * Prüft, ob die Artikelanzahl basierend auf der Verpackungseinheit erlaubt ist.
+     * Dafür wird zunächst geprüft, ob es sich überhaupt um ein BulkArticle-Objekt handelt
+     * Wenn das der Fall ist, wird die erweiterte Methode aufgerufen
+     *
+     * @param article    Der zu überprüfende Artikel
+     * @param stockValue Die Artikelanzahl
+     * @return Gibt einen boolean zurück, der aussagt, ob die Anzahl gültig ist oder nicht
+     */
+    public boolean checkArticleStockMatchPackagingUnit(Article article, int stockValue) {
+        boolean result = true;
+
+        String className = article.getClass().getSimpleName();
+
+        if (className.equals(BulkArticle.class.getSimpleName())) {
+            int packagingUnit = ((BulkArticle) article).getPackagingUnit();
+            result = checkArticleStockMatchPackagingUnit(packagingUnit, stockValue);
+        }
+
+        return result;
+    }
+
+    /**
+     * Prüft, ob die Artikelanzahl basierend auf der Verpackungseinheit erlaubt ist.
+     * Anzahl stockValue modulo der Verpackungseinheit
+     *
+     * @param packagingUnit Die Verpackungseinehit
+     * @param stockValue    Die Artikelanzahl
+     * @return Gibt einen boolean zurück, der aussagt, ob die Anzahl gültig ist oder nicht
+     */
+    private boolean checkArticleStockMatchPackagingUnit(int packagingUnit, int stockValue) {
+        boolean result = true;
+
+        if (stockValue % packagingUnit != 0) {
+            result = false;
+        }
+
+        return result;
+    }
+
     public Article getArticleByArticleNumber(int articleNumber) {
         Article articleResult = null;
 
@@ -148,7 +201,7 @@ public class ArticleController implements Serializable {
         return articleResult;
     }
 
-    public boolean checkArticleIsStock(Article article, int stockNumber){
+    public boolean checkArticleIsStock(Article article, int stockNumber) {
         return article.getStock() >= stockNumber;
     }
 

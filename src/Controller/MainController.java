@@ -105,13 +105,13 @@ public class MainController implements Serializable {
      * Wenn addArticle(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
      */
-    public BooleanString addArticle(String name, int articleNumber, int stock, double price) {
+    public BooleanString addArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
 
         BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
 
-            BooleanStringObject addArticleResult = _articleController.addArticle(name, articleNumber, stock, price);
+            BooleanStringObject addArticleResult = _articleController.addArticle(name, articleNumber, stock, price, packagingUnit);
 
             if (addArticleResult.getValueB()) {
                 addEvent((Article) addArticleResult.getValueO(), stock);
@@ -180,9 +180,12 @@ public class MainController implements Serializable {
             } else if (numberOfArticles < 0) {
                 booleanStringResult.setValueB(false);
                 booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleItemNumberNotNegative));
+            } else if (!_articleController.checkArticleStockMatchPackagingUnit(article, numberOfArticles)) {
+                booleanStringResult.setValueB(false);
+                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
             } else {
                 Customer customer = (Customer) _personController.getRegisteredPerson();
-               booleanStringResult = _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
+                booleanStringResult = _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
             }
         }
 

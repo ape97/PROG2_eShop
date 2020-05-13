@@ -1,7 +1,5 @@
 package Utilities;
 
-public enum ArticleSortMode {
-    ArticleName,
-    ArticleNumber,
-    ArticleDate
+public enum EventSortMode {
+  EventDate
 }
