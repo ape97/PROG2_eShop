@@ -55,7 +55,7 @@ public class Message {
                 result = "Die Bestandsveränderung darf nicht 0 betragen.";
                 break;
             case Info_EmployeeCreated:
-                result = "Der Mitarbeiter wurde erfolgreich bestellt.";
+                result = "Der Mitarbeiter wurde erfolgreich erstellt.";
                 break;
             case Info_CustomerCreated:
                 result = "Der Kunde erfolgreich erstellt.";

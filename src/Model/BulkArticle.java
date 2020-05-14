@@ -1,9 +1,7 @@
 package Model;
 
-import java.io.Serializable;
-
 public class BulkArticle extends Article {
-    int _packagingUnit; // Verpackungseinheit
+    private int _packagingUnit; // Verpackungseinheit
 
     public BulkArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
         super(name, articleNumber, stock, price);
