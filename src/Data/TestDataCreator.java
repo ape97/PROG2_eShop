@@ -45,7 +45,6 @@ public class TestDataCreator {
 
     private void createArticles(){
         _mainController.login("admin","admin");
-
         _mainController.addArticle("Teelicht", 1, 100, 0.99, 1);
         _mainController.addArticle("Kerze: Vanille", 2, 25, 3.99, 1);
         _mainController.addArticle("Kerze: Pfirsich", 3, 30, 3.99, 1);
