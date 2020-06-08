@@ -36,7 +36,7 @@ public class MainController implements Serializable {
      *
      * @return Gibt das BooleanString-Objekt von PersonController.addEmployee(...) zurück.
      */
-    public BooleanString addEmployee(String firstname, String lastname, String username, String password) {
+    public Result<Void> addEmployee(String firstname, String lastname, String username, String password) {
         BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
@@ -75,7 +75,7 @@ public class MainController implements Serializable {
      * Reicht den Funktionsaufruf weiter an PersonController
      * Für weitere Informationen siehe: PersonController:login(...)
      */
-    public BooleanStringObject login(String username, String password) {
+    public BooleanStringObject<> login(String username, String password) {
         BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         booleanStringObjectResult = _personController.login(username, password);

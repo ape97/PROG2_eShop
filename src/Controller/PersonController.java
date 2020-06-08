@@ -4,10 +4,9 @@ import Model.Address;
 import Model.Customer;
 import Model.Employee;
 import Model.Person;
-import Utilities.BooleanString;
-import Utilities.BooleanStringObject;
 import Utilities.Message;
 import Utilities.PersonType;
+import Utilities.Result;
 
 import java.io.Serializable;
 import java.security.InvalidParameterException;
@@ -44,10 +43,10 @@ public class PersonController implements Serializable {
      * Der boolean gibt an, ob das erzeugen des Employee-Objekts erfolgreich war oder nicht.
      * Der String gibt die entsprechende (Fehler-) Meldung an.
      */
-    public BooleanString addEmployee(String firstname, String lastname, String username, String password) {
+    public Result addEmployee(String firstname, String lastname, String username, String password) {
 
-        BooleanString booleanStringResult = new BooleanString(false, "");
-        BooleanString personValuesValid = checkPersonValuesValid(firstname, lastname, username, password);
+        Result<Void> booleanStringResult = new Result(Result.State.FAILED, "", null);
+        Result personValuesValid = checkPersonValuesValid(firstname, lastname, username, password);
 
         if (!personValuesValid.getValueB()) {
             booleanStringResult.setValueS(personValuesValid.getValueS());
