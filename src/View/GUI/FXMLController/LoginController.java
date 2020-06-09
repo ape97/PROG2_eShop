@@ -16,7 +16,7 @@ public class LoginController {
     @FXML
     private void goLogin(ActionEvent event)throws IOException{
 
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("Employee.fxml"));
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("CustomerScene.fxml"));
 
         Scene scene2 = new Scene(view2);
 
