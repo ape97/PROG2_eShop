@@ -7,6 +7,8 @@ import Model.Person;
 import Utilities.Message;
 import Utilities.PersonType;
 import Utilities.Result;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +20,15 @@ import java.util.ArrayList;
 public class PersonController implements Serializable {
 
     private ArrayList<Person> _personList;
+    private ObservableList<Person> _personObservableList;
+
     private Person _registeredPerson; // Angemeldete Person
+
+
+    // TEST FOR FX
+    public ObservableList<Person> getEmployeeList(){
+        return _personObservableList;
+    }
 
     /**
      * Der Konstruktor erzeugt eine leere ArrayList _personList für Person-Objekte.
@@ -27,6 +37,7 @@ public class PersonController implements Serializable {
      */
     public PersonController() {
         _personList = new ArrayList<>();
+        _personObservableList = FXCollections.observableList(_personList);
         _personList.add(new Employee("admin", "admin", 0, "admin", "admin"));
     }
 

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 import Utilities.*;
+import javafx.collections.ObservableList;
 
 import java.io.Serializable;
 
@@ -24,6 +25,12 @@ public class MainController implements Serializable {
         _eventController = new EventController();
         _shoppingCartController = new ShoppingCartController();
         _billController = new BillController();
+    }
+
+
+    // TEST FOR FX
+    public ObservableList<Person> getEmployeeList(){
+        return _personController.getEmployeeList();
     }
 
 
