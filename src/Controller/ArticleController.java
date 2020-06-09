@@ -3,6 +3,8 @@ package Controller;
 import Model.Article;
 import Model.BulkArticle;
 import Utilities.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.Serializable;
 import java.security.InvalidParameterException;
@@ -17,6 +19,8 @@ import java.util.Comparator;
 public class ArticleController implements Serializable {
 
     private ArrayList<Article> _articleList;
+   // private ObservableList<Article> _articleObservableList;
+
     private boolean result;
 
     /**

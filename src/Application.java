@@ -11,13 +11,13 @@ public class Application {
         DataWriterReader dataWriterReader = new DataWriterReader("data.bn");
         Object loadObject = dataWriterReader.load();
 
-        if (loadObject == null) {
+       // if (loadObject == null) {
             mainController = new MainController();
-            TestDataCreator testDataCreator = new TestDataCreator(mainController);
-            testDataCreator.createData();
-        } else {
-            mainController = (MainController) loadObject;
-        }
+           // TestDataCreator testDataCreator = new TestDataCreator(mainController);
+            //testDataCreator.createData();
+        //} else {
+        //    mainController = (MainController) loadObject;
+        //}
 
         CUIController cuiController = new CUIController(mainController);
         cuiController.runMainMenu();
