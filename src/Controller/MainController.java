@@ -4,8 +4,6 @@ import Model.*;
 import Utilities.*;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 /**
  * Verbindet alle Controller miteinader.
@@ -37,13 +35,13 @@ public class MainController implements Serializable {
      * @return Gibt das BooleanString-Objekt von PersonController.addEmployee(...) zurück.
      */
     public Result<Void> addEmployee(String firstname, String lastname, String username, String password) {
-        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
-            booleanStringResult = _personController.addEmployee(firstname, lastname, username, password);
+            result = _personController.addEmployee(firstname, lastname, username, password);
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
@@ -54,38 +52,38 @@ public class MainController implements Serializable {
      * <p>
      * Erstellt mit AddressController ein Address-Objekt und gib dieses weiter an PersonController.
      */
-    public BooleanString addCustomer(String firstname, String lastname, String username, String password,
+    public Result<Void> addCustomer(String firstname, String lastname, String username, String password,
                                      String street, String houseNumber, String postCode, String city) {
-        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Guest) {
-            BooleanStringObject createAddressResult = _addressController.createAddress(street, houseNumber, postCode, city);
+            Result<Address> createAddressResult = _addressController.createAddress(street, houseNumber, postCode, city);
 
-            if (!createAddressResult.getValueB()) {
-                booleanStringResult.setValueS(createAddressResult.getValueS());
+            if (createAddressResult.getState() != Result.State.SUCCESSFULL) {
+                result.setMessage(createAddressResult.getMessage());
             } else {
-                booleanStringResult = _personController.addCustomer(firstname, lastname, username, password, (Address) createAddressResult.getValueO());
+                result = _personController.addCustomer(firstname, lastname, username, password, (Address) createAddressResult.getObject());
             }
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
      * Reicht den Funktionsaufruf weiter an PersonController
      * Für weitere Informationen siehe: PersonController:login(...)
      */
-    public BooleanStringObject<> login(String username, String password) {
-        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_NoPrivileges), null);
+    public Result<PersonType> login(String username, String password) {
+        Result<PersonType> result = new Result<PersonType>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
-        booleanStringObjectResult = _personController.login(username, password);
+        result = _personController.login(username, password);
 
-        return booleanStringObjectResult;
+        return result;
     }
 
     public void logout() {
         _personController.logout();
-        ;
+
     }
 
 
@@ -105,22 +103,22 @@ public class MainController implements Serializable {
      * Wenn addArticle(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
      */
-    public BooleanString addArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
+    public Result<Void> addArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
 
-        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
 
-            BooleanStringObject addArticleResult = _articleController.addArticle(name, articleNumber, stock, price, packagingUnit);
+            Result<Article> addArticleResult = _articleController.addArticle(name, articleNumber, stock, price, packagingUnit);
 
-            if (addArticleResult.getValueB()) {
-                addEvent((Article) addArticleResult.getValueO(), stock);
+            if (addArticleResult.getState() == Result.State.SUCCESSFULL) {
+                addEvent( addArticleResult.getObject(), stock);
             }
 
-            booleanStringResult = (BooleanString) addArticleResult;
+            result = new Result<Void>(addArticleResult.getState(), addArticleResult.getMessage(), null);
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
@@ -129,28 +127,28 @@ public class MainController implements Serializable {
      * Wenn updateStock(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
      */
-    public BooleanString updateStock(int articleNumber, int stockChangeValue) {
-        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
+    public Result<Void> updateStock(int articleNumber, int stockChangeValue) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
 
             Article article = _articleController.getArticleByArticleNumber(articleNumber);
 
             if (article == null) {
-                booleanStringResult.setValueB(false);
-                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberNotFound));
+                result.setState(Result.State.FAILED);
+                result.setMessage(Message.get(Message.MessageType.Error_ArticleNumberNotFound));
             } else {
-                BooleanString articleUpdateStockResult = _articleController.updateStock(article, stockChangeValue);
+                Result<Void> articleUpdateStockResult = _articleController.updateStock(article, stockChangeValue);
 
-                if (articleUpdateStockResult.getValueB()) {
+                if (articleUpdateStockResult.getState() == Result.State.SUCCESSFULL) {
                     addEvent(article, stockChangeValue);
                 }
 
-                booleanStringResult = articleUpdateStockResult;
+                result = articleUpdateStockResult;
             }
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
@@ -163,33 +161,31 @@ public class MainController implements Serializable {
      * boolean -> Sagt aus, ob der Artikel erfolgreich dem Warenkorb hinzugefügt wurde oder nicht
      * String -> Gibt die zugehörige (Fehler-) Meldung aus
      */
-    public BooleanString addArticleToShoppingCart(int articleNumber, int numberOfArticles) {
-        BooleanString booleanStringResult = new BooleanString(false, Message.get(Message.MessageType.Error_NoPrivileges));
+    public Result<Void> addArticleToShoppingCart(int articleNumber, int numberOfArticles) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
 
-            booleanStringResult = new BooleanString(true, "");
-
             Article article = _articleController.getArticleByArticleNumber(articleNumber);
             if (article == null) {
-                booleanStringResult.setValueB(false);
-                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberNotFound));
+                result.setState(Result.State.FAILED);
+                result.setMessage(Message.get(Message.MessageType.Error_ArticleNumberNotFound));
             } else if (!_articleController.checkArticleIsStock(article, numberOfArticles)) {
-                booleanStringResult.setValueB(false);
-                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotEnough));
+                result.setState(Result.State.FAILED);
+                result.setMessage(Message.get(Message.MessageType.Error_ArticleStockNotEnough));
             } else if (numberOfArticles < 0) {
-                booleanStringResult.setValueB(false);
-                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleItemNumberNotNegative));
+                result.setState(Result.State.FAILED);
+                result.setMessage(Message.get(Message.MessageType.Error_ArticleItemNumberNotNegative));
             } else if (!_articleController.checkArticleStockMatchPackagingUnit(article, numberOfArticles)) {
-                booleanStringResult.setValueB(false);
-                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
+                result.setState(Result.State.FAILED);
+                result.setMessage(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
             } else {
                 Customer customer = (Customer) _personController.getRegisteredPerson();
-                booleanStringResult = _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
+                result = _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
             }
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
@@ -200,11 +196,11 @@ public class MainController implements Serializable {
      * String -> Gibt die entsprechende (Fehler-) Meldung aus
      * Object -> Enthält die Rechnung als formatierten String, sofern der Kauf erfolgreich war
      */
-    public BooleanStringObject buyShoppingCart() {
-        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_NoPrivileges), null);
+    public Result<Bill> buyShoppingCart() {
+        Result<Bill> result = new Result<Bill>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
-            booleanStringObjectResult = new BooleanStringObject(true, Message.get(Message.MessageType.Info_OrderSuccess), null);
+            result = new Result<Bill>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_OrderSuccess), null);
             Customer customer = (Customer) _personController.getRegisteredPerson();
             ShoppingCart shoppingCart = customer.getShoppingCart();
             Bill bill = _billController.createBill(customer);
@@ -213,14 +209,14 @@ public class MainController implements Serializable {
             for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
                 boolean articleInStock = _articleController.checkArticleIsStock(article, shoppingCart.getArticleAndQuantityMap().get(article));
                 if (!articleInStock) {
-                    booleanStringObjectResult.setValueB(false);
-                    booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockCartNotEnough));
+                    result.setState(Result.State.FAILED);
+                    result.setMessage(Message.get(Message.MessageType.Error_ArticleStockCartNotEnough));
                     break;
                 }
             }
 
             // Lagerbestand der Artikel wird angepasst, sofern der booleanStringResult Wert nicht auf false gesetzt wurde
-            if (booleanStringObjectResult.getValueB()) {
+            if (result.getState() == Result.State.SUCCESSFULL) {
                 double totalPrice = 0;
                 for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
                     // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf Employee prüft
@@ -232,11 +228,11 @@ public class MainController implements Serializable {
                 }
                 bill.setTotalPrice(totalPrice);
                 _shoppingCartController.clear(shoppingCart);
-                booleanStringObjectResult.setValueO(bill.toString());
+                result.setObject(bill);
             }
         }
 
-        return booleanStringObjectResult;
+        return result;
     }
 
     /**
@@ -246,18 +242,18 @@ public class MainController implements Serializable {
      * boolean -> Gibt zurück, ob das leeren erfolgreich geklappt hat.
      * String -> Gibt die entsprechende (Fehler-) Meldung aus.
      */
-    public BooleanString clearShoppingCart() {
-        BooleanString booleanStringResult = new BooleanString(true, Message.get(Message.MessageType.Info_ShoppingCartClearSuccess));
+    public Result<Void> clearShoppingCart() {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Info_ShoppingCartClearSuccess), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
             Customer customer = (Customer) _personController.getRegisteredPerson();
             _shoppingCartController.clear(customer.getShoppingCart());
         } else {
-            booleanStringResult.setValueB(false);
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_NoPrivileges));
+            result.setState(Result.State.FAILED);
+            result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
@@ -267,18 +263,18 @@ public class MainController implements Serializable {
      * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
      * String --> enthält die Fehlermeldung oder das ShppoingCart als String
      */
-    public BooleanString getShoppingCartString() {
-        BooleanString booleanStringResult = new BooleanString(true, "");
+    public Result<Void> getShoppingCartString() {
+        Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, "", null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
             Customer customer = (Customer) _personController.getRegisteredPerson();
-            booleanStringResult.setValueS(customer.getShoppingCart().toString());
+            result.setMessage(customer.getShoppingCart().toString());
         } else {
-            booleanStringResult.setValueB(false);
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_NoPrivileges));
+            result.setState(Result.State.FAILED);
+            result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
@@ -296,16 +292,16 @@ public class MainController implements Serializable {
      * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
      * String --> enthält die Fehlermeldung oder das Lagerprotokoll als String
      */
-    public BooleanString getEventsString() {
-        BooleanString booleanStringResult = new BooleanString(true, "");
+    public Result<Void> getEventsString() {
+        Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, "", null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
-            booleanStringResult.setValueS(_eventController.getEventsString());
+            result.setMessage(_eventController.getEventsString());
         } else {
-            booleanStringResult.setValueB(false);
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_NoPrivileges));
+            result.setState(Result.State.FAILED);
+            result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
         }
 
-        return booleanStringResult;
+        return result;
     }
 }

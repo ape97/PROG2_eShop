@@ -3,8 +3,6 @@ package Controller;
 import Model.Article;
 import Model.Event;
 import Model.Person;
-import Utilities.ArticleSortMode;
-import Utilities.BooleanString;
 import Utilities.EventSortMode;
 
 import java.io.Serializable;

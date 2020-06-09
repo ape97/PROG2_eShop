@@ -1,7 +1,6 @@
 package Data;
 
 import Controller.MainController;
-import Utilities.BooleanString;
 
 public class TestDataCreator {
 

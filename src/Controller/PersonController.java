@@ -9,7 +9,6 @@ import Utilities.PersonType;
 import Utilities.Result;
 
 import java.io.Serializable;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 /**
@@ -45,20 +44,20 @@ public class PersonController implements Serializable {
      */
     public Result addEmployee(String firstname, String lastname, String username, String password) {
 
-        Result<Void> booleanStringResult = new Result(Result.State.FAILED, "", null);
-        Result personValuesValid = checkPersonValuesValid(firstname, lastname, username, password);
+        Result<Void> result = new Result(Result.State.FAILED, "", null);
+        Result<Void> personValuesValidResult = checkPersonValuesValid(firstname, lastname, username, password);
 
-        if (!personValuesValid.getValueB()) {
-            booleanStringResult.setValueS(personValuesValid.getValueS());
+        if (personValuesValidResult.getState() == Result.State.FAILED) {
+            result.setMessage(personValuesValidResult.getMessage());
         } else {
             Employee employee = new Employee(firstname, lastname, generatePersonId(), username, password);
             _personList.add(employee);
 
-            booleanStringResult.setValueB(true);
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Info_EmployeeCreated));
+            result.setState(Result.State.SUCCESSFULL);
+            result.setMessage(Message.get(Message.MessageType.Info_EmployeeCreated));
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
@@ -74,21 +73,21 @@ public class PersonController implements Serializable {
      * Der boolean gibt an, ob das erzeugen des Customer-Objekts erfolgreich war oder nicht.
      * Der String gibt die entsprechende (Fehler-) Meldung an.
      */
-    public BooleanString addCustomer(String firstname, String lastname, String username, String password, Address address) {
-        BooleanString booleanStringResult = new BooleanString(false, "");
-        BooleanString personValuesValid = checkPersonValuesValid(firstname, lastname, username, password);
+    public Result<Void> addCustomer(String firstname, String lastname, String username, String password, Address address) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
+        Result<Void> personValuesValidResult = checkPersonValuesValid(firstname, lastname, username, password);
 
-        if (!personValuesValid.getValueB()) {
-            booleanStringResult.setValueS(personValuesValid.getValueS());
+        if (personValuesValidResult.getState() == Result.State.FAILED) {
+            result.setMessage(personValuesValidResult.getMessage());
         } else {
             Customer customer = new Customer(firstname, lastname, generatePersonId(), username, password, address);
             _personList.add(customer);
 
-            booleanStringResult.setValueB(true);
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Info_CustomerCreated));
+            result.setState(Result.State.SUCCESSFULL);
+            result.setMessage(Message.get(Message.MessageType.Info_CustomerCreated));
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**
@@ -102,20 +101,20 @@ public class PersonController implements Serializable {
      * Der String gibt die entsprechende (Fehler-) Meldung an.
      * Das Object gibt den angemeldeten Benutzer Person-Object zurück, sofern der Vorgang erfolgreich war, ansonsten null.
      */
-    public BooleanStringObject login(String username, String password) {
-        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, Message.get(Message.MessageType.Error_LoginFailed), null);
+    public Result<PersonType> login(String username, String password) {
+        Result<PersonType> result = new Result<PersonType>(Result.State.FAILED, Message.get(Message.MessageType.Error_LoginFailed), null);
 
         for (Person person : _personList) {
             if (person.getUsername().equals(username) && person.getPassword().equals(password)) {
                 _registeredPerson = person;
-                booleanStringObjectResult.setValueB(true);
-                booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Info_LoginSuccess));
-                booleanStringObjectResult.setValueO(getRegisteredPersonType());
+                result.setState(Result.State.SUCCESSFULL);
+                result.setMessage(Message.get(Message.MessageType.Info_LoginSuccess));
+                result.setObject(getRegisteredPersonType());
                 break;
             }
         }
 
-        return booleanStringObjectResult;
+        return result;
     }
 
     /**
@@ -129,24 +128,24 @@ public class PersonController implements Serializable {
      * Der boolean gibt an, ob die angegebenen Werte den Anforderungen entsprechen und somit gültig sind oder nicht.
      * Der String gibt die entsprechende (Fehler-) Meldung an.
      */
-    private BooleanString checkPersonValuesValid(String firstname, String lastname, String username, String password) {
-        BooleanString booleanStringResult = new BooleanString(false, "");
+    private Result<Void> checkPersonValuesValid(String firstname, String lastname, String username, String password) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
 
         if (firstname.trim().isEmpty()) {
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_FirstNameNotEmpty));
+            result.setMessage(Message.get(Message.MessageType.Error_FirstNameNotEmpty));
         } else if (lastname.trim().isEmpty()) {
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_LastNameNotEmpty));
+            result.setMessage(Message.get(Message.MessageType.Error_LastNameNotEmpty));
         } else if (checkUsernameExists(username)) {
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_UsernameExists));
+            result.setMessage(Message.get(Message.MessageType.Error_UsernameExists));
         } else if (!checkUsernameIsValid(username)) {
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_UsernameInvalid));
+            result.setMessage(Message.get(Message.MessageType.Error_UsernameInvalid));
         } else if (!checkPasswordIsValid(password)) {
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_PasswordInvalid));
+            result.setMessage(Message.get(Message.MessageType.Error_PasswordInvalid));
         } else {
-            booleanStringResult.setValueB(true);
+            result.setState(Result.State.SUCCESSFULL);
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**

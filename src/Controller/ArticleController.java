@@ -2,13 +2,11 @@ package Controller;
 
 import Model.Article;
 import Model.BulkArticle;
-import Model.Customer;
 import Utilities.*;
 
 import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -41,18 +39,18 @@ public class ArticleController implements Serializable {
      * Der String gibt die entsprechende (Fehler-) Meldung an.
      * Das Object gibt ist das erstellte Article-Object, ansonsten null.
      */
-    public BooleanStringObject addArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
-        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, "", null);
+    public Result<Article> addArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
+        Result<Article> result = new Result<Article>(Result.State.FAILED, "", null);
 
         if (name.trim().isEmpty()) {
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNameNotEmpty));
+            result.setMessage(Message.get(Message.MessageType.Error_ArticleNameNotEmpty));
         } else if (price <= 0.0) {
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticlePriceGreaterThanZero));
+            result.setMessage(Message.get(Message.MessageType.Error_ArticlePriceGreaterThanZero));
         } else if (checkArticleNumberExists(articleNumber)) {
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleNumberExists));
+            result.setMessage(Message.get(Message.MessageType.Error_ArticleNumberExists));
         } else if (packagingUnit > 1) {
             if (!checkArticleStockMatchPackagingUnit(packagingUnit, stock)) {
-                booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
+                result.setMessage(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
 
             } else {
                 Article article;
@@ -67,13 +65,13 @@ public class ArticleController implements Serializable {
 
                 _articleList.add(article);
 
-                booleanStringObjectResult.setValueB(true);
-                booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Info_ArticleCreated));
-                booleanStringObjectResult.setValueO(article);
+                result.setState(Result.State.SUCCESSFULL);
+                result.setMessage(Message.get(Message.MessageType.Info_ArticleCreated));
+                result.setObject(article);
             }
         }
 
-            return booleanStringObjectResult;
+            return result;
         }
 
 
@@ -86,20 +84,20 @@ public class ArticleController implements Serializable {
      * Der boolean gibt an, ob der Bestand erfolgreich geändert wurde.
      * Der String gibt die entsprechene (Fehler-) Meldung an.
      */
-    public BooleanString updateStock(Article article, int stockChangeValue) {
-        BooleanString booleanStringResult = new BooleanString(false, "");
+    public Result<Void> updateStock(Article article, int stockChangeValue) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
 
         if (stockChangeValue == 0) {
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ChangeValueNotZero));
+            result.setMessage(Message.get(Message.MessageType.Error_ChangeValueNotZero));
         } else if (!checkArticleStockMatchPackagingUnit(article, stockChangeValue)) {
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
+            result.setMessage(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
         } else {
-            booleanStringResult.setValueB(true);
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Info_ArticleStockChanged));
+            result.setState(Result.State.SUCCESSFULL);
+            result.setMessage(Message.get(Message.MessageType.Info_ArticleStockChanged));
             article.setStock(article.getStock() + stockChangeValue);
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**

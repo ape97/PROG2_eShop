@@ -1,10 +1,11 @@
 package View.CUI;
 
 import Controller.MainController;
+import Model.Bill;
+import Model.Person;
 import Utilities.ArticleSortMode;
-import Utilities.BooleanString;
-import Utilities.BooleanStringObject;
 import Utilities.PersonType;
+import Utilities.Result;
 
 import java.util.Scanner;
 
@@ -100,13 +101,13 @@ public class CUIController {
         System.out.println("Bitte geben Sie den Preis ein:");
         price = readDouble();
 
-        BooleanString booleanStringResult = _mainController.addArticle(name, articleNumber, stock, price, packageUnit);
+        Result<Void> result = _mainController.addArticle(name, articleNumber, stock, price, packageUnit);
 
-        if (booleanStringResult.getValueB()) {
-            System.out.println(booleanStringResult.getValueS());
+        if (result.getState() == Result.State.SUCCESSFULL) {
+            System.out.println(result.getMessage());
             runAddArticleMenu();
         } else {
-            System.out.println(booleanStringResult.getValueS());
+            System.out.println(result.getMessage());
             runAddArticleMenu();
         }
 
@@ -127,17 +128,17 @@ public class CUIController {
         System.out.println("Bitte geben Sie ein Passwort ein:");
         password = readInput();
 
-        BooleanString booleanStringResult = _mainController.addEmployee(firstname, lastname, username, password);
+        Result<Void> result = _mainController.addEmployee(firstname, lastname, username, password);
 
-        if (booleanStringResult.getValueB()) {
+        if (result.getState() == Result.State.SUCCESSFULL) {
             // Vorgang erfolgreich
             // AUsgabe:
-            System.out.println(booleanStringResult.getValueS());
+            System.out.println(result.getMessage());
             runAddEmployeeMenu();
         } else {
             // Vorgang nicht erfolgreich
             // Ausgabe:
-            System.out.println(booleanStringResult.getValueS());
+            System.out.println(result.getMessage());
 
             // VORGANG ERNEUT STARTEN
             runAddEmployeeMenu();
@@ -304,13 +305,13 @@ public class CUIController {
     public void runShoppingCartMenu() {
         CUI.showShoppingCartMenu();
 
-        BooleanString booleanStringObjectResult = _mainController.getShoppingCartString();
+        Result<Void> result = _mainController.getShoppingCartString();
 
-        if (booleanStringObjectResult.getValueB()) {
-            String shoppingCartList = (String) booleanStringObjectResult.getValueS();
+        if (result.getState() == Result.State.SUCCESSFULL) {
+            String shoppingCartList = (String) result.getMessage();
             System.out.println(shoppingCartList);
         } else {
-            System.out.print(booleanStringObjectResult.getValueS());
+            System.out.print(result.getMessage());
             runMainMenu();
         }
 
@@ -454,13 +455,13 @@ public class CUIController {
         numberOfArticle = readInt();
 
 
-        BooleanString booleanStringResult = _mainController.addArticleToShoppingCart(articlenumber, numberOfArticle);
+        Result<Void> result = _mainController.addArticleToShoppingCart(articlenumber, numberOfArticle);
 
-        if (booleanStringResult.getValueB()) {
-            System.out.println(booleanStringResult.getValueS());
+        if (result.getState()== Result.State.SUCCESSFULL) {
+            System.out.println(result.getMessage());
             runShoppingCartMenu();
         } else {
-            System.out.println(booleanStringResult.getValueS());
+            System.out.println(result.getMessage());
             runShoppingCartMenu();
         }
 
@@ -475,13 +476,13 @@ public class CUIController {
         System.out.println("Bitte geben die Bestandsänderung ein.");
         stockChangeValue = readInt();
 
-        BooleanString booleanStringResult = _mainController.updateStock(articleNumber, stockChangeValue);
+        Result<Void> result = _mainController.updateStock(articleNumber, stockChangeValue);
 
-        if (booleanStringResult.getValueB()) {
-            System.out.println(booleanStringResult.getValueS());
+        System.out.println(result.getMessage());
+
+        if (result.getState() == Result.State.SUCCESSFULL) {
             runChangeArticleMenu();
         } else {
-            System.out.println(booleanStringResult.getValueS());
             runChangeArticleMenu();
         }
 
@@ -489,15 +490,16 @@ public class CUIController {
     }
 
     public void buy() {
-        BooleanStringObject booleanStringObjectResult = _mainController.buyShoppingCart();
-        if (booleanStringObjectResult.getValueB()) {
-            String bill = (String) booleanStringObjectResult.getValueO();
-            System.out.println(booleanStringObjectResult.getValueS());
+        Result<Bill> result = _mainController.buyShoppingCart();
+
+        if (result.getState() == Result.State.SUCCESSFULL) {
+            Bill bill = result.getObject();
+            System.out.println(result.getMessage());
             System.out.println(bill);
             runShoppingCartMenu();
 
         } else {
-            System.out.println(booleanStringObjectResult.getValueS());
+            System.out.println(result.getMessage());
             runShoppingCartMenu();
         }
     }
@@ -531,14 +533,14 @@ public class CUIController {
         System.out.println("Bitte geben Sie den Ort ein.");
         city = readInput();
 
-        BooleanString booleanStringResult = _mainController.addCustomer(firstname, lastname, username, password, street, housenumber, postcode, city);
+        Result result = _mainController.addCustomer(firstname, lastname, username, password, street, housenumber, postcode, city);
 
-        if (booleanStringResult.getValueB()) {
+        if (result.getState() == Result.State.SUCCESSFULL) {
 
-            System.out.println(booleanStringResult.getValueS());
+            System.out.println(result.getMessage());
             runMainMenu();
         } else {
-            System.out.println(booleanStringResult.getValueS());
+            System.out.println(result.getMessage());
             runMainMenu();
         }
         //TODO
@@ -568,13 +570,13 @@ public class CUIController {
     }
 
     public void eventProtocol() {
-        BooleanString booleanStringResult = _mainController.getEventsString();
+        Result<Void> result = _mainController.getEventsString();
         String inputdata;
-        if (booleanStringResult.getValueB()) {
-            System.out.println(booleanStringResult.getValueS());
+        if (result.getState() == Result.State.SUCCESSFULL) {
+            System.out.println(result.getMessage());
 
         } else {
-            System.out.println(booleanStringResult.getValueS());
+            System.out.println(result.getMessage());
             runCustomerMenu();
         }
         System.out.println("Drücke 'q' um zurück zu kehren.");
@@ -592,21 +594,20 @@ public class CUIController {
         System.out.println("Bitte Passwort eingeben.");
         password = readInput();
 
-        BooleanStringObject booleanStringObjectResult = _mainController.login(user, password);
+        Result<PersonType> result = _mainController.login(user, password);
 
-        if (booleanStringObjectResult.getValueB()) {
+        if (result.getState() == Result.State.SUCCESSFULL) {
 
-            System.out.println(booleanStringObjectResult.getValueS());
-            PersonType personType = (PersonType) booleanStringObjectResult.getValueO();
+            System.out.println(result.getMessage());
+            PersonType personType = (PersonType) result.getObject();
 
             if (personType == PersonType.Customer) {
                 runCustomerMenu();
             } else {
                 runEmployeeMenu();
             }
-
         } else {
-            System.out.print(booleanStringObjectResult.getValueS());
+            System.out.print(result.getMessage());
             runMainMenu();
         }
     }
@@ -649,8 +650,8 @@ public class CUIController {
     }
 
     public void clearShoppingCart(){
-        BooleanString booleanStringResult = _mainController.clearShoppingCart();
-        System.out.println(booleanStringResult.getValueS());
+        Result<Void> result = _mainController.clearShoppingCart();
+        System.out.println(result.getMessage());
         runShoppingCartMenu();
     }
 
