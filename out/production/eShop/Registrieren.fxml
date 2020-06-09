@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.FXMLController.RegistrierenController">
+   <children>
+      <TextField layoutX="-103.0" layoutY="-108.0" />
+      <TextField layoutX="200.0" layoutY="133.0" prefWidth="200.0" />
+      <TextField layoutX="200.0" layoutY="100.0" prefWidth="200.0" />
+      <TextField layoutX="200.0" layoutY="232.0" prefHeight="25.0" prefWidth="142.0" />
+      <TextField layoutX="349.0" layoutY="232.0" prefHeight="25.0" prefWidth="49.0" />
+      <TextField layoutX="200.0" layoutY="166.0" prefWidth="200.0" />
+      <TextField layoutX="200.0" layoutY="199.0" prefWidth="200.0" />
+      <TextField layoutX="200.0" layoutY="265.0" prefWidth="200.0" />
+      <TextField layoutX="200.0" layoutY="298.0" prefWidth="200.0" />
+      <Label layoutX="268.0" layoutY="43.0" text="Registrieren" />
+      <Label layoutX="129.0" layoutY="269.0" text="Postleitzahl" />
+      <Label layoutX="141.0" layoutY="104.0" text="Vorname" />
+      <Label layoutX="112.0" layoutY="170.0" text="Benutzername" />
+      <Label layoutX="73.0" layoutY="236.0" text="Straße / Hausnummer" />
+      <Label layoutX="131.0" layoutY="137.0" text="Nachname" />
+      <Label layoutX="142.0" layoutY="203.0" text="Passwort" />
+      <Label layoutX="160.0" layoutY="302.0" text="Stadt" />
+      <Button layoutX="474.0" layoutY="166.0" mnemonicParsing="false" text="Abbrechen" />
+      <Button layoutX="476.0" layoutY="208.0" mnemonicParsing="false" onAction="#goRegistrierenLogin" text="Anmelden" />
+   </children>
+</AnchorPane>
