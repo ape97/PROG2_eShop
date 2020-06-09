@@ -14,7 +14,7 @@ public class MainFrame extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("LoginScene.fxml"));
         primaryStage.setTitle("Test");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();

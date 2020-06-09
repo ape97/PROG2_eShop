@@ -10,13 +10,13 @@ import java.io.IOException;
 import javafx.scene.Node;
 
 
-public class LoginController {
+public class LoginSceneController {
 
 
     @FXML
-    private void goLogin(ActionEvent event)throws IOException{
+    private void button_login(ActionEvent event)throws IOException{
 
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("Employee.fxml"));
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("EmployeeScene.fxml"));
 
         Scene scene2 = new Scene(view2);
 
@@ -26,9 +26,9 @@ public class LoginController {
     }
 
     @FXML
-    private void goRegistrieren(ActionEvent event)throws IOException{
+    private void button_customerRegister(ActionEvent event)throws IOException{
 
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("Registrieren.fxml"));
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("RegisterCustomerScene.fxml"));
 
         Scene scene2 = new Scene(view2);
 
