@@ -5,10 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import java.io.IOException;
 
-public class RegisterEmployeeSceneController {
+public class EditArticleSceneController {
 
     @FXML
-    private void button_cancelRegisterEmployee(ActionEvent event) throws IOException {
+    private void button_cancelEditArticle(ActionEvent event) throws IOException {
         if (EmployeeSceneController.window != null) {
             EmployeeSceneController.window.close();
         }

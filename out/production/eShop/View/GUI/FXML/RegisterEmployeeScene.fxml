@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.FXMLController.RegisterCustomerSceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.FXMLController.RegisterEmployeeSceneController">
    <children>
-      <TextField layoutX="-103.0" layoutY="-108.0" />
-      <TextField layoutX="200.0" layoutY="192.0" prefWidth="200.0" />
-      <TextField layoutX="200.0" layoutY="159.0" prefWidth="200.0" />
-      <TextField layoutX="200.0" layoutY="225.0" prefWidth="200.0" />
-      <TextField layoutX="200.0" layoutY="258.0" prefWidth="200.0" />
-      <Label layoutX="268.0" layoutY="43.0" text="Registrieren" />
-      <Label layoutX="141.0" layoutY="163.0" text="Vorname" />
-      <Label layoutX="113.0" layoutY="229.0" text="Benutzername" />
-      <Label layoutX="132.0" layoutY="196.0" text="Nachname" />
-      <Label layoutX="142.0" layoutY="262.0" text="Passwort" />
-      <Button layoutX="474.0" layoutY="192.0" mnemonicParsing="false" text="Abbrechen" />
-      <Button layoutX="474.0" layoutY="225.0" mnemonicParsing="false" onAction="#goRegistrierenLogin" prefHeight="25.0" prefWidth="74.0" text="Anmelden" />
+      <TextField layoutX="130.0" layoutY="137.0" prefWidth="200.0" />
+      <TextField layoutX="130.0" layoutY="103.0" prefWidth="200.0" />
+      <TextField layoutX="130.0" layoutY="171.0" prefWidth="200.0" />
+      <TextField layoutX="130.0" layoutY="205.0" prefWidth="200.0" />
+      <Label layoutX="149.0" layoutY="46.0" text="Hinzufügen">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Label layoutX="65.0" layoutY="107.0" text="Vorname" />
+      <Label layoutX="35.0" layoutY="175.0" text="Benutzername" />
+      <Label layoutX="56.0" layoutY="141.0" text="Nachname" />
+      <Label layoutX="66.0" layoutY="209.0" text="Passwort" />
+      <Button layoutX="48.0" layoutY="250.0" mnemonicParsing="false" onAction="#button_cancelRegisterEmployee" text="Abbrechen" />
+      <Button layoutX="293.0" layoutY="250.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" text="Bestätigen" />
    </children>
 </AnchorPane>
