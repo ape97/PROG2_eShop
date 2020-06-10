@@ -43,17 +43,17 @@ public class EmployeeSceneController {
 
 
     @FXML
-    private void button_addArticle(ActionEvent event) throws IOException {
+    private void button_addArticle_clicked(ActionEvent event) throws IOException {
         MainSceneController.showAddArticleScene(this, event);
     }
 
     @FXML
-    private void button_editArticle(ActionEvent event) throws IOException {
+    private void button_editArticle_clicked(ActionEvent event) throws IOException {
         // TODO
     }
 
     @FXML
-    private void button_removeArticle(ActionEvent event) throws IOException {
+    private void button_removeArticle_clicked(ActionEvent event) throws IOException {
         Object selectedItem = tableView_articles.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             Article article = (Article) selectedItem;
@@ -69,12 +69,12 @@ public class EmployeeSceneController {
 
 
     @FXML
-    private void button_addEmployee(ActionEvent event) throws IOException {
+    private void button_addEmployee_clicked(ActionEvent event) throws IOException {
         MainSceneController.showRegisterEmployeeScene(this, event);
     }
 
     @FXML
-    private void button_editEmployee(ActionEvent event) throws IOException {
+    private void button_editEmployee_clicked(ActionEvent event) throws IOException {
         // TODO
     }
 

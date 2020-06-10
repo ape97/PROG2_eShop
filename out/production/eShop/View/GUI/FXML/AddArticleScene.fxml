@@ -4,21 +4,41 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.FXMLController.AddArticleSceneController">
-   <children>
-      <TextField fx:id="textField_price" layoutX="153.0" layoutY="138.0" prefWidth="200.0" />
-      <TextField fx:id="textField_name" layoutX="153.0" layoutY="103.0" prefHeight="25.0" prefWidth="200.0" />
-      <TextField fx:id="textField_stock" layoutX="153.0" layoutY="171.0" prefWidth="200.0" />
-      <TextField fx:id="textField_packagingUnit" layoutX="153.0" layoutY="205.0" prefWidth="200.0" />
-      <Label layoutX="149.0" layoutY="46.0" text="Hinzufügen">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Label layoutX="75.0" layoutY="107.0" text="Bezeichnung" />
-      <Label layoutX="66.0" layoutY="175.0" text="Lagerbestand" />
-      <Label layoutX="109.0" layoutY="142.0" text="Preis" />
-      <Label layoutX="32.0" layoutY="209.0" text="Verpackungseinheit" />
-      <Button layoutX="48.0" layoutY="250.0" mnemonicParsing="false" onAction="#button_cancel_clicked" text="Abbrechen" />
-      <Button layoutX="293.0" layoutY="250.0" mnemonicParsing="false" onAction="#button_add_clicked" prefHeight="25.0" prefWidth="74.0" text="Bestätigen" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300" minWidth="300" prefHeight="365.0" prefWidth="489.0" style="-fx-background-color: #F6F6F2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.FXMLController.AddArticleSceneController">
+<children>
+   <TextField fx:id="textField_price" layoutX="158.0" layoutY="138.0" prefHeight="25.0" prefWidth="203.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="39.0" />
+   <TextField fx:id="textField_name" layoutX="158.0" layoutY="103.0" prefHeight="25.0" prefWidth="292.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="39.0" />
+   <TextField fx:id="textField_stock" layoutX="158.0" layoutY="171.0" prefHeight="25.0" prefWidth="203.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="39.0" />
+   <TextField fx:id="textField_packagingUnit" layoutX="158.0" layoutY="205.0" prefHeight="25.0" prefWidth="203.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="39.0" />
+   <Label layoutX="169.0" layoutY="36.0" prefHeight="45.0" prefWidth="152.0" text="Hinzufügen" AnchorPane.leftAnchor="169.0" AnchorPane.rightAnchor="168.0">
+      <font>
+         <Font name="Segoe UI Light" size="30.0" />
+      </font></Label>
+   <Label layoutX="115.0" layoutY="107.0" text="Name">
+      <font>
+         <Font name="Segoe UI" size="13.0" />
+      </font></Label>
+   <Label layoutX="69.0" layoutY="175.0" text="Lagerbestand">
+      <font>
+         <Font name="Segoe UI" size="13.0" />
+      </font></Label>
+   <Label layoutX="119.0" layoutY="142.0" text="Preis">
+      <font>
+         <Font name="Segoe UI" size="13.0" />
+      </font></Label>
+   <Label layoutX="35.0" layoutY="209.0" text="Verpackungsmenge">
+      <font>
+         <Font name="Segoe UI" size="13.0" />
+      </font></Label>
+   <Button layoutX="281.0" layoutY="312.0" mnemonicParsing="false" onAction="#button_add_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #BADFE7;" text="Bestätigen" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="116.0">
+      <font>
+         <Font name="Segoe UI Light" size="14.0" />
+      </font>
+   </Button>
+   <Button layoutX="383.0" layoutY="312.0" mnemonicParsing="false" onAction="#button_cancel_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #BADFE7;" text="Abbrechen" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="14.0">
+      <font>
+         <Font name="Segoe UI Light" size="14.0" />
+      </font>
+   </Button>
+</children>
 </AnchorPane>

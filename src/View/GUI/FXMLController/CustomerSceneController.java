@@ -40,7 +40,7 @@ public class CustomerSceneController {
     }
 
     @FXML
-    private void button_articleAddToCart(ActionEvent event) throws IOException {
+    private void button_articleAddToCart_clicked(ActionEvent event) throws IOException {
         String title;
         String header;
         String message;

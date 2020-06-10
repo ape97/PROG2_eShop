@@ -34,7 +34,7 @@ public class RegisterCustomerSceneController {
     private TextField textField_password;
 
     @FXML
-    private void button_registerLogin(ActionEvent event) throws IOException {
+    private void button_register_clicked(ActionEvent event) throws IOException {
 
         Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("EmployeeScene.fxml"));
 
@@ -77,7 +77,7 @@ public class RegisterCustomerSceneController {
     }
 
     @FXML
-    private void button_cancel(ActionEvent event) throws IOException {
+    private void button_cancel_clicked(ActionEvent event) throws IOException {
         MainSceneController.showLoginScene(this, event);
     }
 }

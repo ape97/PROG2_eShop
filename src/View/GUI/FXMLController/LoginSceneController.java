@@ -23,7 +23,7 @@ public class LoginSceneController {
     private TextField textField_password;
 
     @FXML
-    private void button_login(ActionEvent event) throws IOException {
+    private void button_login_clicked(ActionEvent event) throws IOException {
         String username = textField_username.getText();
         String password = textField_password.getText();
 
@@ -45,7 +45,7 @@ public class LoginSceneController {
     }
 
     @FXML
-    private void button_customerRegister(ActionEvent event) throws IOException {
+    private void button_register_clicked(ActionEvent event) throws IOException {
         MainSceneController.showRegisterCustomerScene(this, event);
     }
 }
