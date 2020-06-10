@@ -1,8 +1,8 @@
 import Controller.MainController;
 import Data.DataWriterReader;
 import Data.TestDataCreator;
-import Utilities.Result;
-import View.CUI.CUIController;
+import javafx.application.Application;
+import View.GUI.MainFrame;
 
 public class Application {
     public static void main(String[] args) {
@@ -21,7 +21,7 @@ public class Application {
 
        /* CUIController cuiController = new CUIController(mainController);
         cuiController.runMainMenu();*/
-        // TODO: GUI HIER STARTEN
+        Application.launch(MainFrame.class, args);
 
         mainController.logout();
         dataWriterReader.save(mainController);
