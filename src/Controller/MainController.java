@@ -186,8 +186,8 @@ public class MainController implements Serializable {
         Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
-
             result = _articleController.removeArticle(article);
+            addEvent(article, -article.getStock());
         }
 
         return result;
@@ -317,6 +317,7 @@ public class MainController implements Serializable {
                     // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf Employee prüft
                     int numberOfArticles = shoppingCartItem.getQuantity();
                     _articleController.updateStock(shoppingCartItem.getArticle(), -numberOfArticles); // Achtung: Negierung der Artikelanzahl -
+                    addEvent(shoppingCartItem.getArticle(), -numberOfArticles);
 
                     totalPrice += shoppingCartItem.getArticle().getPrice() * numberOfArticles;
                     _billController.addBillPosition(bill, shoppingCartItem.getArticle().toString(false) + " " + numberOfArticles + " stk");
