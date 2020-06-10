@@ -2,8 +2,8 @@ package Controller;
 
 import Model.Article;
 import Model.ShoppingCart;
-import Utilities.BooleanString;
 import Utilities.Message;
+import Utilities.Result;
 
 import java.io.Serializable;
 
@@ -17,25 +17,25 @@ public class ShoppingCartController implements Serializable {
      * @param article          Das Article-Objekt der Key
      * @param numberOfArticles Die Anzahl int die Value
      */
-    public BooleanString addArticle(ShoppingCart shoppingCart, Article article, int numberOfArticles) {
-        BooleanString booleanStringResult = new BooleanString(false, "");
+    public Result<Void> addArticle(ShoppingCart shoppingCart, Article article, int numberOfArticles) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
         if (numberOfArticles == 0) {
             //remove
             if (shoppingCart.getArticleAndQuantityMap().containsKey(article)) {
                 shoppingCart.getArticleAndQuantityMap().remove(article);
-                booleanStringResult.setValueB(true);
-                booleanStringResult.setValueS(Message.get(Message.MessageType.Info_ArticleRemovedFromCartSuccess));
+                result.setState(Result.State.SUCCESSFULL);
+                result.setMessage(Message.get(Message.MessageType.Info_ArticleRemovedFromCartSuccess));
             } else{
-                booleanStringResult.setValueB(false);
-                booleanStringResult.setValueS(Message.get(Message.MessageType.Error_ArticleItemNumberNotZero));
+                result.setState(Result.State.FAILED);
+                result.setMessage(Message.get(Message.MessageType.Error_ArticleItemNumberNotZero));
             }
         } else {
             shoppingCart.getArticleAndQuantityMap().put(article, numberOfArticles);
-            booleanStringResult.setValueB(true);
-            booleanStringResult.setValueS(Message.get(Message.MessageType.Info_ArticleAddedToCart));
+            result.setState(Result.State.SUCCESSFULL);
+            result.setMessage(Message.get(Message.MessageType.Info_ArticleAddedToCart));
         }
 
-        return booleanStringResult;
+        return result;
     }
 
     /**

@@ -3,9 +3,9 @@ package Controller;
 import Model.Article;
 import Model.Event;
 import Model.Person;
-import Utilities.ArticleSortMode;
-import Utilities.BooleanString;
 import Utilities.EventSortMode;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.Serializable;
 import java.security.InvalidParameterException;
@@ -19,9 +19,12 @@ import java.util.Comparator;
  */
 public class EventController implements Serializable {
     private ArrayList<Event> _eventList;
+    private ObservableList<Event> _eventObservableList;
 
-    public EventController() {
+    public EventController()
+    {
         _eventList = new ArrayList<>();
+        _eventObservableList = FXCollections.observableList(_eventList);
     }
 
     /**
@@ -37,7 +40,7 @@ public class EventController implements Serializable {
         _eventList.add ( event);
     }
 
-    public String getEventsString() {
+   /* public String getEventsString() {
         sortEvents(EventSortMode.EventDate);
         String result = "";
 
@@ -46,7 +49,7 @@ public class EventController implements Serializable {
         }
 
         return result;
-    }
+    }*/
 
 
     /**
@@ -54,34 +57,34 @@ public class EventController implements Serializable {
      *
      * @param eventSortMode Das angegebene Schema nachdem sortiert werden soll
      */
-    private void sortEvents(EventSortMode eventSortMode) {
+    /*private void sortEvents(EventSortMode eventSortMode) {
         Collections.sort(_eventList, new EventController.EventComparator(eventSortMode));
     }
 
-    /**
+    *//**
      * Ein Comparator für Event-Objekte, damit diese nach ihren Eigenschaften sortiert werden können
      * Quelle: // https://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property
-     */
+     *//*
     private class EventComparator implements Comparator<Event> {
         private EventSortMode _eventSortMode;
 
-        /**
+        *//**
          * Im Konstruktor wird das Schema, der SortMode als Member gesetzt
          *
          * @param eventSortMode Das Schema nachdem sortiert werden soll
-         */
+         *//*
         public EventComparator(EventSortMode eventSortMode) {
             _eventSortMode = eventSortMode;
         }
 
-        /**
+        *//**
          * Je nachdem welcher SortMode in _eventSortMode festgelegt ist,
          * werden die Events anders verglichen.
          *
          * @param o1 Event 1 zum vergleichen
          * @param o2 Event 2 zum vergleichen
          * @return https://www.javatpoint.com/java-string-compareto
-         */
+         *//*
         @Override
         public int compare(Event o1, Event o2) {
             int result;
@@ -95,5 +98,9 @@ public class EventController implements Serializable {
             }
             return result;
         }
+    }*/
+
+    public ObservableList<Event> getEventList() {
+        return _eventObservableList;
     }
 }
