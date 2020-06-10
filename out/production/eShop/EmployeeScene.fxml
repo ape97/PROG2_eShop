@@ -17,10 +17,10 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="436.0" />
+                  <TableView fx:id="tableView_articles" layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="436.0" />
                   <Button layoutX="487.0" layoutY="137.0" mnemonicParsing="false" onAction="#button_addArticle" text="Hinzufügen" />
                   <Button layoutX="488.0" layoutY="173.0" mnemonicParsing="false" onAction="#button_editArticle" prefHeight="25.0" prefWidth="76.0" text="Bearbeiten" />
-                  <Button layoutX="488.0" layoutY="210.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Löschen" />
+                  <Button layoutX="488.0" layoutY="210.0" mnemonicParsing="false" onAction="#button_removeArticle" prefHeight="25.0" prefWidth="77.0" text="Löschen" />
                </children>
             </AnchorPane>
         </content>

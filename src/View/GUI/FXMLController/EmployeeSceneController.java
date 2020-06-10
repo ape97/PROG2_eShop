@@ -1,7 +1,9 @@
 package View.GUI.FXMLController;
 
 import Controller.MainController;
+import Model.Article;
 import Model.Event;
+import View.GUI.MainSceneController;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -25,15 +27,18 @@ public class EmployeeSceneController {
     private TableView tableView_events;
 
     @FXML
+    private TableView tableView_articles;
+
+    @FXML
     public void initialize() {
         initEventTableView();
+        initArticleTableView();
     }
 
 
     @FXML
     private void button_addArticle(ActionEvent event) throws IOException {
-
-
+        MainSceneController.showAddArticleScene(this, event);
     }
 
     @FXML
@@ -42,6 +47,11 @@ public class EmployeeSceneController {
 
     }
 
+    @FXML
+    private void button_removeArticle(ActionEvent event) throws IOException {
+
+
+    }
 
     @FXML
     private void button_addEmployee(ActionEvent event) throws IOException {
@@ -99,5 +109,33 @@ public class EmployeeSceneController {
         tableView_events.getColumns().add(columnLastname);
 
         tableView_events.setItems(MainController.getInstance().getEventList().getObject());
+    }
+
+    private void initArticleTableView() {
+        TableColumn<Article, String> columnName = new TableColumn<>("Bezeichnung");
+        columnName.setEditable(false);
+        columnName.setSortable(true);
+        columnName.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getName()));
+        tableView_articles.getColumns().add(columnName);
+
+        TableColumn<Article, Integer> columnArticlenumber = new TableColumn<>("Artikelnummer");
+        columnArticlenumber.setEditable(false);
+        columnArticlenumber.setSortable(true);
+        columnArticlenumber.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getArticleNumber()));
+        tableView_articles.getColumns().add(columnArticlenumber);
+
+        TableColumn<Article, Integer> columnStock= new TableColumn<>("Lagerbestand");
+        columnStock.setEditable(false);
+        columnStock.setSortable(true);
+        columnStock.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getStock()));
+        tableView_articles.getColumns().add(columnStock);
+
+        TableColumn<Article, Double> columnStockChange = new TableColumn<>("Preis");
+        columnStockChange.setEditable(false);
+        columnStockChange.setSortable(true);
+        columnStockChange.setCellValueFactory(e -> new SimpleObjectProperty<Double>(e.getValue().getPrice()));
+        tableView_articles.getColumns().add(columnStockChange);
+
+        tableView_articles.setItems(MainController.getInstance().getArticleList().getObject());
     }
 }

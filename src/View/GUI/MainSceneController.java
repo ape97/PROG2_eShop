@@ -27,9 +27,19 @@ public class MainSceneController {
         JavaFXExtension.showScene(caller, "RegisterCustomerScene.fxml", stage);
     }
 
-    public static void showLoginScene(Object caller, ActionEvent event) throws IOException{
+    public static void showLoginScene(Object caller, ActionEvent event) throws IOException {
         Stage stage = JavaFXExtension.getStageByActionEvent(event);
         JavaFXExtension.showScene(caller, "LoginScene.fxml", stage);
+    }
+
+    public static void showAddArticleScene(Object caller, ActionEvent event) throws IOException {
+        Stage stage = JavaFXExtension.getStageByActionEvent(event);
+        JavaFXExtension.showScene(caller, "AddArticleScene.fxml", stage);
+    }
+
+    public static void showEditArticleScene(Object caller, ActionEvent event) throws IOException {
+        Stage stage = JavaFXExtension.getStageByActionEvent(event);
+        JavaFXExtension.showScene(caller, "EditArticleScene.fxml", stage);
     }
 
     public static void showMessageBox(Alert.AlertType alertType, String title, String header, String message) {
@@ -38,5 +48,10 @@ public class MainSceneController {
         alert.setHeaderText(header);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public static void closeCurrentWindow(Object caller, ActionEvent event) {
+        Stage stage = JavaFXExtension.getStageByActionEvent(event);
+        stage.close();
     }
 }

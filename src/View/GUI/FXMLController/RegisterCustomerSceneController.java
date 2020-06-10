@@ -50,10 +50,10 @@ public class RegisterCustomerSceneController {
         if (firstname.trim().isEmpty() || lastname.trim().isEmpty() || street.trim().isEmpty() || housenumber.trim().isEmpty() ||
                 postcode.trim().isEmpty() || city.trim().isEmpty() || username.trim().isEmpty() || password.trim().isEmpty()) {
 
-            String title = Message.get(Message.MessageType.Info);
-            String header = Message.get(Message.MessageType.Info);
+            String title = Message.get(Message.MessageType.Error);
+            String header = Message.get(Message.MessageType.Error);
             String message = Message.get(Message.MessageType.Error_FillAllField);
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
         } else {
             Result<Void> result = MainController.getInstance().addCustomer(
                     firstname, lastname, username, password,
