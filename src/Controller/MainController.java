@@ -107,13 +107,13 @@ public class MainController implements Serializable {
      * Wenn addArticle(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
      */
-    public Result<Void> addArticle(String name, int articleNumber, int stock, double price, int packagingUnit) {
+    public Result<Void> addArticle(String name, int stock, double price, int packagingUnit) {
 
         Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
 
-            Result<Article> addArticleResult = _articleController.addArticle(name, articleNumber, stock, price, packagingUnit);
+            Result<Article> addArticleResult = _articleController.addArticle(name, stock, price, packagingUnit);
 
             if (addArticleResult.getState() == Result.State.SUCCESSFULL) {
                 addEvent(addArticleResult.getObject(), stock);
@@ -124,6 +124,39 @@ public class MainController implements Serializable {
 
         return result;
     }
+
+
+    public Result<Void> editArticle(Article article, String name,  double price) {
+
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+
+            Result<Article> editArticleResult = _articleController.editArticle(article, name, price);
+
+//            if (editArticleResult.getState() == Result.State.SUCCESSFULL) {
+//                addEvent(editArticleResult.getObject(), 0);
+//            }
+
+            result = new Result<Void>(editArticleResult.getState(), editArticleResult.getMessage(), null);
+        }
+
+        return result;
+    }
+
+    public Result<Void> removeArticle(Article article) {
+
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+
+            result = _articleController.removeArticle(article);
+        }
+
+        return result;
+    }
+
+
 
     /**
      * Reicht den Funktionsaufruf weiter an ArticleController

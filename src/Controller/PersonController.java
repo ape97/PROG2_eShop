@@ -95,6 +95,25 @@ public class PersonController implements Serializable {
         return result;
     }
 
+    public Result<Void> editEmployee(Employee employee, String firstname, String lastname, String username, String password) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
+        Result<Void> personValuesValidResult = checkPersonValuesValid(employee, firstname, lastname, username, password);
+
+        if (personValuesValidResult.getState() == Result.State.FAILED) {
+            result.setMessage(personValuesValidResult.getMessage());
+        } else {
+            employee.setFirstname(firstname);
+            employee.setLastname(lastname);
+            employee.setUsername(username);
+            employee.setPassword(password);
+
+            result.setState(Result.State.SUCCESSFULL);
+            result.setMessage(Message.get(Message.MessageType.Info_EmployeeEdited));
+        }
+
+        return result;
+    }
+
     /**
      * Neuer Kunde:
      * Prüft die Parameter und erzeugt ein neues Customer-Objekt und fügt dieses der ArrayList _personList hinzu.
@@ -121,6 +140,38 @@ public class PersonController implements Serializable {
             result.setState(Result.State.SUCCESSFULL);
             result.setMessage(Message.get(Message.MessageType.Info_CustomerCreated));
         }
+
+        return result;
+    }
+
+    public Result<Void> editCustomer(Customer customer, String firstname, String lastname, String username, String password, Address address) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
+        Result<Void> personValuesValidResult = checkPersonValuesValid(customer, firstname, lastname, username, password);
+
+        if (personValuesValidResult.getState() == Result.State.FAILED) {
+            result.setMessage(personValuesValidResult.getMessage());
+        } else {
+            customer.setFirstname(firstname);
+            customer.setLastname(lastname);
+            customer.setUsername(username);
+            customer.setPassword(password);
+            customer.setAddress(address);
+
+            result.setState(Result.State.SUCCESSFULL);
+            result.setMessage(Message.get(Message.MessageType.Info_CustomerEdited));
+        }
+
+        return result;
+    }
+
+
+    public Result<Void> removePerson(Customer customer) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
+
+        _personObservableList.remove(customer);
+
+        result.setState(Result.State.SUCCESSFULL);
+        result.setMessage(Message.get(Message.MessageType.Info_PersonRemoved));
 
         return result;
     }
@@ -164,13 +215,17 @@ public class PersonController implements Serializable {
      * Der String gibt die entsprechende (Fehler-) Meldung an.
      */
     private Result<Void> checkPersonValuesValid(String firstname, String lastname, String username, String password) {
+        return checkPersonValuesValid(null, firstname, lastname, username, password);
+    }
+
+    private Result<Void> checkPersonValuesValid(Person person, String firstname, String lastname, String username, String password) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
 
         if (firstname.trim().isEmpty()) {
             result.setMessage(Message.get(Message.MessageType.Error_FirstNameNotEmpty));
         } else if (lastname.trim().isEmpty()) {
             result.setMessage(Message.get(Message.MessageType.Error_LastNameNotEmpty));
-        } else if (checkUsernameExists(username)) {
+        } else if (person.getUsername() != username && checkUsernameExists(username)) { // Prüft ob sich der username nicht geändert hat, dann muss er auch nicht geprüft werden
             result.setMessage(Message.get(Message.MessageType.Error_UsernameExists));
         } else if (!checkUsernameIsValid(username)) {
             result.setMessage(Message.get(Message.MessageType.Error_UsernameInvalid));
