@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import javafx.scene.Node;
 
-public class RegistrierenController {
+public class RegisterCustomerSceneController {
     @FXML
-    private void goRegistrierenLogin(ActionEvent event)throws IOException {
+    private void button_registerLogin(ActionEvent event)throws IOException{
 
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("Employee.fxml"));
+        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("EmployeeScene.fxml"));
 
         Scene scene2 = new Scene(view2);
 
