@@ -9,8 +9,8 @@ public class EditArticleSceneController {
 
     @FXML
     private void button_cancelEditArticle(ActionEvent event) throws IOException {
-        if (EmployeeSceneController.window != null) {
-            EmployeeSceneController.window.close();
-        }
+        //if (EmployeeSceneController.window != null) {
+         //   EmployeeSceneController.window.close();
+        //}
     }
 }

@@ -9,8 +9,8 @@ public class RegisterEmployeeSceneController {
 
     @FXML
     private void button_cancelRegisterEmployee(ActionEvent event) throws IOException {
-        if (EmployeeSceneController.window != null) {
-            EmployeeSceneController.window.close();
-        }
+       // if (EmployeeSceneController.window != null) {
+        //    EmployeeSceneController.window.close();
+        //}
     }
 }

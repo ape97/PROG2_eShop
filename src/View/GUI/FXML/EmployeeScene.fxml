@@ -9,7 +9,7 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TableView layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="436.0" />
+                  <TableView fx:id="tableView_events" layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="436.0" />
                </children></AnchorPane>
       </content>
     </Tab>
