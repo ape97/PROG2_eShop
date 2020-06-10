@@ -225,8 +225,8 @@ public class PersonController implements Serializable {
             result.setMessage(Message.get(Message.MessageType.Error_FirstNameNotEmpty));
         } else if (lastname.trim().isEmpty()) {
             result.setMessage(Message.get(Message.MessageType.Error_LastNameNotEmpty));
-        } else if (person.getUsername() != username && checkUsernameExists(username)) { // Prüft ob sich der username nicht geändert hat, dann muss er auch nicht geprüft werden
-            result.setMessage(Message.get(Message.MessageType.Error_UsernameExists));
+        } else if ((person == null || ( person != null && person.getUsername() != username)) && checkUsernameExists(username)) { // der username nicht geändert hat, dann muss er auch nicht geprüft werden
+                result.setMessage(Message.get(Message.MessageType.Error_UsernameExists));
         } else if (!checkUsernameIsValid(username)) {
             result.setMessage(Message.get(Message.MessageType.Error_UsernameInvalid));
         } else if (!checkPasswordIsValid(password)) {

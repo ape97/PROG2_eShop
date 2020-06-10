@@ -135,6 +135,18 @@ public class Message {
             case Info_EmployeeEdited:
                 result = "Der MItarbeiter wurde editiert.";
                 break;
+            case Info:
+                result = "Information";
+                break;
+            case Error:
+                result = "Fehler";
+                break;
+            case Info_YouWillLoggedIn:
+                result = "Sie werden nun eingeloggt.";
+                break;
+            case Error_FillAllField:
+                result = "Bitte alle Felder ausfüllen.";
+                break;
         }
 
         return result;
@@ -187,7 +199,11 @@ public class Message {
         Info_ArticleRemoved,
         Info_CustomerEdited,
         Info_PersonRemoved,
-        Info_EmployeeEdited
+        Info_EmployeeEdited,
+        Info,
+        Error,
+        Info_YouWillLoggedIn,
+        Error_FillAllField
     }
 
     public enum Language {

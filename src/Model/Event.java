@@ -13,7 +13,7 @@ import java.util.Date;
 public class Event implements Serializable {
     private Date _timeStamp; // Zeitstempel
     //private Article _article; // Der betreffende Artiekl
-    private Person _person; // Person die für die Änderung des Lagerbestandes verantwortlich ist (Kunde beim Kauf, Mitarbeiter beim Buchen neuer Bestände)
+   // private Person _person; // Person die für die Änderung des Lagerbestandes verantwortlich ist (Kunde beim Kauf, Mitarbeiter beim Buchen neuer Bestände)
     private int _stockChangeValue; // Summer der Bestandsveränderung (negativ oder positiv)
 
     // Person wird nicht referenziert, weil TODO
@@ -32,7 +32,7 @@ public class Event implements Serializable {
         _articleNumber = article.getArticleNumber();
         _personId = person.getId();
         _personFirstname = person.getFirstname();
-        _personLastname = _person.getLastname();
+        _personLastname = person.getLastname();
         _stockChangeValue = changeValue;
     }
 

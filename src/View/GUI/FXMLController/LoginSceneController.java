@@ -1,39 +1,51 @@
 package View.GUI.FXMLController;
 
+import Controller.MainController;
+
+import Utilities.JavaFXExtension;
+import Utilities.Message;
+import Utilities.PersonType;
+import Utilities.Result;
+
+import View.GUI.MainSceneController;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import java.io.IOException;
-import javafx.scene.Node;
 
+import java.io.IOException;
 
 public class LoginSceneController {
 
+    @FXML
+    private TextField textField_username;
+    @FXML
+    private TextField textField_password;
 
     @FXML
-    private void button_login(ActionEvent event)throws IOException{
+    private void button_login(ActionEvent event) throws IOException {
+        String username = textField_username.getText();
+        String password = textField_password.getText();
 
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("EmployeeScene.fxml"));
+        Result<PersonType> result = MainController.getInstance().login(username, password);
 
-        Scene scene2 = new Scene(view2);
+        if (result.getState() == Result.State.SUCCESSFULL) {
+            if (result.getObject() == PersonType.Employee) {
+                MainSceneController.showEmployeeScene(this, event);
+            } else {
+                MainSceneController.showCustomerScene(this, event);
+            }
+        } else {
+            String title = Message.get(Message.MessageType.Error);
+            String header = Message.get(Message.MessageType.Error);
+            String message = result.getMessage();
 
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(scene2);
-        window.show();
+            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
+        }
     }
 
     @FXML
-    private void button_customerRegister(ActionEvent event)throws IOException{
-
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("RegisterCustomerScene.fxml"));
-
-        Scene scene2 = new Scene(view2);
-
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(scene2);
-        window.show();
+    private void button_customerRegister(ActionEvent event) throws IOException {
+        MainSceneController.showRegisterCustomerScene(this, event);
     }
 }

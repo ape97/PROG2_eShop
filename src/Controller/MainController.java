@@ -18,7 +18,20 @@ public class MainController implements Serializable {
     private ShoppingCartController _shoppingCartController;
     private BillController _billController;
 
-    public MainController() {
+    // Singelton Implementierung
+    private static MainController _instance;
+    public static MainController getInstance(){
+        if(_instance == null){
+            _instance = new MainController();
+        }
+        return _instance;
+    }
+    // Relevant für das Laden der Daten
+    public static  void setInstance(MainController instance){
+        _instance = instance;
+    }
+
+    private MainController() {
         _personController = new PersonController();
         _addressController = new AddressController();
         _articleController = new ArticleController();
@@ -126,7 +139,7 @@ public class MainController implements Serializable {
     }
 
 
-    public Result<Void> editArticle(Article article, String name,  double price) {
+    public Result<Void> editArticle(Article article, String name, double price) {
 
         Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
@@ -155,7 +168,6 @@ public class MainController implements Serializable {
 
         return result;
     }
-
 
 
     /**
@@ -341,8 +353,6 @@ public class MainController implements Serializable {
 
         return result;
     }*/
-
-
     public Result<ObservableList<Article>> getArticleList() {
         Result<ObservableList<Article>> result = new Result<ObservableList<Article>>(Result.State.SUCCESSFULL, "", null);
 
