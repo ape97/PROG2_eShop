@@ -150,6 +150,9 @@ public class Message {
             case Info_ArticleChangeQuantityInCartSuccess:
                 result = "Artikelanzahl geändert.";
                 break;
+            case Bill:
+                result = "Bill";
+                break;
         }
 
         return result;
@@ -207,7 +210,8 @@ public class Message {
         Error,
         Info_YouWillLoggedIn,
         Error_FillAllField,
-        Info_ArticleChangeQuantityInCartSuccess
+        Info_ArticleChangeQuantityInCartSuccess,
+        Bill
     }
 
     public enum Language {

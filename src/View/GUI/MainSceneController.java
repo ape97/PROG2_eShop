@@ -37,11 +37,6 @@ public class MainSceneController {
         JavaFXExtension.showScene(caller, "AddArticleScene.fxml", stage);
     }
 
-    public static void showEditArticleScene(Object caller, ActionEvent event) throws IOException {
-        Stage stage = JavaFXExtension.getStageByActionEvent(event);
-        JavaFXExtension.showScene(caller, "EditArticleScene.fxml", stage);
-    }
-
     public static void showRegisterEmployeeScene(Object caller, ActionEvent event) throws IOException {
         Stage stage = JavaFXExtension.getStageByActionEvent(event);
         JavaFXExtension.showScene(caller, "RegisterEmployeeScene.fxml", stage);

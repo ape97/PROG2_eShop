@@ -319,7 +319,7 @@ public class MainController implements Serializable {
                     _articleController.updateStock(shoppingCartItem.getArticle(), -numberOfArticles); // Achtung: Negierung der Artikelanzahl -
 
                     totalPrice += shoppingCartItem.getArticle().getPrice() * numberOfArticles;
-                    _billController.addBillPosition(bill, shoppingCartItem.getArticle().toString(false));
+                    _billController.addBillPosition(bill, shoppingCartItem.getArticle().toString(false) + " " + numberOfArticles + " stk");
                 }
                 bill.setTotalPrice(totalPrice);
                 _shoppingCartController.clear(shoppingCart);
@@ -338,7 +338,7 @@ public class MainController implements Serializable {
      * String -> Gibt die entsprechende (Fehler-) Meldung aus.
      */
     public Result<Void> clearShoppingCart() {
-        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Info_ShoppingCartClearSuccess), null);
+        Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ShoppingCartClearSuccess), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
             Customer customer = (Customer) _personController.getRegisteredPerson();

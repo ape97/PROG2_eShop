@@ -39,6 +39,29 @@ public class CustomerSceneController {
         initShoppingCartView();
     }
 
+
+
+
+    @FXML
+    private void button_clearShoppingCart_clicked(ActionEvent event) throws IOException {
+        String title;
+        String header;
+        String message;
+
+        Result<Void> result = MainController.getInstance().clearShoppingCart();
+        message = result.getMessage();
+
+        if (result.getState() == Result.State.SUCCESSFULL) {
+            title = Message.get(Message.MessageType.Info);
+            header = Message.get(Message.MessageType.Info);
+            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+        } else {
+            title = Message.get(Message.MessageType.Error);
+            header = Message.get(Message.MessageType.Error);
+            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
+        }
+    }
+
     @FXML
     private void button_articleAddToCart_clicked(ActionEvent event) throws IOException {
         String title;
@@ -124,9 +147,32 @@ public class CustomerSceneController {
         }
     }
 
+
+    @FXML
+    private void button_logout_clicked(ActionEvent event) throws IOException {
+        MainController.getInstance().logout();
+        MainSceneController.showLoginScene(this, event);
+    }
+
     @FXML
     private void button_buy_clicked(ActionEvent event) throws IOException {
+        Result<Bill> result = MainController.getInstance().buyShoppingCart();
 
+        String title;
+        String header;
+        String message;
+
+        message = result.getMessage();
+
+        if (result.getState() == Result.State.SUCCESSFULL) {
+            title = Message.get(Message.MessageType.Info);
+            header = Message.get(Message.MessageType.Bill);
+            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, result.getObject().toString());
+        } else {
+            title = Message.get(Message.MessageType.Error);
+            header = Message.get(Message.MessageType.Error);
+            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
+        }
     }
 
 

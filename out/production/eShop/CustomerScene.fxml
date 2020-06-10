@@ -11,7 +11,7 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="478.0" style="-fx-background-color: #F6F6F2;">
                     <children>
                         <TableView fx:id="tableView_articles" layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="408.0" style="-fx-background-color: #f6f6f2;" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="22.0" />
-                        <Button fx:id="button_articleAddToCart_clicked" layoutX="489.0" layoutY="170.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde                   ;" text="Hinzufügen" AnchorPane.rightAnchor="19.0">
+                        <Button layoutX="489.0" layoutY="170.0" mnemonicParsing="false" onAction="#button_articleAddToCart_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde                   ;" text="Hinzufügen" AnchorPane.rightAnchor="19.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
@@ -41,6 +41,11 @@
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
+                        <Button layoutX="489.0" layoutY="220.0" mnemonicParsing="false" onAction="#button_clearShoppingCart_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Leeren" AnchorPane.rightAnchor="19.0">
+                            <font>
+                                <Font name="Segoe UI Light" size="14.0" />
+                            </font>
+                        </Button>
                         <TextField fx:id="textField_articleQuantityInCart" layoutX="441.0" layoutY="122.0" prefHeight="29.0" prefWidth="31.0" />
                     </children></AnchorPane>
             </content>
@@ -49,7 +54,7 @@
             <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                     <children>
-                        <Button layoutX="463.0" layoutY="315.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Abmelden" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="45.0">
+                        <Button layoutX="463.0" layoutY="315.0" mnemonicParsing="false" onAction="#button_logout_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Abmelden" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="45.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>

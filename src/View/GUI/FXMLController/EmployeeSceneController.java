@@ -201,4 +201,10 @@ public class EmployeeSceneController {
 
         tableView_articles.setItems(MainController.getInstance().getArticleList().getObject());
     }
+
+    @FXML
+    private void button_logout_clicked(ActionEvent event) throws IOException {
+        MainController.getInstance().logout();
+        MainSceneController.showLoginScene(this, event);
+    }
 }
