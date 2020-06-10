@@ -20,14 +20,16 @@ public class MainController implements Serializable {
 
     // Singelton Implementierung
     private static MainController _instance;
-    public static MainController getInstance(){
-        if(_instance == null){
+
+    public static MainController getInstance() {
+        if (_instance == null) {
             _instance = new MainController();
         }
         return _instance;
     }
+
     // Relevant für das Laden der Daten
-    public static  void setInstance(MainController instance){
+    public static void setInstance(MainController instance) {
         _instance = instance;
     }
 
@@ -40,10 +42,14 @@ public class MainController implements Serializable {
         _billController = new BillController();
     }
 
-    public void InitAfterSerialization(){
+    public void InitAfterSerialization() {
         _personController.InitAfterSerialization();
         _articleController.InitAfterSerialization();
         _eventController.InitAfterSerialization();
+
+        for (Customer customer : _personController.getCustomerList()) {
+            customer.getShoppingCart().initAfterSerialization();
+        }
     }
 
 
@@ -248,8 +254,30 @@ public class MainController implements Serializable {
                 result.setMessage(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
             } else {
                 Customer customer = (Customer) _personController.getRegisteredPerson();
-                result = _shoppingCartController.addArticle(customer.getShoppingCart(), article, numberOfArticles);
+                result = _shoppingCartController.addShoppingCartItem(customer.getShoppingCart(), new ShoppingCartItem(article, numberOfArticles));
             }
+        }
+
+        return result;
+    }
+
+    public Result<Void> addArticleToShoppingCart(Article article, int numberOfArticles) {
+        return addArticleToShoppingCart(article.getArticleNumber(), numberOfArticles);
+    }
+
+    public Result<Void> addArticleToShoppingCart(ShoppingCartItem shoppingCartItem, int numberOfArticles) {
+        return addArticleToShoppingCart(shoppingCartItem.getArticle(), numberOfArticles);
+    }
+
+    public Result<Void> removeArticleFromShoppingCart(ShoppingCartItem shoppingCartItem) {
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
+
+        if (_personController.getRegisteredPersonType() == PersonType.Customer) {
+            Customer customer = (Customer) _personController.getRegisteredPerson();
+           // ShoppingCartItem shoppingCartItem = _shoppingCartController.getShoppingCartItemByArticle(customer.getShoppingCart(),  article);
+            //if (shoppingCartItem != null) {
+                result = _shoppingCartController.removeShoppingCartItem(customer.getShoppingCart(), shoppingCartItem);
+            //}
         }
 
         return result;
@@ -273,8 +301,8 @@ public class MainController implements Serializable {
             Bill bill = _billController.createBill(customer);
 
             // Prüft ob alle Artikel noch auf Lager sind
-            for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
-                boolean articleInStock = _articleController.checkArticleIsStock(article, shoppingCart.getArticleAndQuantityMap().get(article));
+            for (ShoppingCartItem shoppingCartItem : shoppingCart.getShoppingCartItemList()) {
+                boolean articleInStock = _articleController.checkArticleIsStock(shoppingCartItem.getArticle(), shoppingCartItem.getQuantity());
                 if (!articleInStock) {
                     result.setState(Result.State.FAILED);
                     result.setMessage(Message.get(Message.MessageType.Error_ArticleStockCartNotEnough));
@@ -285,13 +313,13 @@ public class MainController implements Serializable {
             // Lagerbestand der Artikel wird angepasst, sofern der booleanStringResult Wert nicht auf false gesetzt wurde
             if (result.getState() == Result.State.SUCCESSFULL) {
                 double totalPrice = 0;
-                for (Article article : shoppingCart.getArticleAndQuantityMap().keySet()) {
+                for (ShoppingCartItem shoppingCartItem : shoppingCart.getShoppingCartItemList()) {
                     // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf Employee prüft
-                    int numberOfArticles = shoppingCart.getArticleAndQuantityMap().get(article);
-                    _articleController.updateStock(article, -numberOfArticles); // Achtung: Negierung der Artikelanzahl -
+                    int numberOfArticles = shoppingCartItem.getQuantity();
+                    _articleController.updateStock(shoppingCartItem.getArticle(), -numberOfArticles); // Achtung: Negierung der Artikelanzahl -
 
-                    totalPrice += article.getPrice() * numberOfArticles;
-                    _billController.addBillPosition(bill, article.toString(false));
+                    totalPrice += shoppingCartItem.getArticle().getPrice() * numberOfArticles;
+                    _billController.addBillPosition(bill, shoppingCartItem.getArticle().toString(false));
                 }
                 bill.setTotalPrice(totalPrice);
                 _shoppingCartController.clear(shoppingCart);
@@ -330,12 +358,12 @@ public class MainController implements Serializable {
      * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
      * String --> enthält die Fehlermeldung oder das ShppoingCart als String
      */
-    public Result<Void> getShoppingCartString() {
-        Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, "", null);
+    public Result<ShoppingCart> getShoppingCart() {
+        Result<ShoppingCart> result = new Result<ShoppingCart>(Result.State.SUCCESSFULL, "", null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
             Customer customer = (Customer) _personController.getRegisteredPerson();
-            result.setMessage(customer.getShoppingCart().toString());
+            result.setObject(customer.getShoppingCart());
         } else {
             result.setState(Result.State.FAILED);
             result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));

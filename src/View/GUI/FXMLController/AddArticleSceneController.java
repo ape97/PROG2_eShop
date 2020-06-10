@@ -26,7 +26,6 @@ public class AddArticleSceneController {
 
     @FXML
     private void button_add_clicked(ActionEvent event) throws IOException {
-
         String title;
         String header;
         String message;

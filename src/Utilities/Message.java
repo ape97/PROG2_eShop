@@ -147,6 +147,9 @@ public class Message {
             case Error_FillAllField:
                 result = "Bitte alle Felder ausfüllen.";
                 break;
+            case Info_ArticleChangeQuantityInCartSuccess:
+                result = "Artikelanzahl geändert.";
+                break;
         }
 
         return result;
@@ -203,7 +206,8 @@ public class Message {
         Info,
         Error,
         Info_YouWillLoggedIn,
-        Error_FillAllField
+        Error_FillAllField,
+        Info_ArticleChangeQuantityInCartSuccess
     }
 
     public enum Language {
