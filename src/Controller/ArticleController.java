@@ -65,7 +65,7 @@ public class ArticleController implements Serializable {
                 article = new Article(name, articleNumber, stock, price);
             }
 
-            _articleList.add(article);
+            _articleObservableList.add(article);
 
             result.setState(Result.State.SUCCESSFULL);
             result.setMessage(Message.get(Message.MessageType.Info_ArticleCreated));
@@ -98,7 +98,7 @@ public class ArticleController implements Serializable {
     public Result<Void> removeArticle(Article article) {
         Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ArticleRemoved), null);
 
-        _articleList.remove(article);
+        _articleObservableList.remove(article);
 
         return result;
     }
@@ -174,7 +174,7 @@ public class ArticleController implements Serializable {
     private boolean checkArticleNumberExists(int articleNumber) {
         boolean result = false;
 
-        for (Article article : _articleList) {
+        for (Article article : _articleObservableList) {
             if (article.getArticleNumber() == articleNumber) {
                 result = true;
                 break;
@@ -227,7 +227,7 @@ public class ArticleController implements Serializable {
     public Article getArticleByArticleNumber(int articleNumber) {
         Article articleResult = null;
 
-        for (Article article : _articleList) {
+        for (Article article : _articleObservableList) {
             if (article.getArticleNumber() == articleNumber) {
                 articleResult = article;
                 break;
@@ -289,7 +289,7 @@ public class ArticleController implements Serializable {
     }*/
     private int generateArticleNumber() {
         int articleNumber = 0;
-        for (Article article : _articleList) {
+        for (Article article : _articleObservableList) {
             if (article.getArticleNumber() >= articleNumber) {
                 articleNumber = article.getArticleNumber() + 1;
             }

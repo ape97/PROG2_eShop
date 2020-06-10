@@ -3,6 +3,8 @@ package View.GUI.FXMLController;
 import Controller.MainController;
 import Model.Article;
 import Model.Event;
+import Utilities.Message;
+import Utilities.Result;
 import View.GUI.MainSceneController;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -12,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -49,9 +52,19 @@ public class EmployeeSceneController {
 
     @FXML
     private void button_removeArticle(ActionEvent event) throws IOException {
+        Object selectedItem = tableView_articles.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            Article article = (Article) selectedItem;
+            Result<Void> result = MainController.getInstance().removeArticle(article);
 
+            String title = Message.get(Message.MessageType.Info);
+            String header = Message.get(Message.MessageType.Info);
+            String message = result.getMessage();
 
+            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+        }
     }
+
 
     @FXML
     private void button_addEmployee(ActionEvent event) throws IOException {
@@ -96,7 +109,7 @@ public class EmployeeSceneController {
         columnPersonId.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getPersonId()));
         tableView_events.getColumns().add(columnPersonId);
 
-        TableColumn<Event, String> columnFirstname= new TableColumn<>("Vorname");
+        TableColumn<Event, String> columnFirstname = new TableColumn<>("Vorname");
         columnFirstname.setEditable(false);
         columnFirstname.setSortable(true);
         columnFirstname.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPersonFirstname()));
@@ -124,7 +137,7 @@ public class EmployeeSceneController {
         columnArticlenumber.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getArticleNumber()));
         tableView_articles.getColumns().add(columnArticlenumber);
 
-        TableColumn<Article, Integer> columnStock= new TableColumn<>("Lagerbestand");
+        TableColumn<Article, Integer> columnStock = new TableColumn<>("Lagerbestand");
         columnStock.setEditable(false);
         columnStock.setSortable(true);
         columnStock.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getStock()));
