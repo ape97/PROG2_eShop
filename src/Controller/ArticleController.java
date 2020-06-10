@@ -13,6 +13,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Observable;
 
 /**
  * WARNING: Sollte nur vom MainController verwendet werden
@@ -21,7 +22,7 @@ import java.util.Comparator;
 public class ArticleController implements Serializable {
 
     private ArrayList<Article> _articleList;
-    private transient  ObservableList<Article> _articleObservableList;
+    private transient ObservableList<Article> _articleObservableList;
 
     private boolean result;
 
@@ -33,9 +34,19 @@ public class ArticleController implements Serializable {
         _articleObservableList = FXCollections.observableList(_articleList);
     }
 
-    public void InitAfterSerialization(){
+    public void InitAfterSerialization() {
         _articleObservableList = FXCollections.observableList(_articleList);
+
+        _articleObservableList.addListener(new ListChangeListener<Article>() {
+            @Override
+            public void onChanged(javafx.collections.ListChangeListener.Change<? extends Article> c) {
+
+            }
+        });
+
+
     }
+
 
     /**
      * Neuer Artikel:
@@ -107,8 +118,6 @@ public class ArticleController implements Serializable {
 
         return result;
     }
-
-
 
 
     /**

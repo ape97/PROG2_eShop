@@ -62,7 +62,6 @@ public class PersonController implements Serializable {
      */
     public PersonController() {
         _personList = new ArrayList<>();
-        System.out.println("KONSTRU");
         _personObservableList = FXCollections.observableList(_personList);
         _personList.add(new Employee("admin", "admin", 0, "admin", "admin"));
         _personList.add(new Customer("kunde", "kunde", 99, "kunde", "kunde", new Address("", "", "", "")));
@@ -71,12 +70,12 @@ public class PersonController implements Serializable {
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
                 refreshEmployeeAndCustomerObservableList();
-
             }
         });
 
         refreshEmployeeAndCustomerObservableList();
     }
+
 
     public void InitAfterSerialization(){
         _personObservableList = FXCollections.observableList(_personList);
@@ -84,9 +83,10 @@ public class PersonController implements Serializable {
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
                 refreshEmployeeAndCustomerObservableList();
-
             }
         });
+
+
 
         refreshEmployeeAndCustomerObservableList();
     }

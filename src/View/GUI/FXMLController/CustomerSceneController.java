@@ -60,6 +60,8 @@ public class CustomerSceneController {
             header = Message.get(Message.MessageType.Error);
             MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
         }
+
+        tableView_shoppingCart.refresh();
     }
 
     @FXML
@@ -94,6 +96,8 @@ public class CustomerSceneController {
                 MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
             }
         }
+
+        tableView_shoppingCart.refresh();
     }
 
     @FXML
@@ -130,6 +134,8 @@ public class CustomerSceneController {
                 MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
             }
         }
+
+        tableView_shoppingCart.refresh();
     }
 
     @FXML
@@ -145,6 +151,8 @@ public class CustomerSceneController {
 
             MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
         }
+
+        tableView_shoppingCart.refresh();
     }
 
 
@@ -173,6 +181,8 @@ public class CustomerSceneController {
             header = Message.get(Message.MessageType.Error);
             MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
         }
+
+        tableView_articles.refresh();
     }
 
 

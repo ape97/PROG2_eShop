@@ -82,6 +82,8 @@ public class AddArticleSceneController {
                 MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
             }
         }
+
+
     }
 
     @FXML
