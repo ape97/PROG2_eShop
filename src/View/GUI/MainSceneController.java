@@ -42,6 +42,11 @@ public class MainSceneController {
         JavaFXExtension.showScene(caller, "EditArticleScene.fxml", stage);
     }
 
+    public static void showRegisterEmployeeScene(Object caller, ActionEvent event) throws IOException {
+        Stage stage = JavaFXExtension.getStageByActionEvent(event);
+        JavaFXExtension.showScene(caller, "RegisterEmployeeScene.fxml", stage);
+    }
+
     public static void showMessageBox(Alert.AlertType alertType, String title, String header, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

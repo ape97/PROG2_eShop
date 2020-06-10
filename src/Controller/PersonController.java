@@ -21,25 +21,36 @@ import java.util.ArrayList;
 public class PersonController implements Serializable {
 
     private ArrayList<Person> _personList;
-    private ObservableList<Person> _personObservableList;
+    private transient ObservableList<Person> _personObservableList;
 
-    private ObservableList<Employee> _employeeObservableList;
-    private ObservableList<Customer> _customerObservableList;
+    private transient ObservableList<Employee> _employeeObservableList;
+    private transient ObservableList<Customer> _customerObservableList;
 
     private void refreshEmployeeAndCustomerObservableList() {
-        ArrayList<Employee> employeeList = new ArrayList<>();
-        ArrayList<Customer> customerList = new ArrayList<>();
 
-        for (Person person : _personList) {
+       if(_employeeObservableList == null){
+           ArrayList<Employee> employeeList = new ArrayList<>();
+           _employeeObservableList = FXCollections.observableList(employeeList);
+       }
+
+       if(_customerObservableList == null){
+           ArrayList<Customer> customerList = new ArrayList<>();
+           _customerObservableList = FXCollections.observableList(customerList);
+       }
+
+        _employeeObservableList.clear();
+        _customerObservableList.clear();
+
+        for (Person person : _personObservableList) {
             if (getPersonTypeByPerson(person) == PersonType.Employee) {
-                employeeList.add((Employee) person);
+                _employeeObservableList.add((Employee) person);
             } else {
-                customerList.add((Customer) person);
+                _customerObservableList.add((Customer) person);
             }
         }
 
-        _employeeObservableList = FXCollections.observableList(employeeList);
-        _customerObservableList = FXCollections.observableList(customerList);
+        //_employeeObservableList = FXCollections.observableList(employeeList);
+        //_customerObservableList = FXCollections.observableList(customerList);
     }
 
     private Person _registeredPerson; // Angemeldete Person
@@ -51,19 +62,35 @@ public class PersonController implements Serializable {
      */
     public PersonController() {
         _personList = new ArrayList<>();
+        System.out.println("KONSTRU");
         _personObservableList = FXCollections.observableList(_personList);
         _personList.add(new Employee("admin", "admin", 0, "admin", "admin"));
+        _personList.add(new Customer("kunde", "kunde", 99, "kunde", "kunde", new Address("", "", "", "")));
 
         _personObservableList.addListener(new ListChangeListener<Person>() {
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
-                System.out.println("NEUE PERSON LOLOL");
                 refreshEmployeeAndCustomerObservableList();
+
             }
         });
 
         refreshEmployeeAndCustomerObservableList();
     }
+
+    public void InitAfterSerialization(){
+        _personObservableList = FXCollections.observableList(_personList);
+        _personObservableList.addListener(new ListChangeListener<Person>() {
+            @Override
+            public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
+                refreshEmployeeAndCustomerObservableList();
+
+            }
+        });
+
+        refreshEmployeeAndCustomerObservableList();
+    }
+
 
     /**
      * Neuer Mitarbeiter:
@@ -86,7 +113,7 @@ public class PersonController implements Serializable {
             result.setMessage(personValuesValidResult.getMessage());
         } else {
             Employee employee = new Employee(firstname, lastname, generatePersonId(), username, password);
-            _personList.add(employee);
+            _personObservableList.add(employee);
 
             result.setState(Result.State.SUCCESSFULL);
             result.setMessage(Message.get(Message.MessageType.Info_EmployeeCreated));
@@ -135,7 +162,7 @@ public class PersonController implements Serializable {
             result.setMessage(personValuesValidResult.getMessage());
         } else {
             Customer customer = new Customer(firstname, lastname, generatePersonId(), username, password, address);
-            _personList.add(customer);
+            _personObservableList.add(customer);
 
             result.setState(Result.State.SUCCESSFULL);
             result.setMessage(Message.get(Message.MessageType.Info_CustomerCreated));
@@ -165,10 +192,10 @@ public class PersonController implements Serializable {
     }
 
 
-    public Result<Void> removePerson(Customer customer) {
+    public Result<Void> removePerson(Person person) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
 
-        _personObservableList.remove(customer);
+        _personObservableList.remove(person);
 
         result.setState(Result.State.SUCCESSFULL);
         result.setMessage(Message.get(Message.MessageType.Info_PersonRemoved));

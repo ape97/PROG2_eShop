@@ -23,8 +23,10 @@ public class DataWriterReader {
             fileOutputStream.flush();
             fileOutputStream.close();
         } catch (FileNotFoundException ex) {
-            //TODO
+           System.out.println(ex);
+           //TODO
         } catch (IOException ex) {
+            System.out.println(ex);
             //TODO
         }
     }
@@ -43,10 +45,13 @@ public class DataWriterReader {
 
         } catch (FileNotFoundException ex) {
             //TODO
+            System.out.println(ex);
         } catch (IOException ex) {
             //TODO
+            System.out.println(ex);
         } catch (ClassNotFoundException ex) {
             //TODO
+            System.out.println(ex);
         }
 
         return object;

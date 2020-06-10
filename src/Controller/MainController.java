@@ -40,6 +40,12 @@ public class MainController implements Serializable {
         _billController = new BillController();
     }
 
+    public void InitAfterSerialization(){
+        _personController.InitAfterSerialization();
+        _articleController.InitAfterSerialization();
+        _eventController.InitAfterSerialization();
+    }
+
 
     // TEST FOR FX
 
@@ -81,6 +87,18 @@ public class MainController implements Serializable {
             } else {
                 result = _personController.addCustomer(firstname, lastname, username, password, (Address) createAddressResult.getObject());
             }
+        }
+
+        return result;
+    }
+
+    public Result<Void> removePerson(Person person) {
+
+        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+
+            result = _personController.removePerson(person);
         }
 
         return result;

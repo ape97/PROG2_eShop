@@ -5,6 +5,7 @@ import Model.BulkArticle;
 import Model.Person;
 import Utilities.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
@@ -20,7 +21,7 @@ import java.util.Comparator;
 public class ArticleController implements Serializable {
 
     private ArrayList<Article> _articleList;
-    private ObservableList<Article> _articleObservableList;
+    private transient  ObservableList<Article> _articleObservableList;
 
     private boolean result;
 
@@ -29,6 +30,10 @@ public class ArticleController implements Serializable {
      */
     public ArticleController() {
         _articleList = new ArrayList<>();
+        _articleObservableList = FXCollections.observableList(_articleList);
+    }
+
+    public void InitAfterSerialization(){
         _articleObservableList = FXCollections.observableList(_articleList);
     }
 

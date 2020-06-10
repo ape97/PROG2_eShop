@@ -19,11 +19,15 @@ import java.util.Comparator;
  */
 public class EventController implements Serializable {
     private ArrayList<Event> _eventList;
-    private ObservableList<Event> _eventObservableList;
+    private transient  ObservableList<Event> _eventObservableList;
 
     public EventController()
     {
         _eventList = new ArrayList<>();
+        _eventObservableList = FXCollections.observableList(_eventList);
+    }
+
+    public void InitAfterSerialization(){
         _eventObservableList = FXCollections.observableList(_eventList);
     }
 
@@ -81,8 +85,7 @@ public class EventController implements Serializable {
          * Je nachdem welcher SortMode in _eventSortMode festgelegt ist,
          * werden die Events anders verglichen.
          *
-         * @param o1 Event 1 zum vergleichen
-         * @param o2 Event 2 zum vergleichen
+
          * @return https://www.javatpoint.com/java-string-compareto
          *//*
         @Override

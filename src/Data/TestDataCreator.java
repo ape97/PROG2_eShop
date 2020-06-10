@@ -11,6 +11,7 @@ public class TestDataCreator {
     }
 
     public void createData(){
+        System.out.println("TEST DATEN GENERIEREN!");
         createEmployees();
         createCustomers();
         createArticles();

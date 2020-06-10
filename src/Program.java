@@ -14,14 +14,20 @@ public class Program {
             TestDataCreator testDataCreator = new TestDataCreator(MainController.getInstance());
             testDataCreator.createData();
         } else {
+            System.out.println("LOAD");
             MainController.setInstance((MainController) loadObject);
+            MainController.getInstance().InitAfterSerialization();
         }
 
        /* CUIController cuiController = new CUIController(mainController);
         cuiController.runMainMenu();*/
         Application.launch(MainFrame.class, args);
 
+
         MainController.getInstance().logout();
+
+        //Object test = MainController.getInstance()._personController._personList;
+
         dataWriterReader.save(MainController.getInstance());
     }
 }
