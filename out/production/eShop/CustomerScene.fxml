@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F6F6F2;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.FXMLController.CustomerSceneController">
+    <tabs>
+        <Tab style="-fx-background-color: #bacee7;" text="Artikel anzeigen">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="478.0" style="-fx-background-color: #F6F6F2;">
+                    <children>
+                        <TableView fx:id="tableView_articles" layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="408.0" style="-fx-background-color: #f6f6f2;" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="22.0" />
+                        <Button layoutX="489.0" layoutY="170.0" mnemonicParsing="false" onAction="#button_articleAddToCart_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde                   ;" text="Hinzufügen" AnchorPane.rightAnchor="19.0">
+                            <font>
+                                <Font name="Segoe UI Light" size="14.0" />
+                            </font>
+                        </Button>
+                        <TextField fx:id="textField_articleQuantity" layoutX="441.0" layoutY="172.0" prefHeight="29.0" prefWidth="31.0" AnchorPane.rightAnchor="128.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+        <Tab style="-fx-background-color: #bacee7;" text="Warenkorb">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <TableView fx:id="tableView_shoppingCart" layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="408.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="22.0" />
+                        <Button layoutX="489.0" layoutY="120.0" mnemonicParsing="false" onAction="#button_articleChangeQuantityInCart_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Ändern" AnchorPane.rightAnchor="19.0">
+                            <font>
+                                <Font name="Segoe UI Light" size="14.0" />
+                            </font>
+                        </Button>
+                        <Button layoutX="472.0" layoutY="306.0" mnemonicParsing="false" onAction="#button_buy_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Kaufen" AnchorPane.rightAnchor="36.0">
+                            <font>
+                                <Font name="Segoe UI Light" size="14.0" />
+                            </font>
+                        </Button>
+                        <Button layoutX="489.0" layoutY="170.0" mnemonicParsing="false" onAction="#button_articleRemoveFromCart_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Entfernen" AnchorPane.rightAnchor="19.0">
+                            <font>
+                                <Font name="Segoe UI Light" size="14.0" />
+                            </font>
+                        </Button>
+                        <Button layoutX="489.0" layoutY="220.0" mnemonicParsing="false" onAction="#button_clearShoppingCart_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Leeren" AnchorPane.rightAnchor="19.0">
+                            <font>
+                                <Font name="Segoe UI Light" size="14.0" />
+                            </font>
+                        </Button>
+                        <TextField fx:id="textField_articleQuantityInCart" layoutX="441.0" layoutY="122.0" prefHeight="29.0" prefWidth="31.0" />
+                    </children></AnchorPane>
+            </content>
+        </Tab>
+        <Tab style="-fx-background-color: #bacee7;" text="Profil verwalten">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Button layoutX="463.0" layoutY="315.0" mnemonicParsing="false" onAction="#button_logout_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Abmelden" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="45.0">
+                            <font>
+                                <Font name="Segoe UI Light" size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>

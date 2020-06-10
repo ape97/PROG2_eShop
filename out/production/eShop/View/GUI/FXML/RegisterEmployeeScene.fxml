@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="489.0" style="-fx-background-color: #F6F6F2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.FXMLController.RegisterEmployeeSceneController">
+   <children>
+      <TextField fx:id="textField_lastname" layoutX="158.0" layoutY="138.0" prefHeight="25.0" prefWidth="203.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="39.0" />
+      <TextField fx:id="textField_firstname" layoutX="158.0" layoutY="103.0" prefHeight="25.0" prefWidth="292.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="39.0" />
+      <TextField fx:id="textField_username" layoutX="158.0" layoutY="171.0" prefHeight="25.0" prefWidth="203.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="39.0" />
+      <TextField fx:id="textField_password" layoutX="158.0" layoutY="205.0" prefHeight="25.0" prefWidth="203.0" AnchorPane.leftAnchor="158.0" AnchorPane.rightAnchor="39.0" />
+      <Label layoutX="169.0" layoutY="36.0" prefHeight="45.0" prefWidth="152.0" text="Hinzufügen" AnchorPane.leftAnchor="169.0" AnchorPane.rightAnchor="168.0">
+         <font>
+            <Font name="Segoe UI Light" size="30.0" />
+         </font></Label>
+      <Label layoutX="93.0" layoutY="107.0" text="Vorname">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="62.0" layoutY="175.0" text="Benutzername">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="83.0" layoutY="142.0" text="Nachname">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="94.0" layoutY="209.0" text="Passwort">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Button layoutX="281.0" layoutY="312.0" mnemonicParsing="false" onAction="#button_add_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #BADFE7;" text="Bestätigen" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="116.0">
+         <font>
+            <Font name="Segoe UI Light" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="383.0" layoutY="312.0" mnemonicParsing="false" onAction="#button_cancel_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #BADFE7;" text="Abbrechen" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="14.0">
+         <font>
+            <Font name="Segoe UI Light" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

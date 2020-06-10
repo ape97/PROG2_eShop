@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="329.0" minWidth="476.0" prefHeight="381.0" prefWidth="566.0" style="-fx-background-color: #F6F6F2;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.GUI.FXMLController.RegisterCustomerSceneController">
+   <children>
+      <TextField layoutX="-103.0" layoutY="-108.0" />
+      <TextField fx:id="textField_lastname" layoutX="200.0" layoutY="133.0" prefHeight="25.0" prefWidth="189.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="177.0" />
+      <TextField fx:id="textField_firstname" layoutX="200.0" layoutY="100.0" prefHeight="25.0" prefWidth="189.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="177.0" />
+      <TextField fx:id="textField_street" layoutX="200.0" layoutY="232.0" prefHeight="25.0" prefWidth="134.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="232.0" />
+      <TextField fx:id="textField_housenumber" layoutX="342.0" layoutY="232.0" prefHeight="25.0" prefWidth="49.0" AnchorPane.rightAnchor="175.0" />
+      <TextField fx:id="textField_username" layoutX="200.0" layoutY="166.0" prefHeight="25.0" prefWidth="189.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="177.0" />
+      <TextField fx:id="textField_password" layoutX="200.0" layoutY="199.0" prefHeight="25.0" prefWidth="189.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="177.0" />
+      <TextField fx:id="textField_postcode" layoutX="200.0" layoutY="265.0" prefHeight="25.0" prefWidth="189.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="177.0" />
+      <TextField fx:id="textField_city" layoutX="200.0" layoutY="298.0" prefHeight="25.0" prefWidth="189.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="177.0" />
+      <Label layoutX="120.0" layoutY="269.0" text="Postleitzahl" AnchorPane.leftAnchor="120.0">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="134.0" layoutY="104.0" text="Vorname" AnchorPane.leftAnchor="134.0">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="104.0" layoutY="171.0" text="Benutzername" AnchorPane.leftAnchor="104.0">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="62.0" layoutY="236.0" text="Straße / Hausnummer" AnchorPane.leftAnchor="62.0">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="125.0" layoutY="137.0" text="Nachname" AnchorPane.leftAnchor="125.0">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="135.0" layoutY="203.0" text="Passwort" AnchorPane.leftAnchor="135.0">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Label layoutX="156.0" layoutY="302.0" text="Stadt" AnchorPane.leftAnchor="156.0">
+         <font>
+            <Font name="Segoe UI" size="13.0" />
+         </font></Label>
+      <Button layoutX="431.0" layoutY="163.0" mnemonicParsing="false" onAction="#button_cancel_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #BADFE7;" text="Abbrechen" AnchorPane.rightAnchor="43.0">
+         <font>
+            <Font name="Segoe UI Light" size="14.0" />
+         </font>
+      </Button>
+      <Button layoutX="465.0" layoutY="221.0" mnemonicParsing="false" onAction="#button_register_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #BADFE7;" text="Registrieren" AnchorPane.rightAnchor="43.0">
+         <font>
+            <Font name="Segoe UI Light" size="14.0" />
+         </font>
+      </Button>
+      <Label layoutX="221.0" layoutY="33.0" text="Registrieren">
+         <font>
+            <Font name="Segoe UI Light" size="30.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

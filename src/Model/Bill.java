@@ -32,11 +32,12 @@ public class Bill implements Serializable {
     public String toString() {
         String result = _timeStamp.toString() + "\n" + _customer.getFirstname() + " " + _customer.getLastname();
         result += "\n" + _customer.getAddress().toString();
-        result += Message.get(Message.MessageType.TotalPrice) + ": " + _totalPrice + "€";
 
         for (String billPosition : _invoiceItems) {
             result += "\n" + billPosition;
         }
+
+        result += "\n" + "\n" + Message.get(Message.MessageType.TotalPrice) + ": " + _totalPrice + "€";
 
         return result;
     }

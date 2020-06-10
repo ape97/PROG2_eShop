@@ -5,7 +5,6 @@
  **/
 
 
-
 package Model;
 
 public class Customer extends Person {
@@ -20,6 +19,10 @@ public class Customer extends Person {
 
     public Address getAddress() {
         return _address;
+    }
+
+    public void setAddress(Address address) {
+        _address = address;
     }
 
     public ShoppingCart getShoppingCart() {

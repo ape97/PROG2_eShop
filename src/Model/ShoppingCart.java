@@ -6,27 +6,29 @@
 
 package Model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShoppingCart implements Serializable {
-    private HashMap<Article, Integer> _articleAndQuantityMap;
+    private ArrayList<ShoppingCartItem> _shoppingCartItemList;
+    private transient ObservableList<ShoppingCartItem> _shoppingCartObservableList;
 
-    public ShoppingCart() {
-        _articleAndQuantityMap = new HashMap<>();
+    public ShoppingCart()
+    {
+        _shoppingCartItemList = new ArrayList();
+        _shoppingCartObservableList = FXCollections.observableList(_shoppingCartItemList);
     }
 
-    public HashMap<Article, Integer> getArticleAndQuantityMap() {
-        return _articleAndQuantityMap;
+    public void initAfterSerialization(){
+        _shoppingCartObservableList = FXCollections.observableList(_shoppingCartItemList);
     }
 
-    public String toString() {
-        String result = "";
-
-        for (Article article : _articleAndQuantityMap.keySet()) {
-            result += article.toString(false) + "Anzahl: " +  _articleAndQuantityMap.get(article) + "\n";
-        }
-
-        return result;
+    public ObservableList<ShoppingCartItem> getShoppingCartItemList() {
+        return _shoppingCartObservableList;
     }
+
 }

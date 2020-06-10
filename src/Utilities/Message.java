@@ -90,6 +90,9 @@ public class Message {
             case Info_ArticleAddedToCart:
                 result = "Der Artikel wurde dem Warenkorb hinzugefügt.";
                 break;
+            case Info_ArticleEdited:
+                result = "Der Artikel wurde erfolgreich editiert.";
+                break;
             case Error_ArticleNumberNotFound:
                 result = "Es wurde kein Artikel unter der angegebenen Artikelnummer gefunden.";
                 break;
@@ -101,6 +104,9 @@ public class Message {
                 break;
             case Info_ArticleRemovedFromCartSuccess:
                 result = "Artikel erfolgreich aus dem Warenkorb entfernt.";
+                break;
+            case Info_ArticleRemoved:
+                result = "Artikel erfolgreich gelöscht";
                 break;
             case Error_ArticleItemNumberNotZero:
                 result = "Artikel Anzahl darf nicht negativ sein.";
@@ -119,6 +125,33 @@ public class Message {
                 break;
             case Error_ArticleStockNotMatchPackagingUnit:
                 result = "Artikel Anzahl stimmt nicht mit der Verpackungseinheit überein.";
+                break;
+            case Info_CustomerEdited:
+                result = "Der Kunde wurde erfolgreich editiert.";
+                break;
+            case Info_PersonRemoved:
+                result = "Person wurde erfolgreich gelöscht";
+                break;
+            case Info_EmployeeEdited:
+                result = "Der MItarbeiter wurde editiert.";
+                break;
+            case Info:
+                result = "Information";
+                break;
+            case Error:
+                result = "Fehler";
+                break;
+            case Info_YouWillLoggedIn:
+                result = "Sie werden nun eingeloggt.";
+                break;
+            case Error_FillAllField:
+                result = "Bitte alle Felder ausfüllen.";
+                break;
+            case Info_ArticleChangeQuantityInCartSuccess:
+                result = "Artikelanzahl geändert.";
+                break;
+            case Bill:
+                result = "Bill";
                 break;
         }
 
@@ -145,6 +178,7 @@ public class Message {
         Error_ArticlePriceGreaterThanZero,
         Error_ArticleNumberExists,
         Info_ArticleCreated,
+        Info_ArticleEdited,
         Error_ChangeValueNotZero,
         Info_EmployeeCreated,
         Info_CustomerCreated,
@@ -167,7 +201,17 @@ public class Message {
         Error_ArticleStockCartNotEnough,
         Info_ShoppingCartClearSuccess,
         Info_ArticleStockChanged,
-        Error_ArticleStockNotMatchPackagingUnit
+        Error_ArticleStockNotMatchPackagingUnit,
+        Info_ArticleRemoved,
+        Info_CustomerEdited,
+        Info_PersonRemoved,
+        Info_EmployeeEdited,
+        Info,
+        Error,
+        Info_YouWillLoggedIn,
+        Error_FillAllField,
+        Info_ArticleChangeQuantityInCartSuccess,
+        Bill
     }
 
     public enum Language {

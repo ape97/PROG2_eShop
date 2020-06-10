@@ -1,8 +1,8 @@
 package Controller;
 
 import Model.Address;
-import Utilities.BooleanStringObject;
 import Utilities.Message;
+import Utilities.Result;
 
 import java.io.Serializable;
 
@@ -25,25 +25,25 @@ public class AddressController implements Serializable {
      * Der String gibt die entsprechende Meldung an, z.B. den Grund weshalb die Adresse nicht erzeugt werden konnte
      * Das Object gibt das Address-Objekt zurück, sofern es erstellt werden konnte, ansonsten null
      */
-    public BooleanStringObject createAddress(String street, String houseNumber, String postCode, String city) {
-        BooleanStringObject booleanStringObjectResult = new BooleanStringObject(false, "", null);
+    public Result<Address> createAddress(String street, String houseNumber, String postCode, String city) {
+        Result<Address> result = new Result<Address>(Result.State.FAILED, "", null);
 
         if (street.trim().isEmpty()) {
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_StreetNotEmpty));
+            result.setMessage(Message.get(Message.MessageType.Error_StreetNotEmpty));
         } else if (houseNumber.trim().isEmpty()) {
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_HouseNumberNotEmpty));
+            result.setMessage(Message.get(Message.MessageType.Error_HouseNumberNotEmpty));
         } else if (postCode.trim().isEmpty()) {
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_PostCodeNotEmpty));
+            result.setMessage(Message.get(Message.MessageType.Error_PostCodeNotEmpty));
         } else if (city.trim().isEmpty()) {
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Error_CityNotEmpty));
+            result.setMessage(Message.get(Message.MessageType.Error_CityNotEmpty));
         } else{
             Address address = new Address(street, houseNumber, postCode, city);
 
-            booleanStringObjectResult.setValueB(true);
-            booleanStringObjectResult.setValueS(Message.get(Message.MessageType.Info_AddressCreated));
-            booleanStringObjectResult.setValueO(address);
+            result.setState(Result.State.SUCCESSFULL);
+            result.setMessage(Message.get(Message.MessageType.Info_AddressCreated));
+            result.setObject(address);
         }
 
-        return booleanStringObjectResult;
+        return result;
     }
 }
