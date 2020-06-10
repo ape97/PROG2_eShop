@@ -8,6 +8,7 @@ import Utilities.Message;
 import Utilities.PersonType;
 import Utilities.Result;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
@@ -22,13 +23,26 @@ public class PersonController implements Serializable {
     private ArrayList<Person> _personList;
     private ObservableList<Person> _personObservableList;
 
-    private Person _registeredPerson; // Angemeldete Person
+    private ObservableList<Employee> _employeeObservableList;
+    private ObservableList<Customer> _customerObservableList;
 
+    private void refreshEmployeeAndCustomerObservableList() {
+        ArrayList<Employee> employeeList = new ArrayList<>();
+        ArrayList<Customer> customerList = new ArrayList<>();
 
-    // TEST FOR FX
-    public ObservableList<Person> getEmployeeList(){
-        return _personObservableList;
+        for (Person person : _personList) {
+            if (getPersonTypeByPerson(person) == PersonType.Employee) {
+                employeeList.add((Employee) person);
+            } else {
+                customerList.add((Customer) person);
+            }
+        }
+
+        _employeeObservableList = FXCollections.observableList(employeeList);
+        _customerObservableList = FXCollections.observableList(customerList);
     }
+
+    private Person _registeredPerson; // Angemeldete Person
 
     /**
      * Der Konstruktor erzeugt eine leere ArrayList _personList für Person-Objekte.
@@ -39,6 +53,16 @@ public class PersonController implements Serializable {
         _personList = new ArrayList<>();
         _personObservableList = FXCollections.observableList(_personList);
         _personList.add(new Employee("admin", "admin", 0, "admin", "admin"));
+
+        _personObservableList.addListener(new ListChangeListener<Person>() {
+            @Override
+            public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
+                System.out.println("NEUE PERSON LOLOL");
+                refreshEmployeeAndCustomerObservableList();
+            }
+        });
+
+        refreshEmployeeAndCustomerObservableList();
     }
 
     /**
@@ -262,8 +286,20 @@ public class PersonController implements Serializable {
         return personTypeResult;
     }
 
-    public void logout(){
+    public void logout() {
         _registeredPerson = null;
+    }
+
+    public ObservableList<Person> getPersonList() {
+        return _personObservableList;
+    }
+
+    public ObservableList<Employee> getEmployeeList() {
+        return _employeeObservableList;
+    }
+
+    public ObservableList<Customer> getCustomerList() {
+        return _customerObservableList;
     }
 
     public Person getRegisteredPerson() {

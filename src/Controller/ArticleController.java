@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Article;
 import Model.BulkArticle;
+import Model.Person;
 import Utilities.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +20,7 @@ import java.util.Comparator;
 public class ArticleController implements Serializable {
 
     private ArrayList<Article> _articleList;
-   // private ObservableList<Article> _articleObservableList;
+    private ObservableList<Article> _articleObservableList;
 
     private boolean result;
 
@@ -28,6 +29,7 @@ public class ArticleController implements Serializable {
      */
     public ArticleController() {
         _articleList = new ArrayList<>();
+        _articleObservableList = FXCollections.observableList(_articleList);
     }
 
     /**
@@ -75,8 +77,8 @@ public class ArticleController implements Serializable {
             }
         }
 
-            return result;
-        }
+        return result;
+    }
 
 
     /**
@@ -105,33 +107,36 @@ public class ArticleController implements Serializable {
     }
 
     /**
+     * TODO: ERSTMAL AUSKOMMENTIERT FÜR FX
+     *
      * Sortierte Liste der Article-Objekte als Strings
      * Ist für die CUI gedacht, weil dort String Ausgaben gemacht werden
      *
      * @param articleSortMode Gibt an, wie die Artikel sortiert werden sollen
      * @return Gibt einen formatierten String mit Artikel Strings (article.toString) zurück
      */
-    public String getSortedArticlesString(ArticleSortMode articleSortMode) {
-        String result = "";
-        sortArticles(articleSortMode);
+    /** public String getSortedArticlesString(ArticleSortMode articleSortMode) {
+     String result = "";
+     sortArticles(articleSortMode);
 
-        result += "Artikelnummer  -  Artikelbezeichnung  -  Preis  -  Lagerbestand  -  Verpackungseinheit\n";
+     result += "Artikelnummer  -  Artikelbezeichnung  -  Preis  -  Lagerbestand  -  Verpackungseinheit\n";
 
-        for (Article article : _articleList) {
-            result += article.toString(true) + "\n";
-        }
+     for (Article article : _articleList) {
+     result += article.toString(true) + "\n";
+     }
 
-        return result;
-    }
+     return result;
+     }*/
 
     /**
      * Sortiert die Artikel nach dem angegebenen Schema
      *
      * @param articleSortMode Das angegebene Schema nachdem sortiert werden soll
      */
-    private void sortArticles(ArticleSortMode articleSortMode) {
+    //TODO: ERSTMAL AUSKOMMENTIERT FÜR FX
+   /* private void sortArticles(ArticleSortMode articleSortMode) {
         Collections.sort(_articleList, new ArticleComparator(articleSortMode));
-    }
+    }*/
 
     /**
      * Prüft ob die angegebene Artikelnummer bereits einem Article-Objekt zugeordnet ist.
@@ -211,30 +216,31 @@ public class ArticleController implements Serializable {
         return article.getStock() >= stockNumber;
     }
 
+    // TODO: ERSTMALAUSKOMMENTIERT FÜR JAVA FX
     /**
      * Ein Comparator für Article-Objekte, damit diese nach ihren Eigenschaften sortiert werden können
      * Quelle: // https://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property
      */
-    private class ArticleComparator implements Comparator<Article> {
+   /* private class ArticleComparator implements Comparator<Article> {
         private ArticleSortMode _articleSortMode;
 
-        /**
+        *//**
          * Im Konstruktor wird das Schema, der SortMode als Member gesetzt
          *
          * @param articleSortMode Das Schema nachdem sortiert werden soll
-         */
+         *//*
         public ArticleComparator(ArticleSortMode articleSortMode) {
             _articleSortMode = articleSortMode;
         }
 
-        /**
+        *//**
          * Je nachdem welcher SortMode in _articleSortMode festgelegt ist,
          * werden die Artikel anders verglichen.
          *
          * @param o1 Artikel 1 zum vergleichen
          * @param o2 Artikel 2 zum vergleichen
          * @return https://www.javatpoint.com/java-string-compareto
-         */
+         *//*
         @Override
         public int compare(Article o1, Article o2) {
             int result;
@@ -251,5 +257,11 @@ public class ArticleController implements Serializable {
             }
             return result;
         }
+
+
+    }*/
+
+    public ObservableList<Article> getArticleList() {
+        return _articleObservableList;
     }
 }

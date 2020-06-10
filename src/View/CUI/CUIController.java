@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class CUIController {
 
-    private MainController _mainController;
+/*    private MainController _mainController;
 
     public CUIController(MainController mainController) {
         _mainController = mainController;
@@ -46,9 +46,9 @@ public class CUIController {
         return;
     }
 
-    /**
+    *//**
      * Employee
-     **/
+     **//*
     public void runEmployeeMenu() {
         CUI.showEmployeeMenu();
         String inputdata = readInput();
@@ -291,9 +291,9 @@ public class CUIController {
     }
 
 
-    /**
+    *//**
      * Customer
-     **/
+     **//*
 
     public void runCustomerMenu() {
         CUI.showCustomerMenu();
@@ -653,5 +653,5 @@ public class CUIController {
         Result<Void> result = _mainController.clearShoppingCart();
         System.out.println(result.getMessage());
         runShoppingCartMenu();
-    }
+    }*/
 }

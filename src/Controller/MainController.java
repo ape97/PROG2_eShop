@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 import java.io.Serializable;
 
 /**
- * Verbindet alle Controller miteinader.
+ * Verbindet alle Controller miteinander.
  */
 public class MainController implements Serializable {
 
@@ -29,9 +29,6 @@ public class MainController implements Serializable {
 
 
     // TEST FOR FX
-    public ObservableList<Person> getEmployeeList(){
-        return _personController.getEmployeeList();
-    }
 
 
     // PERSON
@@ -60,7 +57,7 @@ public class MainController implements Serializable {
      * Erstellt mit AddressController ein Address-Objekt und gib dieses weiter an PersonController.
      */
     public Result<Void> addCustomer(String firstname, String lastname, String username, String password,
-                                     String street, String houseNumber, String postCode, String city) {
+                                    String street, String houseNumber, String postCode, String city) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Guest) {
@@ -100,9 +97,9 @@ public class MainController implements Serializable {
      * Reicht den Funktionsaufruf weiter an ArticleController
      * Für weitere Informationen siehe: ArticleConctroller:getSortedArticleStringList(...)
      */
-    public String getSortedArticleStringList(ArticleSortMode articleSortMode) {
+ /*   public String getSortedArticleStringList(ArticleSortMode articleSortMode) {
         return _articleController.getSortedArticlesString(articleSortMode);
-    }
+    }*/
 
     /**
      * Reicht den Funktionsaufruf weiter an ArticleController
@@ -119,7 +116,7 @@ public class MainController implements Serializable {
             Result<Article> addArticleResult = _articleController.addArticle(name, articleNumber, stock, price, packagingUnit);
 
             if (addArticleResult.getState() == Result.State.SUCCESSFULL) {
-                addEvent( addArticleResult.getObject(), stock);
+                addEvent(addArticleResult.getObject(), stock);
             }
 
             result = new Result<Void>(addArticleResult.getState(), addArticleResult.getMessage(), null);
@@ -299,11 +296,34 @@ public class MainController implements Serializable {
      * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
      * String --> enthält die Fehlermeldung oder das Lagerprotokoll als String
      */
-    public Result<Void> getEventsString() {
+/*    public Result<Void> getEventsString() {
         Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, "", null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
-            result.setMessage(_eventController.getEventsString());
+            result.setMessage(_eventController.getEventList());
+        } else {
+            result.setState(Result.State.FAILED);
+            result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
+        }
+
+        return result;
+    }*/
+
+
+    public Result<ObservableList<Article>> getArticleList() {
+        Result<ObservableList<Article>> result = new Result<ObservableList<Article>>(Result.State.SUCCESSFULL, "", null);
+
+        result.setObject(_articleController.getArticleList());
+
+        return result;
+    }
+
+
+    public Result<ObservableList<Customer>> getCustomerList() {
+        Result<ObservableList<Customer>> result = new Result<ObservableList<Customer>>(Result.State.SUCCESSFULL, "", null);
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+            result.setObject(_personController.getCustomerList());
         } else {
             result.setState(Result.State.FAILED);
             result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
@@ -311,4 +331,33 @@ public class MainController implements Serializable {
 
         return result;
     }
+
+
+    public Result<ObservableList<Employee>> getEmployeeList() {
+        Result<ObservableList<Employee>> result = new Result<ObservableList<Employee>>(Result.State.SUCCESSFULL, "", null);
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+            result.setObject(_personController.getEmployeeList());
+        } else {
+            result.setState(Result.State.FAILED);
+            result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
+        }
+
+        return result;
+    }
+
+
+    public Result<ObservableList<Event>> getEventList() {
+        Result<ObservableList<Event>> result = new Result<ObservableList<Event>>(Result.State.SUCCESSFULL, "", null);
+
+        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
+            result.setObject(_eventController.getEventList());
+        } else {
+            result.setState(Result.State.FAILED);
+            result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
+        }
+
+        return result;
+    }
+
 }

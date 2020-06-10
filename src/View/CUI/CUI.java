@@ -1,7 +1,7 @@
 package View.CUI;
 
 public class CUI {
-    public CUI() {}
+   /* public CUI() {}
 
     public static void showEmployeeMenu(){
         System.out.println("Sie sind als Mitarbeiter angemeldet.");
@@ -104,5 +104,5 @@ public class CUI {
         //Warenkorb ausgeben
         System.out.println("-------------------------------");
 
-    }
+    }*/
 }

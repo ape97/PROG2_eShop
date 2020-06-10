@@ -40,7 +40,7 @@ public class EmployeeController {
 
         employeeTable.getColumns().add(columnName);
 
-        employeeTable.setItems(mainController.getEmployeeList());
+        employeeTable.setItems(mainController.getEmployeeList().getObject());
 
         mainController.addEmployee("Hans", "Wrust", "leggi", "laggi872637");
         employeeTable.getSelectionModel().setCellSelectionEnabled(true);
