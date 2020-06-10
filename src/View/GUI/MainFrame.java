@@ -13,6 +13,8 @@ public class MainFrame extends Application {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("LoginScene.fxml"));
         primaryStage.setTitle("Test");
         primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setMinHeight(350);
+        primaryStage.setMinWidth(400);
         primaryStage.show();
     }
 }
