@@ -4,6 +4,7 @@ import Controller.MainController;
 import Model.Article;
 import Model.Employee;
 import Model.Event;
+import Utilities.ArticleExtension;
 import Utilities.Message;
 import Utilities.Result;
 import View.GUI.MainSceneController;
@@ -192,6 +193,12 @@ public class EmployeeSceneController {
         columnStock.setSortable(true);
         columnStock.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getStock()));
         tableView_articles.getColumns().add(columnStock);
+
+        TableColumn<Article, Integer> columnUnit = new TableColumn<>("Verpackungseinheit");
+        columnUnit.setEditable(false);
+        columnUnit.setSortable(true);
+        columnUnit.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(ArticleExtension.getPackagingUnit(e.getValue())));
+        tableView_articles.getColumns().add(columnUnit);
 
         TableColumn<Article, Double> columnStockChange = new TableColumn<>("Preis");
         columnStockChange.setEditable(false);

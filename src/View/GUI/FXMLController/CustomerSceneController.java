@@ -2,6 +2,7 @@ package View.GUI.FXMLController;
 
 import Controller.MainController;
 import Model.*;
+import Utilities.ArticleExtension;
 import Utilities.Message;
 import Utilities.Parse;
 import Utilities.Result;
@@ -257,6 +258,12 @@ public class CustomerSceneController {
         columnStock.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getStock()));
         tableView_articles.getColumns().add(columnStock);
 
+        TableColumn<Article, Integer> columnUnit = new TableColumn<>("Verpackungseinheit");
+        columnUnit.setEditable(false);
+        columnUnit.setSortable(true);
+        columnUnit.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(ArticleExtension.getPackagingUnit(e.getValue())));
+        tableView_articles.getColumns().add(columnUnit);
+
         TableColumn<Article, Double> columnStockChange = new TableColumn<>("Preis");
         columnStockChange.setEditable(false);
         columnStockChange.setSortable(true);
@@ -277,7 +284,6 @@ public class CustomerSceneController {
             MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
         } else {
             ShoppingCart shoppingCart = shoppingCartResult.getObject();
-
 
             TableColumn<ShoppingCartItem, String> columnArticle = new TableColumn<>("Artikel");
             columnArticle.setEditable(false);
