@@ -2,18 +2,13 @@ package Controller;
 
 import Model.Article;
 import Model.BulkArticle;
-import Model.Person;
 import Utilities.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.Serializable;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Observable;
 
 /**
  * WARNING: Sollte nur vom MainController verwendet werden
@@ -24,10 +19,9 @@ public class ArticleController implements Serializable {
     private ArrayList<Article> _articleList;
     private transient ObservableList<Article> _articleObservableList;
 
-    private boolean result;
-
     /**
      * Der Konstruktor erzeugt eine leere ArrayList _articleList für Article-Objekte.
+     * Desweiteren wird wird eine ObservableList basierend auf der _articleList erstellt.
      */
     public ArticleController() {
         _articleList = new ArrayList<>();
@@ -36,15 +30,6 @@ public class ArticleController implements Serializable {
 
     public void InitAfterSerialization() {
         _articleObservableList = FXCollections.observableList(_articleList);
-
-        _articleObservableList.addListener(new ListChangeListener<Article>() {
-            @Override
-            public void onChanged(javafx.collections.ListChangeListener.Change<? extends Article> c) {
-
-            }
-        });
-
-
     }
 
 
