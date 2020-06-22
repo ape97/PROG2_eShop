@@ -5,10 +5,12 @@ import Data.DataWriterReader;
 import Model.Article;
 import Model.Event;
 import Model.Person;
+import Utilities.Result;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DataController {
+public class DataController implements Serializable {
 
     private static DataController _instance;
 
@@ -31,26 +33,33 @@ public class DataController {
         return _instance;
     }
 
-    public static void loadData(){
+    public static Result<Void> loadData() {
         DataWriterReader dataWriterReader = new DataWriterReader("data.bn");
-        Object loadObject = dataWriterReader.load();
 
-        if (loadObject == null) {
-            _instance = new DataController();
-        } else {
-            _instance = ((DataController) loadObject);
+        Result<Object> loadDataResult = dataWriterReader.load();
+        if (loadDataResult.getState() == Result.State.FAILED) {
+            return new Result<Void>(Result.State.FAILED, loadDataResult.getMessage(), null);
         }
+
+        _instance = (DataController) loadDataResult.getObject();
+        return new Result<Void>(Result.State.SUCCESSFULL, loadDataResult.getMessage(), null);
     }
 
-    public ArrayList<Article> getArticleList(){
+    public Result<Void> saveData() {
+        DataWriterReader dataWriterReader = new DataWriterReader("data.bn");
+        Result<Void> saveDataResult = dataWriterReader.save(_instance);
+        return saveDataResult;
+    }
+
+    public ArrayList<Article> getArticleList() {
         return _articleList;
     }
 
-    public  ArrayList<Event> getEventList(){
+    public ArrayList<Event> getEventList() {
         return _eventList;
     }
 
-    public ArrayList<Person> getPersonList(){
-        return  _personList;
+    public ArrayList<Person> getPersonList() {
+        return _personList;
     }
 }

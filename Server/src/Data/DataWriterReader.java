@@ -1,5 +1,7 @@
 package Data;
 
+import Utilities.Result;
+
 import java.io.*;
 
 // Quelle: https://mkyong.com/java/how-to-read-and-write-java-object-to-a-file/
@@ -10,7 +12,7 @@ public class DataWriterReader {
         _filename = filename;
     }
 
-    public void save(Object object) {
+    public Result<Void> save(Object object) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(new File(_filename));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -23,15 +25,15 @@ public class DataWriterReader {
             fileOutputStream.flush();
             fileOutputStream.close();
         } catch (FileNotFoundException ex) {
-           System.out.println(ex);
-           //TODO
+            return new Result<Void>(Result.State.FAILED, "Daten konnten nicht gespeichert werden. " + ex.getMessage(), null);
         } catch (IOException ex) {
-            System.out.println(ex);
-            //TODO
+            return new Result<Void>(Result.State.FAILED, "Daten konnten nicht gespeichert werden. " + ex.getMessage(), null);
         }
+
+        return new Result<Void>(Result.State.SUCCESSFULL, "Daten wurden erfolgreich gespeichert.", null);
     }
 
-    public Object load() {
+    public Result<Object> load() {
         Object object = null;
 
         try {
@@ -44,16 +46,13 @@ public class DataWriterReader {
             fileInputStream.close();
 
         } catch (FileNotFoundException ex) {
-            //TODO
-            System.out.println(ex);
+            return new Result<Object>(Result.State.FAILED, "Daten konnten nicht geladen werden. " + ex.getMessage(), null);
         } catch (IOException ex) {
-            //TODO
-            System.out.println(ex);
+            return new Result<Object>(Result.State.FAILED, "Daten konnten nicht geladen werden. " + ex.getMessage(), null);
         } catch (ClassNotFoundException ex) {
-            //TODO
-            System.out.println(ex);
+            return new Result<Object>(Result.State.FAILED, "Daten konnten nicht geladen werden. " + ex.getMessage(), null);
         }
 
-        return object;
+        return new Result<Object>(Result.State.SUCCESSFULL, "Daten wurden erfolgreich geladen.", object);
     }
 }

@@ -1,7 +1,6 @@
-package Core;
+package Communication;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -20,21 +19,27 @@ public class ClientRegisterProcessor extends Thread {
 
     @Override
     public void run() {
+        System.out.println("Suche nach Clients läuft...");
+
         while (_isActive) {
             Socket socket = null;
             try {
                 socket = _serverSocket.accept();
+                System.out.println("Verbindung zu Client wird aufgebaut... ");
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
+                // TODO: die clientrequestprocessor müssen noch in eine liste und alle beendet werden oder dann wenn sich ein client abmeldet
                 ClientRequestProcessor clientRequestProcessor = new ClientRequestProcessor(socket, objectInputStream, objectOutputStream);
                 clientRequestProcessor.start();
+                System.out.println("Verbindung zu Client erfolgreich aufgebaut.");
 
-                System.out.println("Verbindung zu neuem Client aufgebaut.");
             } catch (SocketTimeoutException ex){
-                // Hier muss nichts unternommen werden, der Timeout wurde nur aktiviert, damit das Loop weiter läuft und den bool prüft
+                // Timeout, kann ignoriert werden
+                // Sorgt dafür, dass die while-Schleife weiter läuft und die Bedingung prüfen kann
+                // Ansonsten würde das Programmm bei .accept() ewig stehen bleiben
             } catch (IOException ex) {
-                System.out.println("Verbindung zu Client fehlgeschlagen. " + ex + " " + ex.getStackTrace());
+                System.out.println("Verbindung zu Client fehlgeschlagen. " + ex.getMessage());
             }
         }
 
@@ -42,6 +47,7 @@ public class ClientRegisterProcessor extends Thread {
     }
 
     public void exit(){
+        System.out.println("Suche nach Clients wird beendet....");
         _isActive = false;
     }
 }

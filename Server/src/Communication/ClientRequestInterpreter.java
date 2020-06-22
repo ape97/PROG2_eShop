@@ -1,4 +1,4 @@
-package Core;
+package Communication;
 
 import Controller.MainController;
 import Model.*;
