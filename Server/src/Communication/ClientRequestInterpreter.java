@@ -17,8 +17,8 @@ public class ClientRequestInterpreter {
     private MainController _mainController;
     private ObjectOutputStream _objectOutputStream;
 
-    public ClientRequestInterpreter(ObjectOutputStream objectOutputStream) {
-        _mainController = new MainController();
+    public ClientRequestInterpreter(ObjectOutputStream objectOutputStream, MainController mainController) {
+        _mainController = mainController;
         _objectOutputStream = objectOutputStream;
     }
 

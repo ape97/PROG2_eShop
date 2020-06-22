@@ -1,6 +1,7 @@
 package View.GUI.FXMLController;
 
-import Controller.MainController;
+import Communication.ClientController;
+
 import Utilities.Message;
 import Utilities.Result;
 import View.GUI.MainSceneController;
@@ -56,7 +57,7 @@ public class RegisterCustomerSceneController {
             String message = Message.get(Message.MessageType.Error_FillAllField);
             MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
         } else {
-            Result<Void> result = MainController.getInstance().addCustomer(
+            Result<Void> result = ClientController.getInstance().addCustomer(
                     firstname, lastname, username, password,
                     street, housenumber, postcode, city);
 

@@ -23,6 +23,9 @@ public class DataController implements Serializable {
         _articleList = new ArrayList<>();
         _eventList = new ArrayList<>();
         _personList = new ArrayList<>();
+
+        //TODO: JUST A TEST
+        _articleList.add(new Article("Adrians Boot", 55, 16, 19.99));
     }
 
     public static DataController getInstance() {

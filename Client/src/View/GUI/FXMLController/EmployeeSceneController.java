@@ -1,8 +1,7 @@
 package View.GUI.FXMLController;
 
 
-
-import Controller.MainController;
+import Communication.ClientController;
 import Model.Article;
 import Model.Employee;
 import Model.Event;
@@ -13,6 +12,7 @@ import View.GUI.MainSceneController;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,7 +60,7 @@ public class EmployeeSceneController {
         Object selectedItem = tableView_articles.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             Article article = (Article) selectedItem;
-            Result<Void> result = MainController.getInstance().removeArticle(article);
+            Result<Void> result = ClientController.getInstance().removeArticle(article);
 
             String title = Message.get(Message.MessageType.Info);
             String header = Message.get(Message.MessageType.Info);
@@ -86,7 +86,7 @@ public class EmployeeSceneController {
         Object selectedItem = tableView_employees.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             Employee employee = (Employee) selectedItem;
-            Result<Void> result = MainController.getInstance().removePerson(employee);
+            Result<Void> result = ClientController.getInstance().removePerson(employee);
 
             String title = Message.get(Message.MessageType.Info);
             String header = Message.get(Message.MessageType.Info);
@@ -128,7 +128,7 @@ public class EmployeeSceneController {
         columnEmployeePassword.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPassword()));
         tableView_employees.getColumns().add(columnEmployeePassword);
 
-        tableView_employees.setItems(MainController.getInstance().getEmployeeList().getObject());
+        tableView_employees.setItems(ClientController.getInstance().getEmployeeList().getObject());
     }
 
     private void initEventTableView() {
@@ -174,7 +174,7 @@ public class EmployeeSceneController {
         columnLastname.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPersonLastname()));
         tableView_events.getColumns().add(columnLastname);
 
-        tableView_events.setItems(MainController.getInstance().getEventList().getObject());
+        tableView_events.setItems(ClientController.getInstance().getEventList().getObject());
     }
 
     private void initArticleTableView() {
@@ -208,12 +208,18 @@ public class EmployeeSceneController {
         columnStockChange.setCellValueFactory(e -> new SimpleObjectProperty<Double>(e.getValue().getPrice()));
         tableView_articles.getColumns().add(columnStockChange);
 
-        tableView_articles.setItems(MainController.getInstance().getArticleList().getObject());
+        // TODO: VERNÜNFTIG
+        Result<ObservableList<Article>> articleResult = ClientController.getInstance().getArticleList();
+        if (articleResult.getState() == Result.State.FAILED) {
+            MainSceneController.showMessageBox(Alert.AlertType.ERROR, "Error", "Error", articleResult.getMessage());
+        }
+
+        tableView_articles.setItems(articleResult.getObject());
     }
 
     @FXML
     private void button_logout_clicked(ActionEvent event) throws IOException {
-        MainController.getInstance().logout();
+        ClientController.getInstance().logout();
         MainSceneController.showLoginScene(this, event);
     }
 }

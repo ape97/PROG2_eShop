@@ -1,7 +1,7 @@
 package View.GUI.FXMLController;
 
 
-import Controller.MainController;
+import Communication.ClientController;
 import Utilities.Message;
 import Utilities.Parse;
 import Utilities.Result;
@@ -68,7 +68,7 @@ public class AddArticleSceneController {
                 unit = unitParseResult.getObject();
             }
 
-            Result<Void> result = MainController.getInstance().addArticle(name, stock, price, unit);
+            Result<Void> result = ClientController.getInstance().addArticle(name, stock, price, unit);
 
             message = result.getMessage();
 

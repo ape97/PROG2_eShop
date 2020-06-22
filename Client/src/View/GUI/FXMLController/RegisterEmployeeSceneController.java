@@ -1,7 +1,8 @@
 package View.GUI.FXMLController;
 
 
-import Controller.MainController;
+import Communication.ClientController;
+
 import Utilities.Message;
 import Utilities.Result;
 import View.GUI.MainSceneController;
@@ -41,7 +42,7 @@ public class RegisterEmployeeSceneController {
             MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
         } else {
 
-            Result<Void> result = MainController.getInstance().addEmployee(firstname, lastname, username, password);
+            Result<Void> result = ClientController.getInstance().addEmployee(firstname, lastname, username, password);
 
             message = result.getMessage();
 

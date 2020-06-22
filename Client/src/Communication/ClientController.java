@@ -1,54 +1,91 @@
-package Controller;
+package Communication;
+
 import Model.*;
-import Utilities.Message;
-import Utilities.PersonType;
-import Utilities.Result;
+import Utilities.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
+public class ClientController {
 
-public class MainController implements Serializable {
+    private static ClientController _instance;
+    private boolean _isActive;
+    private boolean _isConnected;
+    private Socket _socket;
 
-    // Singelton Implementierung
-    private static MainController _instance;
+    private ObjectInputStream _objectInputStream;
+    private ObjectOutputStream _objectOutputStream;
 
+    private ClientController() {
+        _isActive = true;
+    }
 
-    public static MainController getInstance() {
+    public static ClientController getInstance() {
         if (_instance == null) {
-            _instance = new MainController();
+            _instance = new ClientController();
         }
         return _instance;
     }
 
-    // Relevant für das Laden der Daten
-    public static void setInstance(MainController instance) {
-        _instance = instance;
+    public void connect() {
+        _isActive = true;
+        _isConnected = false;
+
+        while (_isActive && !_isConnected) {
+            try {
+                _socket = new Socket("localhost", 9999);
+                _isConnected = true;
+                _objectOutputStream = new ObjectOutputStream(_socket.getOutputStream());
+                _objectInputStream = new ObjectInputStream(_socket.getInputStream());
+
+                System.out.println("VERBUNDEN");
+            } catch (UnknownHostException ex) {
+                System.out.println(ex);
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
     }
 
-    private MainController() {
+    public Result<Void> sendToServer(Object object) {
 
+        try {
+            _objectOutputStream.writeObject(object);
+            return new Result<Void>(Result.State.SUCCESSFULL, "", null);
+        } catch (InvalidClassException ex) {
+            return new Result<Void>(Result.State.FAILED, "Keine Verbindung zum Server möglich.", null);
+        } catch (NotSerializableException ex) {
+            return new Result<Void>(Result.State.FAILED, "Keine Verbindung zum Server möglich.", null);
+        } catch (IOException ex) {
+            return new Result<Void>(Result.State.FAILED, "Keine Verbindung zum Server möglich.", null);
+        }
+    }
+
+    public Result<Object> receiveFromServer() {
+        try {
+            return new Result<Object>(Result.State.SUCCESSFULL, "", _objectInputStream.readObject());
+        } catch (IOException ex) {
+            return new Result<Object>(Result.State.FAILED, "Keine Verbindung zum Server möglich.", null);
+        } catch (ClassNotFoundException ex) {
+            return new Result<Object>(Result.State.FAILED, "Keine Verbindung zum Server möglich.", null);
+        }
     }
 
     public Result<PersonType> login(String username, String password) {
-        Result<PersonType> result = new Result<PersonType>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
+        ClientRequest clientRequest = new ClientRequest(ClientAction.LOGIN, new String[]{username, password});
+        sendToServer(clientRequest);
 
+        Result<Object> receiveResult = receiveFromServer();
+        if(receiveResult.getState() == Result.State.FAILED){
+            return new Result<PersonType>(Result.State.FAILED, receiveResult.getMessage(), null);
+        }
 
-
-
-        return result;
+        return (Result<PersonType>)receiveResult.getObject();
     }
-
-
-
-
-
-
-
-
 
 
     public Result<Void> addEmployee(String firstname, String lastname, String username, String password) {
@@ -70,17 +107,13 @@ public class MainController implements Serializable {
         Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
 
-
         return result;
     }
-
-
 
 
     public void logout() {
 
     }
-
 
 
     public Result<Void> addArticle(String name, int stock, double price, int packagingUnit) {
@@ -163,9 +196,16 @@ public class MainController implements Serializable {
     }
 
     public Result<ObservableList<Article>> getArticleList() {
-        Result<ObservableList<Article>> result = new Result<ObservableList<Article>>(Result.State.SUCCESSFULL, "", null);
+        ClientRequest clientRequest = new ClientRequest(ClientAction.GET_ARTICLE_LIST, null);
+        sendToServer(clientRequest);
 
-        return result;
+        Result<Object> receiveResult = receiveFromServer();
+        if(receiveResult.getState() == Result.State.FAILED){
+            return new Result<>(Result.State.FAILED, receiveResult.getMessage(), FXCollections.observableList(new ArrayList<Article>()));
+        }
+
+        Result<ArrayList<Article>> articleListResult = (Result<ArrayList<Article>>)receiveResult.getObject();
+        return new Result<>(Result.State.SUCCESSFULL, articleListResult.getMessage(), FXCollections.observableList(articleListResult.getObject()));
     }
 
 
@@ -188,5 +228,6 @@ public class MainController implements Serializable {
 
         return result;
     }
+
 
 }

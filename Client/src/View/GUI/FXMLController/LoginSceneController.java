@@ -3,7 +3,8 @@ package View.GUI.FXMLController;
 
 
 
-import Controller.MainController;
+import Communication.ClientController;
+
 import Utilities.Message;
 import Utilities.PersonType;
 import Utilities.Result;
@@ -27,7 +28,8 @@ public class LoginSceneController {
         String username = textField_username.getText();
         String password = textField_password.getText();
 
-        Result<PersonType> result = MainController.getInstance().login(username, password);
+        Result<PersonType> result = ClientController.getInstance().login(username, password);
+        System.out.println(result.getMessage());
 
         if (result.getState() == Result.State.SUCCESSFULL) {
             if (result.getObject() == PersonType.Employee) {

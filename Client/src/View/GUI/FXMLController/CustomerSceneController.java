@@ -2,7 +2,8 @@ package View.GUI.FXMLController;
 
 
 
-import Controller.MainController;
+import Communication.ClientController;
+
 import Model.Article;
 import Model.Bill;
 import Model.ShoppingCart;
@@ -54,7 +55,7 @@ public class CustomerSceneController {
         String header;
         String message;
 
-        Result<Void> result = MainController.getInstance().clearShoppingCart();
+        Result<Void> result = ClientController.getInstance().clearShoppingCart();
         message = result.getMessage();
 
         if (result.getState() == Result.State.SUCCESSFULL) {
@@ -89,7 +90,7 @@ public class CustomerSceneController {
         Object selectedItem = tableView_articles.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             Article article = (Article) selectedItem;
-            Result<Void> result = MainController.getInstance().addArticleToShoppingCart(article, quantity);
+            Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(article, quantity);
             message = result.getMessage();
 
             if (result.getState() == Result.State.SUCCESSFULL) {
@@ -127,7 +128,7 @@ public class CustomerSceneController {
             }
 
             ShoppingCartItem shoppingCartItem = (ShoppingCartItem) selectedItem;
-            Result<Void> result = MainController.getInstance().addArticleToShoppingCart(shoppingCartItem, quantity);
+            Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(shoppingCartItem, quantity);
             message = result.getMessage();
 
             if (result.getState() == Result.State.SUCCESSFULL) {
@@ -149,7 +150,7 @@ public class CustomerSceneController {
         Object selectedItem = tableView_shoppingCart.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             ShoppingCartItem shoppingCartItem = (ShoppingCartItem) selectedItem;
-            Result<Void> result = MainController.getInstance().removeArticleFromShoppingCart(shoppingCartItem);
+            Result<Void> result = ClientController.getInstance().removeArticleFromShoppingCart(shoppingCartItem);
 
             String title = Message.get(Message.MessageType.Info);
             String header = Message.get(Message.MessageType.Info);
@@ -164,13 +165,13 @@ public class CustomerSceneController {
 
     @FXML
     private void button_logout_clicked(ActionEvent event) throws IOException {
-        MainController.getInstance().logout();
+        ClientController.getInstance().logout();
         MainSceneController.showLoginScene(this, event);
     }
 
     @FXML
     private void button_buy_clicked(ActionEvent event) throws IOException {
-        Result<Bill> result = MainController.getInstance().buyShoppingCart();
+        Result<Bill> result = ClientController.getInstance().buyShoppingCart();
 
         String title;
         String header;
@@ -275,12 +276,12 @@ public class CustomerSceneController {
         columnStockChange.setCellValueFactory(e -> new SimpleObjectProperty<Double>(e.getValue().getPrice()));
         tableView_articles.getColumns().add(columnStockChange);
 
-        tableView_articles.setItems(MainController.getInstance().getArticleList().getObject());
+        tableView_articles.setItems(ClientController.getInstance().getArticleList().getObject());
     }
 
     private void initShoppingCartView() {
 
-        Result<ShoppingCart> shoppingCartResult = MainController.getInstance().getShoppingCart();
+        Result<ShoppingCart> shoppingCartResult = ClientController.getInstance().getShoppingCart();
 
         if (shoppingCartResult.getState() == Result.State.FAILED) {
             String title = Message.get(Message.MessageType.Error);

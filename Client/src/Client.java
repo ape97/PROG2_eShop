@@ -1,16 +1,24 @@
+import Communication.ClientController;
+import View.GUI.MainFrame;
+import javafx.application.Application;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client {
     public static void main(String[] args) {
-        try {
-            Socket socket = new Socket("localhost", 9999);
-        } catch (UnknownHostException ex) {
-            System.out.println(ex);
-        } catch (IOException ex){
-            System.out.println(ex);
-        }
+        ClientController.getInstance().connect();
+        Application.launch(MainFrame.class, args);
+
+
+//        try {
+//            Socket socket = new Socket("localhost", 9999);
+//        } catch (UnknownHostException ex) {
+//            System.out.println(ex);
+//        } catch (IOException ex){
+//            System.out.println(ex);
+//        }
     }
 }
 
@@ -20,7 +28,7 @@ public class Client {
 //    ClientRequest clientRequest = new ClientRequest(ClientAction.LOGIN, new String[]{"admin"});
 //
 //            System.out.println("123");
-//    // ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+//     ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
 //            System.out.println("moin");
 //    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 //            System.out.println("lol");

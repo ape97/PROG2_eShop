@@ -8,12 +8,10 @@ import java.net.ServerSocket;
 
 public class ServerController {
 
-    private boolean _isActive;
     private ServerSocket _serverSocket;
     private ClientRegisterProcessor _clientRegisterProcesssor;
 
     public ServerController() {
-        _isActive = true;
     }
 
     public void start() throws IOException {
