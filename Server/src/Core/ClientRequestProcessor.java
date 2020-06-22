@@ -1,11 +1,8 @@
 package Core;
 
-import Controller.MainController;
-import Data.DataWriterReader;
-import Data.TestDataCreator;
+
 import Utilities.ClientRequest;
-import Utilities.PersonType;
-import Utilities.Result;
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

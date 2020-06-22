@@ -1,7 +1,7 @@
 package Controller;
 
 import Data.DataWriterReader;
-import Data.TestDataCreator;
+
 import Model.Article;
 import Model.Event;
 import Model.Person;
@@ -37,8 +37,6 @@ public class DataController {
 
         if (loadObject == null) {
             _instance = new DataController();
-            TestDataCreator testDataCreator = new TestDataCreator();
-            testDataCreator.createData();
         } else {
             _instance = ((DataController) loadObject);
         }
