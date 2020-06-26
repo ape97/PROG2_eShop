@@ -1,9 +1,9 @@
 package View.GUI.FXMLController;
 
 
-
 import Communication.ClientController;
 
+import Data.DataCache;
 import Model.Article;
 import Model.Bill;
 import Model.ShoppingCart;
@@ -47,8 +47,6 @@ public class CustomerSceneController {
     }
 
 
-
-
     @FXML
     private void button_clearShoppingCart_clicked(ActionEvent event) throws IOException {
         String title;
@@ -77,15 +75,8 @@ public class CustomerSceneController {
         String header;
         String message;
 
-        String quantityString = textField_articleQuantity.getText();
-        int quantity;
+        String quantity = textField_articleQuantity.getText();
 
-        Result<Integer> quantityParseResult = Parse.tryParseInt(quantityString);
-        if (quantityParseResult.getState() == Result.State.FAILED) {
-            quantity = -1;
-        } else {
-            quantity = quantityParseResult.getObject();
-        }
 
         Object selectedItem = tableView_articles.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
@@ -117,18 +108,12 @@ public class CustomerSceneController {
 
         if (selectedItem != null) {
 
-            String quantityString = textField_articleQuantityInCart.getText();
-            int quantity;
+            String quantity = textField_articleQuantityInCart.getText();
 
-            Result<Integer> quantityParseResult = Parse.tryParseInt(quantityString);
-            if (quantityParseResult.getState() == Result.State.FAILED) {
-                quantity = -1;
-            } else {
-                quantity = quantityParseResult.getObject();
-            }
+
 
             ShoppingCartItem shoppingCartItem = (ShoppingCartItem) selectedItem;
-            Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(shoppingCartItem, quantity);
+            Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(shoppingCartItem.getArticle(), quantity);
             message = result.getMessage();
 
             if (result.getState() == Result.State.SUCCESSFULL) {
@@ -150,7 +135,7 @@ public class CustomerSceneController {
         Object selectedItem = tableView_shoppingCart.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             ShoppingCartItem shoppingCartItem = (ShoppingCartItem) selectedItem;
-            Result<Void> result = ClientController.getInstance().removeArticleFromShoppingCart(shoppingCartItem);
+            Result<Void> result = ClientController.getInstance().removeArticleFromShoppingCart(shoppingCartItem.getArticle());
 
             String title = Message.get(Message.MessageType.Info);
             String header = Message.get(Message.MessageType.Info);
@@ -276,46 +261,35 @@ public class CustomerSceneController {
         columnStockChange.setCellValueFactory(e -> new SimpleObjectProperty<Double>(e.getValue().getPrice()));
         tableView_articles.getColumns().add(columnStockChange);
 
-        tableView_articles.setItems(ClientController.getInstance().getArticleList().getObject());
+        tableView_articles.setItems(DataCache.getInstance().getArticleList());
     }
 
     private void initShoppingCartView() {
 
-        Result<ShoppingCart> shoppingCartResult = ClientController.getInstance().getShoppingCart();
+        TableColumn<ShoppingCartItem, String> columnArticle = new TableColumn<>("Artikel");
+        columnArticle.setEditable(false);
+        columnArticle.setSortable(true);
+        columnArticle.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getArticle().getName()));
+        tableView_shoppingCart.getColumns().add(columnArticle);
 
-        if (shoppingCartResult.getState() == Result.State.FAILED) {
-            String title = Message.get(Message.MessageType.Error);
-            String header = Message.get(Message.MessageType.Error);
-            String message = shoppingCartResult.getMessage();
-            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
-        } else {
-            ShoppingCart shoppingCart = shoppingCartResult.getObject();
+        TableColumn<ShoppingCartItem, Integer> columnArticlenumber = new TableColumn<>("Artikelnummer");
+        columnArticlenumber.setEditable(false);
+        columnArticlenumber.setSortable(true);
+        columnArticlenumber.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getArticle().getArticleNumber()));
+        tableView_shoppingCart.getColumns().add(columnArticlenumber);
 
-            TableColumn<ShoppingCartItem, String> columnArticle = new TableColumn<>("Artikel");
-            columnArticle.setEditable(false);
-            columnArticle.setSortable(true);
-            columnArticle.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getArticle().getName()));
-            tableView_shoppingCart.getColumns().add(columnArticle);
+        TableColumn<ShoppingCartItem, Double> columnArticlePrice = new TableColumn<>("Preis");
+        columnArticlePrice.setEditable(false);
+        columnArticlePrice.setSortable(true);
+        columnArticlePrice.setCellValueFactory(e -> new SimpleObjectProperty<Double>(e.getValue().getArticle().getPrice()));
+        tableView_shoppingCart.getColumns().add(columnArticlePrice);
 
-            TableColumn<ShoppingCartItem, Integer> columnArticlenumber = new TableColumn<>("Artikelnummer");
-            columnArticlenumber.setEditable(false);
-            columnArticlenumber.setSortable(true);
-            columnArticlenumber.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getArticle().getArticleNumber()));
-            tableView_shoppingCart.getColumns().add(columnArticlenumber);
+        TableColumn<ShoppingCartItem, Integer> columnArticleQuantity = new TableColumn<>("Anzahl");
+        columnArticleQuantity.setEditable(false);
+        columnArticleQuantity.setSortable(true);
+        columnArticleQuantity.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getQuantity()));
+        tableView_shoppingCart.getColumns().add(columnArticleQuantity);
 
-            TableColumn<ShoppingCartItem, Double> columnArticlePrice = new TableColumn<>("Preis");
-            columnArticlePrice.setEditable(false);
-            columnArticlePrice.setSortable(true);
-            columnArticlePrice.setCellValueFactory(e -> new SimpleObjectProperty<Double>(e.getValue().getArticle().getPrice()));
-            tableView_shoppingCart.getColumns().add(columnArticlePrice);
-
-            TableColumn<ShoppingCartItem, Integer> columnArticleQuantity = new TableColumn<>("Anzahl");
-            columnArticleQuantity.setEditable(false);
-            columnArticleQuantity.setSortable(true);
-            columnArticleQuantity.setCellValueFactory(e -> new SimpleObjectProperty<Integer>(e.getValue().getQuantity()));
-            tableView_shoppingCart.getColumns().add(columnArticleQuantity);
-
-            tableView_shoppingCart.setItems(shoppingCart.getShoppingCartItemList());
-        }
+        tableView_shoppingCart.setItems(DataCache.getInstance().getShoppingCartItemList());
     }
 }

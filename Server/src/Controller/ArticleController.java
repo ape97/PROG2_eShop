@@ -61,6 +61,7 @@ public class ArticleController implements Serializable {
                 article = new Article(name, articleNumber, Parse.parseInteger(stock), Parse.parseDouble(price));
             }
             DataController.getInstance().getArticleList().add(article);
+            System.out.println(article.getArticleNumber());
             return new Result<Article>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ArticleCreated), article);
         }
 

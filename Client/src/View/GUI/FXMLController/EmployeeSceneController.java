@@ -2,6 +2,7 @@ package View.GUI.FXMLController;
 
 
 import Communication.ClientController;
+import Data.DataCache;
 import Model.Article;
 import Model.Employee;
 import Model.Event;
@@ -53,6 +54,12 @@ public class EmployeeSceneController {
     @FXML
     private void button_editArticle_clicked(ActionEvent event) throws IOException {
         // TODO
+    }
+
+    @FXML
+    private void button_refresh_clicked(ActionEvent event) throws IOException {
+       Result<Void> result = DataCache.getInstance().refreshArticleList();
+       System.out.println(result.getState());
     }
 
     @FXML
@@ -128,7 +135,7 @@ public class EmployeeSceneController {
         columnEmployeePassword.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPassword()));
         tableView_employees.getColumns().add(columnEmployeePassword);
 
-        tableView_employees.setItems(ClientController.getInstance().getEmployeeList().getObject());
+        tableView_employees.setItems(DataCache.getInstance().getEmployeeList());
     }
 
     private void initEventTableView() {
@@ -174,7 +181,7 @@ public class EmployeeSceneController {
         columnLastname.setCellValueFactory(e -> new SimpleStringProperty(e.getValue().getPersonLastname()));
         tableView_events.getColumns().add(columnLastname);
 
-        tableView_events.setItems(ClientController.getInstance().getEventList().getObject());
+        tableView_events.setItems(DataCache.getInstance().getEventList());
     }
 
     private void initArticleTableView() {
@@ -208,13 +215,7 @@ public class EmployeeSceneController {
         columnStockChange.setCellValueFactory(e -> new SimpleObjectProperty<Double>(e.getValue().getPrice()));
         tableView_articles.getColumns().add(columnStockChange);
 
-        // TODO: VERNÜNFTIG
-        Result<ObservableList<Article>> articleResult = ClientController.getInstance().getArticleList();
-        if (articleResult.getState() == Result.State.FAILED) {
-            MainSceneController.showMessageBox(Alert.AlertType.ERROR, "Error", "Error", articleResult.getMessage());
-        }
-
-        tableView_articles.setItems(articleResult.getObject());
+        tableView_articles.setItems(DataCache.getInstance().getArticleList());
     }
 
     @FXML
