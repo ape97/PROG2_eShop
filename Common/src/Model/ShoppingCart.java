@@ -15,20 +15,15 @@ import java.util.HashMap;
 
 public class ShoppingCart implements Serializable {
     private ArrayList<ShoppingCartItem> _shoppingCartItemList;
-    private transient ObservableList<ShoppingCartItem> _shoppingCartObservableList;
 
     public ShoppingCart()
     {
         _shoppingCartItemList = new ArrayList();
-        _shoppingCartObservableList = FXCollections.observableList(_shoppingCartItemList);
     }
 
-    public void initAfterSerialization(){
-        _shoppingCartObservableList = FXCollections.observableList(_shoppingCartItemList);
-    }
 
-    public ObservableList<ShoppingCartItem> getShoppingCartItemList() {
-        return _shoppingCartObservableList;
+    public ArrayList<ShoppingCartItem> getShoppingCartItemList() {
+        return _shoppingCartItemList;
     }
 
 }

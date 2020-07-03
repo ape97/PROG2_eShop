@@ -373,12 +373,14 @@ public class MainController implements Serializable {
      * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
      * String --> enthält die Fehlermeldung oder das ShppoingCart als String
      */
-    public Result<ShoppingCart> getShoppingCart() {
-        Result<ShoppingCart> result = new Result<ShoppingCart>(Result.State.SUCCESSFULL, "", null);
+    public Result<ArrayList<ShoppingCartItem>> getShoppingCartItemList() {
+        Result<ArrayList<ShoppingCartItem>> result = new Result<ArrayList<ShoppingCartItem>>(Result.State.FAILED, "", null);
+
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
             Customer customer = (Customer) _personController.getRegisteredPerson();
-            result.setObject(customer.getShoppingCart());
+            result.setObject(customer.getShoppingCart().getShoppingCartItemList());
+            result.setState(Result.State.SUCCESSFULL);
         } else {
             result.setState(Result.State.FAILED);
             result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
@@ -386,6 +388,8 @@ public class MainController implements Serializable {
 
         return result;
     }
+
+
 
     /**
      * Reicht den Funktionsaufruf weiter an EventController

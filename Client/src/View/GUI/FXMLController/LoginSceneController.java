@@ -29,7 +29,6 @@ public class LoginSceneController {
         String password = textField_password.getText();
 
         Result<PersonType> result = ClientController.getInstance().login(username, password);
-        System.out.println(result.getMessage());
 
         if (result.getState() == Result.State.SUCCESSFULL) {
             if (result.getObject() == PersonType.Employee) {

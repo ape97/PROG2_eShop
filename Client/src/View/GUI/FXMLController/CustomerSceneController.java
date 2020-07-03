@@ -1,16 +1,12 @@
 package View.GUI.FXMLController;
 
-
 import Communication.ClientController;
-
 import Data.DataCache;
 import Model.Article;
 import Model.Bill;
-import Model.ShoppingCart;
 import Model.ShoppingCartItem;
 import Utilities.ArticleExtension;
 import Utilities.Message;
-import Utilities.Parse;
 import Utilities.Result;
 import View.GUI.MainSceneController;
 import javafx.beans.property.SimpleObjectProperty;
@@ -23,79 +19,93 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Set;
 
-
+/**
+ * Der Controller für die CustomerScene.fxml.
+ * Die GUI für Customer (Kunden), die grafische Schnittstelle zum eShop.
+ */
 public class CustomerSceneController {
 
     @FXML
-    private TextField textField_articleQuantityInCart;
+    private TextField textField_articleQuantityInCart; // Eingabefeld Artikelanzahl im Warenkorb
     @FXML
-    private TextField textField_articleQuantity;
+    private TextField textField_articleQuantity; // Eingabefeld Artikelanzahl in der Artikelübersicht
 
     @FXML
-    private TableView tableView_articles;
+    private TableView tableView_articles; // Tabelle mit den Artikeln
     @FXML
-    private TableView tableView_shoppingCart;
+    private TableView tableView_shoppingCart; // Tabelle mit den ARtikeln im Einkaufswagen
 
     @FXML
+    /**
+     * Initialisiert die Tabellen.
+     */
     public void initialize() {
         initArticleTableView();
         initShoppingCartView();
     }
 
-
     @FXML
-    private void button_clearShoppingCart_clicked(ActionEvent event) throws IOException {
-        String title;
-        String header;
-        String message;
-
+    /**
+     * Wird der clearShoppingCart-Button (Leeren) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
+    private void button_clearShoppingCart_clicked(ActionEvent event) {
+        // Ruft auf dem ClientController die addCustomer()-Methode auf, diese wird an den Server weiter gereicht
         Result<Void> result = ClientController.getInstance().clearShoppingCart();
-        message = result.getMessage();
 
+        // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
         if (result.getState() == Result.State.SUCCESSFULL) {
-            title = Message.get(Message.MessageType.Info);
-            header = Message.get(Message.MessageType.Info);
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+            MainSceneController.showMessageBox(
+                    Alert.AlertType.INFORMATION,
+                    Message.get(Message.MessageType.Info),
+                    Message.get(Message.MessageType.Info),
+                    result.getMessage());
         } else {
-            title = Message.get(Message.MessageType.Error);
-            header = Message.get(Message.MessageType.Error);
-            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
+            MainSceneController.showMessageBox(
+                    Alert.AlertType.ERROR,
+                    Message.get(Message.MessageType.Error),
+                    Message.get(Message.MessageType.Error),
+                    result.getMessage());
         }
 
-        tableView_shoppingCart.refresh();
+        refreshShoppingCartItems();
     }
 
     @FXML
-    private void button_articleAddToCart_clicked(ActionEvent event) throws IOException {
-        String title;
-        String header;
-        String message;
+    /**
+     * Wird der articleAddToCart-Button (Artikel hinzufügen) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
+    private void button_articleAddToCart_clicked(ActionEvent event) {
 
+        // Ließt die Eingaben des Benutzers als Strings ein
         String quantity = textField_articleQuantity.getText();
 
-
+        // Ermittelt den selektierten Artikel in der Tabelle
         Object selectedItem = tableView_articles.getSelectionModel().getSelectedItem();
+
+        // Ist ein Artikel selektiert, wird fortgesetzt
         if (selectedItem != null) {
             Article article = (Article) selectedItem;
-            Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(article, quantity);
-            message = result.getMessage();
 
+            // Ruft auf dem ClientController die addCustomer()-Methode auf, diese wird an den Server weiter gereicht
+            Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(article, quantity);
+
+            // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
             if (result.getState() == Result.State.SUCCESSFULL) {
-                title = Message.get(Message.MessageType.Info);
-                header = Message.get(Message.MessageType.Info);
-                MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+                MainSceneController.showMessageBox(
+                        Alert.AlertType.INFORMATION,
+                        Message.get(Message.MessageType.Info),
+                        Message.get(Message.MessageType.Info),
+                        result.getMessage());
+
+                refreshShoppingCartItems();
+                refreshArticles();
             } else {
-                title = Message.get(Message.MessageType.Error);
-                header = Message.get(Message.MessageType.Error);
-                MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
+                MainSceneController.showMessageBox(Alert.AlertType.ERROR, Message.get(Message.MessageType.Error), Message.get(Message.MessageType.Error), result.getMessage());
             }
         }
-
-        tableView_shoppingCart.refresh();
     }
 
     @FXML
@@ -111,7 +121,6 @@ public class CustomerSceneController {
             String quantity = textField_articleQuantityInCart.getText();
 
 
-
             ShoppingCartItem shoppingCartItem = (ShoppingCartItem) selectedItem;
             Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(shoppingCartItem.getArticle(), quantity);
             message = result.getMessage();
@@ -120,14 +129,13 @@ public class CustomerSceneController {
                 title = Message.get(Message.MessageType.Info);
                 header = Message.get(Message.MessageType.Info);
                 MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+                refreshShoppingCartItems();
             } else {
                 title = Message.get(Message.MessageType.Error);
                 header = Message.get(Message.MessageType.Error);
                 MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
             }
         }
-
-        tableView_shoppingCart.refresh();
     }
 
     @FXML
@@ -142,9 +150,8 @@ public class CustomerSceneController {
             String message = result.getMessage();
 
             MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+            refreshShoppingCartItems();
         }
-
-        tableView_shoppingCart.refresh();
     }
 
 
@@ -174,61 +181,19 @@ public class CustomerSceneController {
             MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
         }
 
-        tableView_articles.refresh();
-    }
-
-
-
-  /*  @FXML
-    private void button_addArticle(ActionEvent event) throws IOException {
-        MainSceneController.showAddArticleScene(this, event);
+        refreshShoppingCartItems();
+        refreshArticles();
     }
 
     @FXML
-    private void button_editArticle(ActionEvent event) throws IOException {
-        // TODO
+    private void button_articleRefresh_clicked(ActionEvent event) throws IOException {
+        refreshArticles();
     }
 
     @FXML
-    private void button_removeArticle(ActionEvent event) throws IOException {
-        Object selectedItem = tableView_articles.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            Article article = (Article) selectedItem;
-            Result<Void> result = MainController.getInstance().removeArticle(article);
-
-            String title = Message.get(Message.MessageType.Info);
-            String header = Message.get(Message.MessageType.Info);
-            String message = result.getMessage();
-
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-        }
+    private void button_shoppingCartRefresh_clicked(ActionEvent event) throws IOException {
+        refreshShoppingCartItems();
     }
-
-
-    @FXML
-    private void button_addEmployee(ActionEvent event) throws IOException {
-        MainSceneController.showRegisterEmployeeScene(this, event);
-    }
-
-    @FXML
-    private void button_editEmployee(ActionEvent event) throws IOException {
-        // TODO
-    }
-
-    @FXML
-    private void button_removeEmployee_clicked(ActionEvent event) throws IOException {
-        Object selectedItem = tableView_employees.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            Employee employee = (Employee) selectedItem;
-            Result<Void> result = MainController.getInstance().removePerson(employee);
-
-            String title = Message.get(Message.MessageType.Info);
-            String header = Message.get(Message.MessageType.Info);
-            String message = result.getMessage();
-
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-        }
-    }*/
 
     private void initArticleTableView() {
         TableColumn<Article, String> columnName = new TableColumn<>("Bezeichnung");
@@ -262,6 +227,7 @@ public class CustomerSceneController {
         tableView_articles.getColumns().add(columnStockChange);
 
         tableView_articles.setItems(DataCache.getInstance().getArticleList());
+        tableView_articles.refresh();
     }
 
     private void initShoppingCartView() {
@@ -291,5 +257,34 @@ public class CustomerSceneController {
         tableView_shoppingCart.getColumns().add(columnArticleQuantity);
 
         tableView_shoppingCart.setItems(DataCache.getInstance().getShoppingCartItemList());
+        tableView_shoppingCart.refresh();
+    }
+
+    private void refreshArticles() {
+        Result<Void> result = DataCache.getInstance().refreshArticleList();
+
+        if (result.getState() == Result.State.FAILED) {
+            String title;
+            String header;
+            String message;
+            title = Message.get(Message.MessageType.Info);
+            header = Message.get(Message.MessageType.Info);
+            message = result.getMessage();
+            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+        }
+    }
+
+    private void refreshShoppingCartItems() {
+        Result<Void> result = DataCache.getInstance().refreshShoppingCartItemList();
+
+        if (result.getState() == Result.State.FAILED) {
+            String title;
+            String header;
+            String message;
+            title = Message.get(Message.MessageType.Error);
+            header = Message.get(Message.MessageType.Error);
+            message = result.getMessage();
+            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
+        }
     }
 }

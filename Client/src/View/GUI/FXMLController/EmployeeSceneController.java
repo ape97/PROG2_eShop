@@ -40,7 +40,7 @@ public class EmployeeSceneController {
 
     @FXML
     public void initialize() {
-        initEventTableView();
+       initEventTableView();
         initArticleTableView();
         initEmployeeTableView();
     }
@@ -49,18 +49,75 @@ public class EmployeeSceneController {
     @FXML
     private void button_addArticle_clicked(ActionEvent event) throws IOException {
         MainSceneController.showAddArticleScene(this, event);
+        refreshArticles();
+        refreshEvents();
     }
 
     @FXML
     private void button_editArticle_clicked(ActionEvent event) throws IOException {
         // TODO
+        refreshArticles();
+        refreshEvents();
+    }
+
+
+    @FXML
+    private void button_eventRefresh_clicked(ActionEvent event) throws IOException {
+        refreshEvents();
+    }
+
+    private void refreshEvents() {
+        Result<Void> result = DataCache.getInstance().refreshEventList();
+
+        if (result.getState() == Result.State.FAILED) {
+            String title;
+            String header;
+            String message;
+            title = Message.get(Message.MessageType.Info);
+            header = Message.get(Message.MessageType.Info);
+            message = result.getMessage();
+            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+        }
     }
 
     @FXML
-    private void button_refresh_clicked(ActionEvent event) throws IOException {
-       Result<Void> result = DataCache.getInstance().refreshArticleList();
-       System.out.println(result.getState());
+    private void button_articleRefresh_clicked(ActionEvent event) throws IOException {
+        refreshArticles();
     }
+
+    private void refreshArticles() {
+        Result<Void> result = DataCache.getInstance().refreshArticleList();
+
+        if (result.getState() == Result.State.FAILED) {
+            String title;
+            String header;
+            String message;
+            title = Message.get(Message.MessageType.Info);
+            header = Message.get(Message.MessageType.Info);
+            message = result.getMessage();
+            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+        }
+    }
+
+    @FXML
+    private void button_employeeRefresh_clicked(ActionEvent event) throws IOException {
+        refreshEmployees();
+    }
+
+    private void refreshEmployees() {
+        Result<Void> result = DataCache.getInstance().refreshEmployeeList();
+
+        if (result.getState() == Result.State.FAILED) {
+            String title;
+            String header;
+            String message;
+            title = Message.get(Message.MessageType.Info);
+            header = Message.get(Message.MessageType.Info);
+            message = result.getMessage();
+            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+        }
+    }
+
 
     @FXML
     private void button_removeArticle_clicked(ActionEvent event) throws IOException {
@@ -74,6 +131,8 @@ public class EmployeeSceneController {
             String message = result.getMessage();
 
             MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+            refreshArticles();
+            refreshEvents();
         }
     }
 
@@ -81,11 +140,13 @@ public class EmployeeSceneController {
     @FXML
     private void button_addEmployee_clicked(ActionEvent event) throws IOException {
         MainSceneController.showRegisterEmployeeScene(this, event);
+        refreshEmployees();
     }
 
     @FXML
     private void button_editEmployee_clicked(ActionEvent event) throws IOException {
         // TODO
+        refreshEmployees();
     }
 
     @FXML
@@ -100,6 +161,7 @@ public class EmployeeSceneController {
             String message = result.getMessage();
 
             MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+            refreshEmployees();
         }
     }
 
@@ -136,6 +198,7 @@ public class EmployeeSceneController {
         tableView_employees.getColumns().add(columnEmployeePassword);
 
         tableView_employees.setItems(DataCache.getInstance().getEmployeeList());
+        tableView_employees.refresh();
     }
 
     private void initEventTableView() {
@@ -182,6 +245,7 @@ public class EmployeeSceneController {
         tableView_events.getColumns().add(columnLastname);
 
         tableView_events.setItems(DataCache.getInstance().getEventList());
+        tableView_events.refresh();
     }
 
     private void initArticleTableView() {
@@ -216,6 +280,7 @@ public class EmployeeSceneController {
         tableView_articles.getColumns().add(columnStockChange);
 
         tableView_articles.setItems(DataCache.getInstance().getArticleList());
+        tableView_articles.refresh();
     }
 
     @FXML

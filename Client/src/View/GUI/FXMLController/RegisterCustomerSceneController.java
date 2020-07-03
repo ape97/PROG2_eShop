@@ -1,45 +1,45 @@
 package View.GUI.FXMLController;
 
 import Communication.ClientController;
-
 import Utilities.Message;
 import Utilities.Result;
 import View.GUI.MainSceneController;
-
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-
 import java.io.IOException;
 
+/**
+ * Der Controller für die RegisterCustomerScene.fxml.
+ * Ermöglicht das Hinzufügen eines neuen Kunden bzw. das Registrieren.
+ */
 public class RegisterCustomerSceneController {
+    @FXML
+    private TextField textField_lastname; // Eingabefeld Nachname
+    @FXML
+    private TextField textField_firstname; // Eingabefeld Vorname
+    @FXML
+    private TextField textField_street; // Eingabefeld Straße
+    @FXML
+    private TextField textField_housenumber; // Eingabefeld Hausnummer
+    @FXML
+    private TextField textField_postcode; // Eingabefeld Postleitzahl
+    @FXML
+    private TextField textField_city; // Eingabefeld Stadt/Ort
+    @FXML
+    private TextField textField_username; // Eingabefeld Benutzername
+    @FXML
+    private TextField textField_password; // Eingabefeld Kennwort
 
     @FXML
-    private TextField textField_lastname;
-    @FXML
-    private TextField textField_firstname;
-    @FXML
-    private TextField textField_street;
-    @FXML
-    private TextField textField_housenumber;
-    @FXML
-    private TextField textField_postcode;
-    @FXML
-    private TextField textField_city;
-    @FXML
-    private TextField textField_username;
-    @FXML
-    private TextField textField_password;
+    /**
+     * Wird der register-Button (Registrieren) geklickt, werden die Benutzereingaben an den ClientController weitergeleitet.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
+    private void button_register_clicked(ActionEvent event) {
 
-    @FXML
-    private void button_register_clicked(ActionEvent event) throws IOException {
-
-        Parent view2 = FXMLLoader.load(getClass().getClassLoader().getResource("EmployeeScene.fxml"));
-
+        // Ließt die Eingaben des Benutzers als Strings ein
         String firstname = textField_firstname.getText();
         String lastname = textField_lastname.getText();
         String street = textField_street.getText();
@@ -49,36 +49,44 @@ public class RegisterCustomerSceneController {
         String username = textField_username.getText();
         String password = textField_password.getText();
 
+        // Prüft, ob wirklich alle Daten angegeben wurden, falls nicht Info an den Benutzer
         if (firstname.trim().isEmpty() || lastname.trim().isEmpty() || street.trim().isEmpty() || housenumber.trim().isEmpty() ||
                 postcode.trim().isEmpty() || city.trim().isEmpty() || username.trim().isEmpty() || password.trim().isEmpty()) {
 
-            String title = Message.get(Message.MessageType.Error);
-            String header = Message.get(Message.MessageType.Error);
-            String message = Message.get(Message.MessageType.Error_FillAllField);
-            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
+            MainSceneController.showMessageBox(
+                    Alert.AlertType.ERROR,
+                    Message.get(Message.MessageType.Error),
+                    Message.get(Message.MessageType.Error),
+                    Message.get(Message.MessageType.Error_FillAllField));
         } else {
+            // Ruft auf dem ClientController die addCustomer()-Methode auf, diese wird an den Server weiter gereicht
             Result<Void> result = ClientController.getInstance().addCustomer(
                     firstname, lastname, username, password,
                     street, housenumber, postcode, city);
 
-            String title;
-            String header;
-            String message = result.getMessage();
-
+            // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
             if (result.getState() == Result.State.SUCCESSFULL) {
-                title = Message.get(Message.MessageType.Info);
-                header = Message.get(Message.MessageType.Info);
-                MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
+                MainSceneController.showMessageBox(
+                        Alert.AlertType.INFORMATION,
+                        Message.get(Message.MessageType.Info),
+                        Message.get(Message.MessageType.Info),
+                        result.getMessage());
+                // Zeigt wieder die Hauptansicht an
                 MainSceneController.showLoginScene(this, event);
             } else {
-                title = Message.get(Message.MessageType.Error);
-                header = Message.get(Message.MessageType.Error);
-                MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
+                MainSceneController.showMessageBox(
+                        Alert.AlertType.ERROR,
+                        Message.get(Message.MessageType.Error),
+                        Message.get(Message.MessageType.Error),
+                        result.getMessage());
             }
         }
     }
 
     @FXML
+    /**
+     * Schließt die aktuelle Ansicht und zeigt wieder die Hauptansicht an.
+     */
     private void button_cancel_clicked(ActionEvent event) throws IOException {
         MainSceneController.showLoginScene(this, event);
     }

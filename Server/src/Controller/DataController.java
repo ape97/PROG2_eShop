@@ -2,9 +2,7 @@ package Controller;
 
 import Data.DataWriterReader;
 
-import Model.Article;
-import Model.Event;
-import Model.Person;
+import Model.*;
 import Utilities.Result;
 
 import java.io.Serializable;
@@ -26,6 +24,9 @@ public class DataController implements Serializable {
 
         //TODO: JUST A TEST
         _articleList.add(new Article("Adrians Boot", 55, 16, 19.99));
+        _personList.add(new Employee("admin", "admin", 0, "admin", "admin"));
+        _personList.add(new Customer("kunde", "kunde", 99, "kunde", "kunde", new Address("", "", "", "")));
+
     }
 
     public static DataController getInstance() {

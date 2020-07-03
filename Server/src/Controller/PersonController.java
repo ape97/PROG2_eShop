@@ -64,8 +64,6 @@ public class PersonController implements Serializable {
        // _personList = new ArrayList<>();
         //_personObservableList = FXCollections.observableList(_personList);
 
-        DataController.getInstance().getPersonList().add(new Employee("admin", "admin", 0, "admin", "admin"));
-        DataController.getInstance().getPersonList().add(new Customer("kunde", "kunde", 99, "kunde", "kunde", new Address("", "", "", "")));
 
 //        _personObservableList.addListener(new ListChangeListener<Person>() {
 //            @Override

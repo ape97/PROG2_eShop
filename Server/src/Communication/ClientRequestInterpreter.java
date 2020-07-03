@@ -74,7 +74,7 @@ public class ClientRequestInterpreter {
                     clearShoppingCart(clientRequest.getParams());
                     break;
                 case GET_SHOPPINGCART:
-                    getShoppingCart(clientRequest.getParams());
+                    getShoppingCartItems(clientRequest.getParams());
                     break;
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -83,8 +83,8 @@ public class ClientRequestInterpreter {
         }
     }
 
-    private void getShoppingCart(String[] params) {
-        Result<ShoppingCart> result = _mainController.getShoppingCart();
+    private void getShoppingCartItems(String[] params) {
+        Result<ArrayList<ShoppingCartItem>> result = _mainController.getShoppingCartItemList();
         sendToClient(result);
     }
 
@@ -170,7 +170,8 @@ public class ClientRequestInterpreter {
 
     public void sendToClient(Object object) {
         try {
-            _objectOutputStream.writeObject(object);
+            _objectOutputStream.reset();
+            _objectOutputStream.writeUnshared(object);
         } catch (InvalidClassException ex) {
             System.out.println(ex);
         } catch (NotSerializableException ex) {

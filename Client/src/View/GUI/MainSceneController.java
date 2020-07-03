@@ -12,32 +12,32 @@ public class MainSceneController {
     private MainSceneController() {
     }//static
 
-    public static void showEmployeeScene(Object caller, ActionEvent event) throws IOException {
+    public static void showEmployeeScene(Object caller, ActionEvent event) {
         Stage stage = JavaFXExtension.getStageByActionEvent(event);
         JavaFXExtension.showScene(caller, "EmployeeScene.fxml", stage);
     }
 
-    public static void showCustomerScene(Object caller, ActionEvent event) throws IOException {
+    public static void showCustomerScene(Object caller, ActionEvent event) {
         Stage stage = JavaFXExtension.getStageByActionEvent(event);
         JavaFXExtension.showScene(caller, "CustomerScene.fxml", stage);
     }
 
-    public static void showRegisterCustomerScene(Object caller, ActionEvent event) throws IOException {
+    public static void showRegisterCustomerScene(Object caller, ActionEvent event) {
         Stage stage = JavaFXExtension.getStageByActionEvent(event);
         JavaFXExtension.showScene(caller, "RegisterCustomerScene.fxml", stage);
     }
 
-    public static void showLoginScene(Object caller, ActionEvent event) throws IOException {
+    public static void showLoginScene(Object caller, ActionEvent event)  {
         Stage stage = JavaFXExtension.getStageByActionEvent(event);
         JavaFXExtension.showScene(caller, "LoginScene.fxml", stage);
     }
 
-    public static void showAddArticleScene(Object caller, ActionEvent event) throws IOException {
+    public static void showAddArticleScene(Object caller, ActionEvent event) {
         Stage stage = JavaFXExtension.getStageByActionEvent(event);
         JavaFXExtension.showScene(caller, "AddArticleScene.fxml", stage);
     }
 
-    public static void showRegisterEmployeeScene(Object caller, ActionEvent event) throws IOException {
+    public static void showRegisterEmployeeScene(Object caller, ActionEvent event) {
         Stage stage = JavaFXExtension.getStageByActionEvent(event);
         JavaFXExtension.showScene(caller, "RegisterEmployeeScene.fxml", stage);
     }
