@@ -17,93 +17,26 @@ import java.util.ArrayList;
 /**
  * WARNING: Sollte nur vom MainController verwendet werden
  * Verwaltet die Person-Objekte.
+ * Hinweis: Für jeden Verbundenen Client gibt es ein eigenes PersonController-Objekt.
  */
-public class PersonController implements Serializable {
-
-   // private ArrayList<Person> _personList;
-    //private transient ObservableList<Person> _personObservableList;
-
-    //private transient ObservableList<Employee> _employeeObservableList;
-    //private transient ObservableList<Customer> _customerObservableList;
-
-    private void refreshEmployeeAndCustomerObservableList() {
-
-//       if(_employeeObservableList == null){
-//           ArrayList<Employee> employeeList = new ArrayList<>();
-//           _employeeObservableList = FXCollections.observableList(employeeList);
-//       }
-//
-//       if(_customerObservableList == null){
-//           ArrayList<Customer> customerList = new ArrayList<>();
-//           _customerObservableList = FXCollections.observableList(customerList);
-//       }
-//
-//        _employeeObservableList.clear();
-//        _customerObservableList.clear();
-//
-//        for (Person person : _personObservableList) {
-//            if (getPersonTypeByPerson(person) == PersonType.Employee) {
-//                _employeeObservableList.add((Employee) person);
-//            } else {
-//                _customerObservableList.add((Customer) person);
-//            }
-//        }
-
-        //_employeeObservableList = FXCollections.observableList(employeeList);
-        //_customerObservableList = FXCollections.observableList(customerList);
-    }
+public class PersonController {
 
     private Person _registeredPerson; // Angemeldete Person
 
-    /**
-     * Der Konstruktor erzeugt eine leere ArrayList _personList für Person-Objekte.
-     * Es wird ein Person-Objekt vom Typ Employee hinzugefügt, welche den erstmaligen Zugriff auf das Programm ermöglicht.
-     * username: admin und password: admin können zum anmelden verwendet werden. (root-Benutzer)
-     */
     public PersonController() {
-       // _personList = new ArrayList<>();
-        //_personObservableList = FXCollections.observableList(_personList);
-
-
-//        _personObservableList.addListener(new ListChangeListener<Person>() {
-//            @Override
-//            public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
-//                refreshEmployeeAndCustomerObservableList();
-//            }
-//        });
-
-        refreshEmployeeAndCustomerObservableList();
     }
-
-
-    public void InitAfterSerialization(){
-//        _personObservableList = FXCollections.observableList(_personList);
-//        _personObservableList.addListener(new ListChangeListener<Person>() {
-//            @Override
-//            public void onChanged(javafx.collections.ListChangeListener.Change<? extends Person> c) {
-//                refreshEmployeeAndCustomerObservableList();
-//            }
-//        });
-//
-//
-//
-//        refreshEmployeeAndCustomerObservableList();
-    }
-
 
     /**
      * Neuer Mitarbeiter:
-     * Prüft die Parameter und erzeugt ein neues Employee-Objekt und fügt dieses der ArrayList _personList hinzu.
+     * Prüft die Parameter und erzeugt ein neues Employee-Objekt und fügt diese den Daten hinzu.
      *
      * @param firstname Der Vorname des Mitarbeiters
      * @param lastname  Der Nachname des Mitarbeiters
      * @param username  Der Benutzername des Mitarbeiters
      * @param password  Das Passwort des Mitarbeiters
-     * @return Gibt ein BooleanString-Objekt zurück.
-     * Der boolean gibt an, ob das erzeugen des Employee-Objekts erfolgreich war oder nicht.
-     * Der String gibt die entsprechende (Fehler-) Meldung an.
+     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
-    public Result addEmployee(String firstname, String lastname, String username, String password) {
+    public Result<Void> addEmployee(String firstname, String lastname, String username, String password) {
 
         Result<Void> result = new Result(Result.State.FAILED, "", null);
         Result<Void> personValuesValidResult = checkPersonValuesValid(firstname, lastname, username, password);
@@ -121,37 +54,16 @@ public class PersonController implements Serializable {
         return result;
     }
 
-    public Result<Void> editEmployee(Employee employee, String firstname, String lastname, String username, String password) {
-        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
-        Result<Void> personValuesValidResult = checkPersonValuesValid(employee, firstname, lastname, username, password);
-
-        if (personValuesValidResult.getState() == Result.State.FAILED) {
-            result.setMessage(personValuesValidResult.getMessage());
-        } else {
-            employee.setFirstname(firstname);
-            employee.setLastname(lastname);
-            employee.setUsername(username);
-            employee.setPassword(password);
-
-            result.setState(Result.State.SUCCESSFULL);
-            result.setMessage(Message.get(Message.MessageType.Info_EmployeeEdited));
-        }
-
-        return result;
-    }
-
     /**
      * Neuer Kunde:
-     * Prüft die Parameter und erzeugt ein neues Customer-Objekt und fügt dieses der ArrayList _personList hinzu.
+     * Prüft die Parameter und erzeugt ein neues Customer-Objekt und fügt diese den Daten hinzu.
      *
      * @param firstname Der Vorname des Kunden
      * @param lastname  Der Nachname des Kunden
      * @param username  Der Benutzername des Kunden
      * @param password  Das Passwort des Kunden
      * @param address   Das Address-Objekt des Kunden, welches die Adressdaten enthält
-     * @return Gibt ein BooleanString-Objekt zurück.
-     * Der boolean gibt an, ob das erzeugen des Customer-Objekts erfolgreich war oder nicht.
-     * Der String gibt die entsprechende (Fehler-) Meldung an.
+     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> addCustomer(String firstname, String lastname, String username, String password, Address address) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
@@ -170,33 +82,19 @@ public class PersonController implements Serializable {
         return result;
     }
 
-    public Result<Void> editCustomer(Customer customer, String firstname, String lastname, String username, String password, Address address) {
-        Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
-        Result<Void> personValuesValidResult = checkPersonValuesValid(customer, firstname, lastname, username, password);
-
-        if (personValuesValidResult.getState() == Result.State.FAILED) {
-            result.setMessage(personValuesValidResult.getMessage());
-        } else {
-            customer.setFirstname(firstname);
-            customer.setLastname(lastname);
-            customer.setUsername(username);
-            customer.setPassword(password);
-            customer.setAddress(address);
-
-            result.setState(Result.State.SUCCESSFULL);
-            result.setMessage(Message.get(Message.MessageType.Info_CustomerEdited));
-        }
-
-        return result;
-    }
-
-
+    /**
+     * Person löschen:
+     * Löscht die Person mit der angegebenen ID aus den Daten.
+     *
+     * @param personID ID der Person die gelöscht werden soll
+     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     */
     public Result<Void> removePerson(int personID) {
         Person person = getPersonById(personID);
-        if(person != null){
+        if (person != null) {
             DataController.getInstance().getPersonList().remove(person);
             return new Result<Void>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_PersonRemoved), null);
-        } else{
+        } else {
             return new Result<Void>(Result.State.FAILED, "Keine Person mit dieser ID gefunden.", null);
         }
     }
@@ -207,10 +105,8 @@ public class PersonController implements Serializable {
      *
      * @param username Der Benutzername
      * @param password Das Passwort
-     * @return Gibt ein BooleanStringObject-Objekt zurück.
-     * Der boolean gibt an, ob der Login erfolgreich war.
-     * Der String gibt die entsprechende (Fehler-) Meldung an.
-     * Das Object gibt den angemeldeten Benutzer Person-Object zurück, sofern der Vorgang erfolgreich war, ansonsten null.
+     * @return Gibt ein Result<PersonType> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     * Der PersonType gibt an, ob es sich bei der angemeldeten Person um einen Kunden oder Mitarbeiter handelt.
      */
     public Result<PersonType> login(String username, String password) {
         Result<PersonType> result = new Result<PersonType>(Result.State.FAILED, Message.get(Message.MessageType.Error_LoginFailed), null);
@@ -235,9 +131,7 @@ public class PersonController implements Serializable {
      * @param lastname  Der Nachname der Person
      * @param username  Der Benutzername der Person
      * @param password  Das Passwort der Person
-     * @return Gibt ein BooleanSTring-Objekt zurück.
-     * Der boolean gibt an, ob die angegebenen Werte den Anforderungen entsprechen und somit gültig sind oder nicht.
-     * Der String gibt die entsprechende (Fehler-) Meldung an.
+     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     private Result<Void> checkPersonValuesValid(String firstname, String lastname, String username, String password) {
         return checkPersonValuesValid(null, firstname, lastname, username, password);
@@ -250,8 +144,8 @@ public class PersonController implements Serializable {
             result.setMessage(Message.get(Message.MessageType.Error_FirstNameNotEmpty));
         } else if (lastname.trim().isEmpty()) {
             result.setMessage(Message.get(Message.MessageType.Error_LastNameNotEmpty));
-        } else if ((person == null || ( person != null && person.getUsername() != username)) && checkUsernameExists(username)) { // der username nicht geändert hat, dann muss er auch nicht geprüft werden
-                result.setMessage(Message.get(Message.MessageType.Error_UsernameExists));
+        } else if ((person == null || (person != null && person.getUsername() != username)) && checkUsernameExists(username)) { // der username nicht geändert hat, dann muss er auch nicht geprüft werden
+            result.setMessage(Message.get(Message.MessageType.Error_UsernameExists));
         } else if (!checkUsernameIsValid(username)) {
             result.setMessage(Message.get(Message.MessageType.Error_UsernameInvalid));
         } else if (!checkPasswordIsValid(password)) {
@@ -312,7 +206,6 @@ public class PersonController implements Serializable {
      * false -> Passwort entspricht nicht den Anforderungen, also ungültig
      */
     private boolean checkPasswordIsValid(String password) {
-        // TODO: nicht leer, mindestens 8 Zeichen, 1 Sonderzeichen, 1 Zahl, 1 Buchstabe
         boolean result = true;
 
         // nicht leer, mindestens 8 Zeichen
@@ -366,7 +259,12 @@ public class PersonController implements Serializable {
         return personTypeResult;
     }
 
-    private Person getPersonById(int personID){
+    /**
+     * Ermittelt das Person-Objekt, welches der übergebenen ID zugeordnet ist
+     * @param personID Die eindeutige ID der Person
+     * @return Die Person mit der entsprechenden ID, null falls diese nicht extistiert
+     */
+    private Person getPersonById(int personID) {
         Person person = null;
 
         for (Person curPerson : DataController.getInstance().getPersonList()) {
@@ -378,16 +276,19 @@ public class PersonController implements Serializable {
         return person;
     }
 
+    /**
+     * Setzt den Wert der angemeldeten Person auf null, was dazu führt, dass die Rechte für jegliche Aktionen erlischen.
+     */
     public void logout() {
         _registeredPerson = null;
     }
 
-    public ArrayList<Person> getPersonList() {
-        return DataController.getInstance().getPersonList();
-    }
-
-    public ArrayList<Employee> getEmployeeList(){
-      ArrayList<Employee> employeeList = new ArrayList<>();
+    /**
+     * Ermittelt aus den Personen-Daten alle Mitarbeiter und gibt diese als Liste zurück.
+     * @return Liste aller Mitarbeiter
+     */
+    public ArrayList<Employee> getEmployeeList() {
+        ArrayList<Employee> employeeList = new ArrayList<>();
         for (Person person : DataController.getInstance().getPersonList()) {
             if (getPersonTypeByPerson(person) == PersonType.Employee) {
                 employeeList.add((Employee) person);
@@ -396,7 +297,11 @@ public class PersonController implements Serializable {
         return employeeList;
     }
 
-    public ArrayList<Customer> getCustomerList(){
+    /**
+     * Ermittelt aus den Personen-Daten alle Kunden und gibt diese als Liste zurück.
+     * @return Liste aller Kunden
+     */
+    public ArrayList<Customer> getCustomerList() {
         ArrayList<Customer> customerList = new ArrayList<>();
         for (Person person : DataController.getInstance().getPersonList()) {
             if (getPersonTypeByPerson(person) == PersonType.Customer) {
@@ -406,13 +311,6 @@ public class PersonController implements Serializable {
         return customerList;
     }
 
-//    public ObservableList<Employee> getEmployeeList() {
-//        return _employeeObservableList;
-//    }
-//
-//    public ObservableList<Customer> getCustomerList() {
-//        return _customerObservableList;
-//    }
 
     public Person getRegisteredPerson() {
         return _registeredPerson;

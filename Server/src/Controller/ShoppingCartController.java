@@ -5,16 +5,20 @@ import Model.ShoppingCart;
 import Model.ShoppingCartItem;
 import Utilities.Message;
 import Utilities.Result;
-
 import java.io.Serializable;
 
-public class ShoppingCartController implements Serializable {
+/**
+ * WARNING: Sollte nur vom MainController verwendet werden
+ * Verwaltet die ShoppingCartItem-Objekte.
+ */
+public class ShoppingCartController {
 
     /**
-     * Fügt einen Article-Objekt und die Anzahl int dem ShoppingCart-Objekt hinzu
-     * Falls das Article-Object bereits vorhanden ist, wird dieses einfach mit dem neuen Wert überschrieben
-     *
-     * @param shoppingCart Das ShoppingCart-Objekt
+     * Fügt ein ShoppingCartItem einem ShoppingCart hinzu.
+     * Falls ein ShoppingCartItem mit dem selben Artikel bereits vorhanden ist, wird dieses ersetzt.
+     * @param shoppingCart Das enstprechende ShoppingCart (Warenkorb/Einkaufswagen)
+     * @param shoppingCartItem Das ShoppingCartItem, welches dem ShoppingCart hinzugefügt werden soll
+     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht inkl. Meldung.
      */
     public Result<Void> addShoppingCartItem(ShoppingCart shoppingCart, ShoppingCartItem shoppingCartItem) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
@@ -47,6 +51,12 @@ public class ShoppingCartController implements Serializable {
     }
 
 
+    /**
+     * Entfernt ein ShoppingCartItem aus einem ShoppingCart.
+     * @param shoppingCart Das enstprechende ShoppingCart aus dem das ShoppingCartItem entfernt werden soll
+     * @param articleNumber Der Artikel welcher in dem ShoppingCartItem hinterlegt ist, dass entfernt werden soll
+     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht inkl. Meldung.
+     */
     public Result<Void> removeShoppingCartItem(ShoppingCart shoppingCart, int articleNumber) {
         ShoppingCartItem shoppingCartItem = getShoppingCartItemByArticleNumber(shoppingCart, articleNumber);
         if (shoppingCartItem == null) {
@@ -58,6 +68,12 @@ public class ShoppingCartController implements Serializable {
         return new Result<Void>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ArticleRemovedFromCartSuccess), null);
     }
 
+    /**
+     * Gibt das entsprechende ShoppingCartItem-Object zurück, welches auf den übergebenen Artikel referenziert.
+     * @param shoppingCart Das ShoppingCart in dem sich das ShoppingCartItem befindet
+     * @param article Das Article-Objekt, welches in dem egsuchten SHoppingCartItem hinterlegt ist
+     * @return Gibt das ShoppingCartItem zurück, dass den Artikel referenziert, null falls nicht gefunden
+     */
     public ShoppingCartItem getShoppingCartItemByArticle(ShoppingCart shoppingCart, Article article) {
         ShoppingCartItem result = null;
 
@@ -71,6 +87,12 @@ public class ShoppingCartController implements Serializable {
         return result;
     }
 
+    /**
+     * Gibt das entsprechende ShoppingCartItem-Object zurück, welches auf den Artikel mit der übergebenen Artikelnummer referenziert.
+     * @param shoppingCart Das ShoppingCart in dem sich das ShoppingCartItem befindet
+     * @param articleNumber Die Artikelnummer
+     * @return Gibt das ShoppingCartItem zurück, dass den Artikel referenziert, null falls nicht gefunden
+     */
     public ShoppingCartItem getShoppingCartItemByArticleNumber(ShoppingCart shoppingCart, int articleNumber) {
         ShoppingCartItem result = null;
 
@@ -85,7 +107,7 @@ public class ShoppingCartController implements Serializable {
     }
 
     /**
-     * Leert den Warenkorb bzw. die HashMap im ShoppingCart-Objekt
+     * Leert den Warenkorb bzw. die ShoppingCartItem-Liste im ShoppingCart
      *
      * @param shoppingCart Das ShoppingCart-Objekt
      */

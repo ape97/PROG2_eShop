@@ -4,14 +4,26 @@ import Utilities.Result;
 
 import java.io.*;
 
-// Quelle: https://mkyong.com/java/how-to-read-and-write-java-object-to-a-file/
+/**
+ * Ermöglicht das Speichern und Laden von Objekten durch Serialisierung unde Deserialisierung.
+ * Wichtig: Objekte und referenzierte Objekte müssen als serialisierbar gekennzeichnet sein!
+ * Alternativ: transient, als Kennzeichung das dieses Objekt nicht serialisert werden soll
+ * <p>
+ * Quelle: https://mkyong.com/java/how-to-read-and-write-java-object-to-a-file/
+ */
 public class DataWriterReader {
-    private String _filename;
+    private String _filename; // Dateiname der zu erzeugenden oder einzulesenden Datei
 
     public DataWriterReader(String filename) {
         _filename = filename;
     }
 
+    /**
+     * Speichert den Zustand eines serialiserbaren Objekts in eine Datei.
+     *
+     * @param object Das zu speichernede Objekt
+     * @return Das Result<Void> gibt den Erfolg der Aktion zurück.
+     */
     public Result<Void> save(Object object) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(new File(_filename));
@@ -33,6 +45,11 @@ public class DataWriterReader {
         return new Result<Void>(Result.State.SUCCESSFULL, "Daten wurden erfolgreich gespeichert.", null);
     }
 
+    /**
+     * Lädt den Zustand eines serialisierten Objekts aus einer Datei ein.
+     *
+     * @return Das Result<Object> gibt den Erfolg der Aktion zurück und enthält ggf. das geladene/eingelesene Objekt.
+     */
     public Result<Object> load() {
         Object object = null;
 

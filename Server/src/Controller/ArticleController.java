@@ -3,9 +3,6 @@ package Controller;
 import Model.Article;
 import Model.BulkArticle;
 import Utilities.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,36 +11,20 @@ import java.util.ArrayList;
  * WARNING: Sollte nur vom MainController verwendet werden
  * Verwaltet die Article-Objekte.
  */
-public class ArticleController implements Serializable {
+public class ArticleController {
 
-    // private ArrayList<Article> _articleList;
-    //private transient ObservableList<Article> _articleObservableList;
-
-    /**
-     * Der Konstruktor erzeugt eine leere ArrayList _articleList für Article-Objekte.
-     * Desweiteren wird wird eine ObservableList basierend auf der _articleList erstellt.
-     */
     public ArticleController() {
-        //_articleList = new ArrayList<>();
-        //_articleObservableList = FXCollections.observableList(_articleList);
     }
-
-    public void InitAfterSerialization() {
-        //_articleObservableList = FXCollections.observableList(_articleList);
-    }
-
 
     /**
      * Neuer Artikel:
-     * Prüft die Parameter und erzeugt ein neues Article-Objekt und fügt dieses der ArrayList _articleList hinzu.
+     * Prüft die Parameter und erzeugt ein neues Article-Objekt und fügt dieses den Daten hinzu.
      *
-     * @param name  Die Bezeichnung des Artikels
-     * @param stock Der Lagerbestand des Artikels (stk.)
-     * @param price Der Preis des Artikels
-     * @return Gibt ein BooleanString-Objekt zurück.
-     * Der boolean gibt an, ob das erzeugen des Article-Objekts erfolgreich war oder nicht.
-     * Der String gibt die entsprechende (Fehler-) Meldung an.
-     * Das Object gibt ist das erstellte Article-Object, ansonsten null.
+     * @param name          Die Bezeichnung des Artikels
+     * @param stock         Der Lagerbestand des Artikels (stk.)
+     * @param price         Der Preis des Artikels
+     * @param packagingUnit Die Verpackungseinheit des Artikels (relevant für BullArticle)
+     * @return Gibt ein Result<Article>-Objekt zurück. Enthält den Status der Aktion und ggf. das Article-Objekt.
      */
     public Result<Article> addArticle(String name, String stock, String price, String packagingUnit) {
 
@@ -62,12 +43,23 @@ public class ArticleController implements Serializable {
             }
             DataController.getInstance().getArticleList().add(article);
             System.out.println(article.getArticleNumber());
+
             return new Result<Article>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ArticleCreated), article);
         }
 
     }
 
+    /**
+     * Prüft die übergebenen Artikeldaten auf Ihre Zulässigkeit und gibt demenstprechend ein Result<Void> zurück.
+     *
+     * @param name          Artikelbezeichnung
+     * @param stock         Lagerbestand
+     * @param price         Preis
+     * @param packagingUnit Verpackungseinheit
+     * @return Gibt den Erfolgsstaus der Aktion als Result<Void> zurück.
+     */
     private Result<Void> checkArticleValues(String name, String stock, String price, String packagingUnit) {
+
         Result<Integer> stockParseResult = Parse.tryParseInt(stock);
         if (stockParseResult.getState() == Result.State.FAILED) {
             return new Result<Void>(Result.State.FAILED, "Anzahl kein gültiger Ganzzahlenwert.", null);
@@ -98,25 +90,14 @@ public class ArticleController implements Serializable {
         return new Result<Void>(Result.State.SUCCESSFULL, "", null);
     }
 
-    public Result<Article> editArticle(Article article, String name, double price) {
-        Result<Article> result = new Result<Article>(Result.State.FAILED, "", null);
-
-        if (name.trim().isEmpty()) {
-            result.setMessage(Message.get(Message.MessageType.Error_ArticleNameNotEmpty));
-        } else if (price <= 0.0) {
-            result.setMessage(Message.get(Message.MessageType.Error_ArticlePriceGreaterThanZero));
-        } else {
-            article.setName(name);
-            article.setPrice(price);
-
-            result.setState(Result.State.SUCCESSFULL);
-            result.setMessage(Message.get(Message.MessageType.Info_ArticleEdited));
-            result.setObject(article);
-        }
-
-        return result;
-    }
-
+    /**
+     * Artikel entfernen
+     * <p>
+     * Entfernt das Article-Objekt mit übereinstimmender Artikelnummer aus den Daten.
+     *
+     * @param articleNumber Die Artikelnumemr des zu entfernenden Artikels
+     * @return Gibt ein Result<Article>-Objekt zurück. Enthält den Status der Aktion und ggf. das entfernte Article-Objekt.
+     */
     public Result<Article> removeArticle(String articleNumber) {
 
         Result<Integer> parseArticleNumberResult = Parse.tryParseInt(articleNumber);
@@ -139,9 +120,7 @@ public class ArticleController implements Serializable {
      *
      * @param article          Der Artikel dessen Bestand sich verändern soll
      * @param stockChangeValue Die Anzahl um die sich der Bestand verändern soll
-     * @return Gibt ein BooleanString-Objekt zurück.
-     * Der boolean gibt an, ob der Bestand erfolgreich geändert wurde.
-     * Der String gibt die entsprechene (Fehler-) Meldung an.
+     * @return Gibt den Erfolgsstaus der Aktion als Result<Void> zurück.
      */
     public Result<Void> updateStock(Article article, int stockChangeValue) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
@@ -158,38 +137,6 @@ public class ArticleController implements Serializable {
 
         return result;
     }
-
-    /**
-     * TODO: ERSTMAL AUSKOMMENTIERT FÜR FX
-     *
-     * Sortierte Liste der Article-Objekte als Strings
-     * Ist für die CUI gedacht, weil dort String Ausgaben gemacht werden
-     *
-     * @param articleSortMode Gibt an, wie die Artikel sortiert werden sollen
-     * @return Gibt einen formatierten String mit Artikel Strings (article.toString) zurück
-     */
-    /** public String getSortedArticlesString(ArticleSortMode articleSortMode) {
-     String result = "";
-     sortArticles(articleSortMode);
-
-     result += "Artikelnummer  -  Artikelbezeichnung  -  Preis  -  Lagerbestand  -  Verpackungseinheit\n";
-
-     for (Article article : _articleList) {
-     result += article.toString(true) + "\n";
-     }
-
-     return result;
-     }*/
-
-    /**
-     * Sortiert die Artikel nach dem angegebenen Schema
-     *
-     * @param articleSortMode Das angegebene Schema nachdem sortiert werden soll
-     */
-    //TODO: ERSTMAL AUSKOMMENTIERT FÜR FX
-   /* private void sortArticles(ArticleSortMode articleSortMode) {
-        Collections.sort(_articleList, new ArticleComparator(articleSortMode));
-    }*/
 
     /**
      * Prüft ob die angegebene Artikelnummer bereits einem Article-Objekt zugeordnet ist.
@@ -252,6 +199,11 @@ public class ArticleController implements Serializable {
         return result;
     }
 
+    /**
+     * Ermittelt das Article-Objekt, welches der übergebenen Artikelnummer zugeordnet ist
+     * @param articleNumber Die Artikelnummer
+     * @return Der Artikel der mit der entsprechenden Artikelnummer, null falls dieser nicht extistiert
+     */
     public Article getArticleByArticleNumber(int articleNumber) {
         Article articleResult = null;
 
@@ -265,56 +217,22 @@ public class ArticleController implements Serializable {
         return articleResult;
     }
 
+    /**
+     * Prüft, on eine bestimmte Anzaahl eines Artikels auf Lager ist.
+     * @param article Der Artikel
+     * @param stockNumber Die Anzahl des Artikels
+     * @return Der Wahrheitswert sagt aus, ob der Artikel auf Lager ist (true) oder nicht (false)
+     */
     public boolean checkArticleIsStock(Article article, int stockNumber) {
         return article.getStock() >= stockNumber;
     }
 
-    // TODO: ERSTMALAUSKOMMENTIERT FÜR JAVA FX
     /**
-     * Ein Comparator für Article-Objekte, damit diese nach ihren Eigenschaften sortiert werden können
-     * Quelle: // https://stackoverflow.com/questions/2784514/sort-arraylist-of-custom-objects-by-property
+     * Generiert basierend auf den Artikeldaten eine Artikelnummer, die aktuell nicht in Verwendung ist
+     * Nachteil: Nach Löschung des Artikels mit der größten Artikelnummer, könnte diese wieder an einen neuen Artikel vergeben werden.
+     *           Da immer von der höchsten Nummer aus, weiter gezählt wird.
+     * @return Gibt die generierte Artikelnummer zurück
      */
-   /* private class ArticleComparator implements Comparator<Article> {
-        private ArticleSortMode _articleSortMode;
-
-        *//**
-     * Im Konstruktor wird das Schema, der SortMode als Member gesetzt
-     *
-     * @param articleSortMode Das Schema nachdem sortiert werden soll
-     *//*
-        public ArticleComparator(ArticleSortMode articleSortMode) {
-            _articleSortMode = articleSortMode;
-        }
-
-        */
-
-    /**
-     * Je nachdem welcher SortMode in _articleSortMode festgelegt ist,
-     * werden die Artikel anders verglichen.
-     *
-     * @param o1 Artikel 1 zum vergleichen
-     * @param o2 Artikel 2 zum vergleichen
-     * @return https://www.javatpoint.com/java-string-compareto
-     *//*
-        @Override
-        public int compare(Article o1, Article o2) {
-            int result;
-
-            switch (_articleSortMode) {
-                case ArticleName:
-                    result = o1.getName().compareTo(o2.getName());
-                    break;
-                case ArticleNumber:
-                    result = ((Integer) o1.getArticleNumber()).compareTo(((Integer) o2.getArticleNumber()));
-                    break;
-                default:
-                    throw new InvalidParameterException();
-            }
-            return result;
-        }
-
-
-    }*/
     private int generateArticleNumber() {
         int articleNumber = 0;
         for (Article article : DataController.getInstance().getArticleList()) {
@@ -325,6 +243,10 @@ public class ArticleController implements Serializable {
         return articleNumber;
     }
 
+    /**
+     * Gibt die Artikeldaten, also die Artikelliste zurück
+     * @return Artikelliste
+     */
     public ArrayList<Article> getArticleList() {
         return DataController.getInstance().getArticleList();
     }

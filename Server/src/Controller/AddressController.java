@@ -3,7 +3,6 @@ package Controller;
 import Model.Address;
 import Utilities.Message;
 import Utilities.Result;
-
 import java.io.Serializable;
 
 /**
@@ -12,7 +11,7 @@ import java.io.Serializable;
  * Die Verwaltung der Address-Objekte ist hier nur begrenzt möglich,
  * da diese jeweils den Person-Objekten zugeordnet sind.
  */
-public class AddressController implements Serializable {
+public class AddressController {
 
     /**
      * Erzeugt ein neues Address-Objekt und gibt dieses zurück, sofern die Parameter den Anforderungen entsprechen.

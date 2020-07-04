@@ -10,8 +10,10 @@ import java.util.ArrayList;
 
 /**
  * Verbindet alle Controller miteinander.
+ * Dadurch können Methoden unterschiedlicher Controller zusammen verwendet werden.
+ * Alle Aktionen sollten über den MainController laufen, dieser ist die Schnittstelle zwischen Daten und Anzeige.
  */
-public class MainController implements Serializable {
+public class MainController {
 
     private PersonController _personController;
     private AddressController _addressController;
@@ -20,20 +22,6 @@ public class MainController implements Serializable {
     private ShoppingCartController _shoppingCartController;
     private BillController _billController;
 
-    // Singelton Implementierung
-    // private static MainController _instance;
-
-//    public static MainController getInstance() {
-//        if (_instance == null) {
-//            _instance = new MainController();
-//        }
-//        return _instance;
-//    }
-
-//    // Relevant für das Laden der Daten
-//    public static void setInstance(MainController instance) {
-//        _instance = instance;
-//    }
 
     public MainController() {
         _personController = new PersonController();
@@ -44,26 +32,8 @@ public class MainController implements Serializable {
         _billController = new BillController();
     }
 
-    public void InitAfterSerialization() {
-//        _personController.InitAfterSerialization();
-//        _articleController.InitAfterSerialization();
-//        _eventController.InitAfterSerialization();
-//
-//        for (Customer customer : _personController.getCustomerList()) {
-//            customer.getShoppingCart().initAfterSerialization();
-//        }
-    }
-
-
-    // TEST FOR FX
-
-
-    // PERSON
-
     /**
      * Reicht den Funktionsaufruf weiter an PersonController, für weitere Informationen siehe: PersonController:addEmployee(...)
-     *
-     * @return Gibt das BooleanString-Objekt von PersonController.addEmployee(...) zurück.
      */
     public Result<Void> addEmployee(String firstname, String lastname, String username, String password) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
@@ -80,7 +50,6 @@ public class MainController implements Serializable {
      * Für weitere Informationen siehe:
      * PersonController:addCustomer(...)
      * AddressController:createAddress(...)
-     * <p>
      * Erstellt mit AddressController ein Address-Objekt und gib dieses weiter an PersonController.
      */
     public Result<Void> addCustomer(String firstname, String lastname, String username, String password,
@@ -100,9 +69,15 @@ public class MainController implements Serializable {
         return result;
     }
 
+    /**
+     * Reicht den Funktionsaufruf weiter an PersonController
+     * Für weitere Informationen siehe:
+     * PersonController:removePerson(...)
+     */
     public Result<Void> removePerson(String personID) {
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
             Result<Integer> parseResult = Parse.tryParseInt(personID);
+
             if (parseResult.getState() == Result.State.SUCCESSFULL) {
                 return _personController.removePerson(parseResult.getObject());
             } else {
@@ -118,29 +93,19 @@ public class MainController implements Serializable {
      * Für weitere Informationen siehe: PersonController:login(...)
      */
     public Result<PersonType> login(String username, String password) {
-        Result<PersonType> result = new Result<PersonType>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
-
-        result = _personController.login(username, password);
-
+        Result<PersonType> result = _personController.login(username, password);
         return result;
     }
 
+    /**
+     * Reicht den Funktionsaufruf weiter an PersonController
+     * Für weitere Informationen siehe: PersonController:logout(...)
+     */
     public Result<Void> logout() {
         Result<Void> result = new Result<>(Result.State.SUCCESSFULL, "Sie wurden ausgeloggt.", null);
         _personController.logout();
         return result;
     }
-
-
-    // ARTICLE
-
-    /**
-     * Reicht den Funktionsaufruf weiter an ArticleController
-     * Für weitere Informationen siehe: ArticleConctroller:getSortedArticleStringList(...)
-     */
- /*   public String getSortedArticleStringList(ArticleSortMode articleSortMode) {
-        return _articleController.getSortedArticlesString(articleSortMode);
-    }*/
 
     /**
      * Reicht den Funktionsaufruf weiter an ArticleController
@@ -160,25 +125,12 @@ public class MainController implements Serializable {
         }
     }
 
-
-    public Result<Void> editArticle(Article article, String name, double price) {
-
-        Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
-
-        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
-
-            Result<Article> editArticleResult = _articleController.editArticle(article, name, price);
-
-//            if (editArticleResult.getState() == Result.State.SUCCESSFULL) {
-//                addEvent(editArticleResult.getObject(), 0);
-//            }
-
-            result = new Result<Void>(editArticleResult.getState(), editArticleResult.getMessage(), null);
-        }
-
-        return result;
-    }
-
+    /**
+     * Reicht den Funktionsaufruf weiter an ArticleController
+     * Für weitere Informationen siehe: ArticleController:removeArticle(...)
+     * Wenn removeArticle(...) erfolgreich war, wird addEvent(...) aufgerufen,
+     * damit die Bestandsveränderung protokolliert wird.
+     */
     public Result<Void> removeArticle(String articleNumber) {
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
             Result<Article> removeArticleResult = _articleController.removeArticle(articleNumber);
@@ -190,7 +142,6 @@ public class MainController implements Serializable {
             return new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
         }
     }
-
 
     /**
      * Reicht den Funktionsaufruf weiter an ArticleController
@@ -228,14 +179,10 @@ public class MainController implements Serializable {
     }
 
     /**
-     * Prüft blabla TODO
-     * Fügt einen Artikel mit der Anzahl über die Artikelnummer dem Warenkorb hinzu
-     *
-     * @param articleNumber    Artikelnummer
-     * @param numberOfArticles Anzahl
-     * @return Gibt ein BooleanString-Objekt
-     * boolean -> Sagt aus, ob der Artikel erfolgreich dem Warenkorb hinzugefügt wurde oder nicht
-     * String -> Gibt die zugehörige (Fehler-) Meldung aus
+     * Fügt einen Artikel mit der Anzahl, über die Artikelnummer dem Warenkorb hinzu
+     * Dafür werden erst diverse Bedingungen geprüft, die aussagen ob diese Aktion möglich ist.
+     * Sind die Prüfungen erfolgreich wird ShoppingCartController.addShoppingCartItem(...) aufgerufen.
+     * Für weitere Informationen siehe: ShoppingCartController.addShoppingCartItem(...).
      */
     public Result<Void> addArticleToShoppingCart(String articleNumber, String numberOfArticles) {
 
@@ -274,14 +221,11 @@ public class MainController implements Serializable {
         return _shoppingCartController.addShoppingCartItem(customer.getShoppingCart(), new ShoppingCartItem(article, parseNumberOfArticlesResult.getObject()));
     }
 
-//    public Result<Void> addArticleToShoppingCart(Article article, int numberOfArticles) {
-//        return addArticleToShoppingCart(article.getArticleNumber(), numberOfArticles);
-//    }
-
-//    public Result<Void> addArticleToShoppingCart(ShoppingCartItem shoppingCartItem, int numberOfArticles) {
-//        return addArticleToShoppingCart(shoppingCartItem.getArticle(), numberOfArticles);
-//    }
-
+    /**
+     * Entfernt einen Artikel über die Artikelnummer aus dem Warenkorb.
+     * Reicht den Funktionsaufruf weiter an ShoppingCartController.
+     * Für weitere Informationen siehe: ShoppingCartController.removeShoppingCartItem(...).
+     */
     public Result<Void> removeArticleFromShoppingCart(String articleNumber) {
 
         if (_personController.getRegisteredPersonType() != PersonType.Customer) {
@@ -294,16 +238,14 @@ public class MainController implements Serializable {
         }
 
         Customer customer = (Customer) _personController.getRegisteredPerson();
-        return  _shoppingCartController.removeShoppingCartItem(customer.getShoppingCart(), parseArticleNumberResult.getObject());
+        return _shoppingCartController.removeShoppingCartItem(customer.getShoppingCart(), parseArticleNumberResult.getObject());
     }
 
     /**
      * Kauft die Artikel in dem ShoppingCart-Objekt des angemeldeten Customer-Objektes
      *
-     * @return Gibt ein BooleanStringObject-Objekt zurück
-     * boolean -> Gibt an, ob der Kauf erfolgreich war
-     * String -> Gibt die entsprechende (Fehler-) Meldung aus
-     * Object -> Enthält die Rechnung als formatierten String, sofern der Kauf erfolgreich war
+     * @return Gibt ein Result<Bill>-Objekt zurück, welches aussagt ob die Aktion erfolgreich war oder nicht.
+     * getObject() enthält das Bill-Objekt, also die Rechnung, sofern der Kauf erfolgreich war
      */
     public Result<Bill> buyShoppingCart() {
         Result<Bill> result = new Result<Bill>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
@@ -346,11 +288,9 @@ public class MainController implements Serializable {
     }
 
     /**
-     * Leert den Einkaufswagen blabla TODO
-     *
-     * @return Gibt ein BooleanString-Object zurück.
-     * boolean -> Gibt zurück, ob das leeren erfolgreich geklappt hat.
-     * String -> Gibt die entsprechende (Fehler-) Meldung aus.
+     * Leert den Einkaufswagen
+     * Reicht den FUnktionsaufruf weiter an ShoppingCartController.
+     * Für mehr Informationen siehe: ShoppingCartController.clear(...).
      */
     public Result<Void> clearShoppingCart() {
         Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ShoppingCartClearSuccess), null);
@@ -367,15 +307,12 @@ public class MainController implements Serializable {
     }
 
     /**
-     * Gibt den Einkaufswagen als formatierten String zurück blabla TODO
-     *
-     * @return Gibt ein BooleanString-Objekt zurück.
-     * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
-     * String --> enthält die Fehlermeldung oder das ShppoingCart als String
+     * Gibt den Einkaufswagen als Liste von ShoppingCartItem-Objekten zurück.
+     * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
+     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
      */
     public Result<ArrayList<ShoppingCartItem>> getShoppingCartItemList() {
         Result<ArrayList<ShoppingCartItem>> result = new Result<ArrayList<ShoppingCartItem>>(Result.State.FAILED, "", null);
-
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
             Customer customer = (Customer) _personController.getRegisteredPerson();
@@ -389,8 +326,6 @@ public class MainController implements Serializable {
         return result;
     }
 
-
-
     /**
      * Reicht den Funktionsaufruf weiter an EventController
      * Für weitere Informationen siehe: EventController:addEvent(...)
@@ -400,33 +335,22 @@ public class MainController implements Serializable {
     }
 
     /**
-     * Zeigt das Lagerprotokoll an blabla TODO
+     * Gibt die Artikel als Liste zurück.
      *
-     * @return Gibt ein BooleanString-Objekt zurück.
-     * boolean -> Ob der Benutzer die Rechte zum anzeigen hat
-     * String --> enthält die Fehlermeldung oder das Lagerprotokoll als String
+     * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
+     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
      */
-/*    public Result<Void> getEventsString() {
-        Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, "", null);
-
-        if (_personController.getRegisteredPersonType() == PersonType.Employee) {
-            result.setMessage(_eventController.getEventList());
-        } else {
-            result.setState(Result.State.FAILED);
-            result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
-        }
-
-        return result;
-    }*/
     public Result<ArrayList<Article>> getArticleList() {
         Result<ArrayList<Article>> result = new Result<ArrayList<Article>>(Result.State.SUCCESSFULL, "", null);
-
         result.setObject(_articleController.getArticleList());
-
         return result;
     }
 
-
+    /**
+     * Gibt die Kunden als Liste zurück.
+     * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
+     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
+     */
     public Result<ArrayList<Customer>> getCustomerList() {
         Result<ArrayList<Customer>> result = new Result<ArrayList<Customer>>(Result.State.SUCCESSFULL, "", null);
 
@@ -441,6 +365,11 @@ public class MainController implements Serializable {
     }
 
 
+    /**
+     * Gibt die Mitarbeiter als Liste zurück.
+     * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
+     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
+     */
     public Result<ArrayList<Employee>> getEmployeeList() {
         Result<ArrayList<Employee>> result = new Result<ArrayList<Employee>>(Result.State.SUCCESSFULL, "", null);
 
@@ -455,6 +384,11 @@ public class MainController implements Serializable {
     }
 
 
+    /**
+     * Gibt die Events als Liste zurück (Änderungsprotokoll).
+     * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
+     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
+     */
     public Result<ArrayList<Event>> getEventList() {
         Result<ArrayList<Event>> result = new Result<ArrayList<Event>>(Result.State.SUCCESSFULL, "", null);
 
@@ -467,5 +401,4 @@ public class MainController implements Serializable {
 
         return result;
     }
-
 }
