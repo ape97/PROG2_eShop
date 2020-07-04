@@ -6,6 +6,9 @@ import Utilities.Result;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * Startet und Stoppt die Server Funktionalität.
+ */
 public class ServerController {
 
     private ServerSocket _serverSocket;
@@ -14,6 +17,11 @@ public class ServerController {
     public ServerController() {
     }
 
+    /**
+     * Startet den Server.
+     * Dafür wird das ServerSocket initialisiert und
+     * der ClientRegisterProcessor Thread gestartet, welcher Verbindungen zu Clients aufbaut.
+     */
     public void start() throws IOException {
         System.out.println("Server wird gestartet...");
         Result<Void> loadDataResult = DataController.loadData();
@@ -28,6 +36,11 @@ public class ServerController {
         System.out.println("Server erfolgreich gestartet!");
     }
 
+    /**
+     * Beendet den Server.
+     * Dafür wird dem ClientRegisterProcessor signalisiert, dass dieser stoppen soll.
+     * Danach werden die Daten gespeichert.
+     */
     public void stop() {
         _clientRegisterProcesssor.exit();
         System.out.println("Server wird beendet...");

@@ -7,9 +7,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+/**
+ * Der ClientRegisterProcessor ist ein Thread, welcher in einem Loop Verbindungsanfragen von Clients entgegen nimmt.
+ */
 public class ClientRegisterProcessor extends Thread {
 
-    private boolean _isActive;
+    private boolean _isActive; // Abbruchbedingung für das Loop
     private ServerSocket _serverSocket;
 
     public ClientRegisterProcessor(ServerSocket serverSocket) {
@@ -18,6 +21,14 @@ public class ClientRegisterProcessor extends Thread {
     }
 
     @Override
+    /**
+     * Wird ausgeführt, wenn der Thread über start() gestartet wurde.
+     * Läuft in einem Loop und nimmt Verbindungsanfragen von Clients entgegen.
+     * Konnte die Verbindung zu einem neuen CLient aufgebaut werden, wird für diesen ein ClientRequestProcessor erstellt.
+     * Dieser sit ebenfalls ein Thread und nimmt ab sofort die Anfragen dieses Clients entgegen.
+     * Für jeden Client wird ein eigener ClientRequestProecssor-Thread ausgeführt.
+     * Dadurch können alle Clients asynchron auf dem Server arbeiten.
+     */
     public void run() {
         System.out.println("Suche nach Clients läuft...");
 
@@ -29,12 +40,11 @@ public class ClientRegisterProcessor extends Thread {
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
-                // TODO: die clientrequestprocessor müssen noch in eine liste und alle beendet werden oder dann wenn sich ein client abmeldet
                 ClientRequestProcessor clientRequestProcessor = new ClientRequestProcessor(socket, objectInputStream, objectOutputStream);
                 clientRequestProcessor.start();
                 System.out.println("Verbindung zu Client erfolgreich aufgebaut.");
 
-            } catch (SocketTimeoutException ex){
+            } catch (SocketTimeoutException ex) {
                 // Timeout, kann ignoriert werden
                 // Sorgt dafür, dass die while-Schleife weiter läuft und die Bedingung prüfen kann
                 // Ansonsten würde das Programmm bei .accept() ewig stehen bleiben
@@ -46,7 +56,10 @@ public class ClientRegisterProcessor extends Thread {
         System.out.println("Suche nach Clients beendet.");
     }
 
-    public void exit(){
+    /**
+     * Setzt die Abbruchbedingung für das Loop in run().
+     */
+    public void exit() {
         System.out.println("Suche nach Clients wird beendet....");
         _isActive = false;
     }

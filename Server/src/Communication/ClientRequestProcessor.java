@@ -1,9 +1,7 @@
 package Communication;
 
-
 import Controller.MainController;
 import Utilities.ClientRequest;
-
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,14 +9,17 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ *  Der ClientRequestProcessor ist ein Thread, welcher für einen einzelnen Client alle Anfragen entgegen nimmt.
+ */
 public class ClientRequestProcessor extends Thread {
 
     private MainController _mainController;
-    private boolean _isActive;
-    private Socket _socket;
-    private ObjectInputStream _objectInputStream;
-    private ObjectOutputStream _objectOutputStream;
-    private ClientRequestInterpreter _clientRequestInterpreter;
+    private boolean _isActive; // Abbruchbedingung
+    private Socket _socket; // Schnittstelle zwischen Client und Server
+    private ObjectInputStream _objectInputStream; // Stream für Client -> Server
+    private ObjectOutputStream _objectOutputStream; // Stream für Server -> Client
+    private ClientRequestInterpreter _clientRequestInterpreter; // Verarbeitet ClientRequests
 
     public ClientRequestProcessor(Socket socket, ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream) {
         _isActive = true;
@@ -30,6 +31,11 @@ public class ClientRequestProcessor extends Thread {
     }
 
     @Override
+    /**
+     * Wird ausgeführt, wenn der Thread über start() gestartet wurde.
+     * Dieses Loop nimmt durchgehend Anfragen von dem verbundenen Client entgegen und üebrgibt diese an
+     * den ClientRequestInterpreter, dieser verarbeitet die Anfragen und antwortet dem Client.
+     */
     public void run() {
         System.out.println("Server wartet auf Client Anfragen...");
         while (_isActive) {
@@ -54,6 +60,11 @@ public class ClientRequestProcessor extends Thread {
         System.out.println("Verbindung zum Client wurde getrennt!");
     }
 
+    /**
+     * Setzt die Abbruchbedingung und schließt somit die Verbindung mit dem Client.
+     * Aktuell wird diese Methode noch nicht von außerhalb aufgerufen.
+     * TODO: Muss eigentlich von außen aufegrufen werden können, beim stoppen des Servers
+     */
     public void exit() {
         System.out.println("Verbindung zum Client wird getrennt...");
         _isActive = false;
