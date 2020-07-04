@@ -1,172 +1,182 @@
 package View.GUI.FXMLController;
 
-
 import Communication.ClientController;
 import Data.DataCache;
 import Model.Article;
 import Model.Employee;
 import Model.Event;
 import Utilities.ArticleExtension;
-import Utilities.Message;
 import Utilities.Result;
 import View.GUI.MainSceneController;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * Der Controller für die EmployeeScene.fxml.
+ * Die GUI für Employee (Mitarbeiter), die grafische Schnittstelle zum eShop.
+ */
 public class EmployeeSceneController {
 
     @FXML
-    private TableView tableView_events;
+    private TableView tableView_events; // Tabelle mit den Events (Änderungsprotokoll)
     @FXML
-    private TableView tableView_articles;
+    private TableView tableView_articles; // Tabelle mit den Artikeln
     @FXML
-    private TableView tableView_employees;
+    private TableView tableView_employees; // Tabelle mit den Mitarbeietrn
 
     @FXML
     public void initialize() {
-       initEventTableView();
+        initEventTableView();
         initArticleTableView();
         initEmployeeTableView();
     }
 
-
     @FXML
-    private void button_addArticle_clicked(ActionEvent event) throws IOException {
+    /**
+     * Öffnet eine neue Ansicht, in der ein neuer Artikel erstellt werden kann.
+     */
+    private void button_addArticle_clicked(ActionEvent event) {
         MainSceneController.showAddArticleScene(this, event);
         refreshArticles();
         refreshEvents();
     }
 
     @FXML
-    private void button_editArticle_clicked(ActionEvent event) throws IOException {
-        // TODO
-        refreshArticles();
-        refreshEvents();
-    }
+    /**
+     * Wird der removeArticle-Button (Artikel entfernen) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
+    private void button_removeArticle_clicked(ActionEvent event) {
 
-
-    @FXML
-    private void button_eventRefresh_clicked(ActionEvent event) throws IOException {
-        refreshEvents();
-    }
-
-    private void refreshEvents() {
-        Result<Void> result = DataCache.getInstance().refreshEventList();
-
-        if (result.getState() == Result.State.FAILED) {
-            String title;
-            String header;
-            String message;
-            title = Message.get(Message.MessageType.Info);
-            header = Message.get(Message.MessageType.Info);
-            message = result.getMessage();
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-        }
-    }
-
-    @FXML
-    private void button_articleRefresh_clicked(ActionEvent event) throws IOException {
-        refreshArticles();
-    }
-
-    private void refreshArticles() {
-        Result<Void> result = DataCache.getInstance().refreshArticleList();
-
-        if (result.getState() == Result.State.FAILED) {
-            String title;
-            String header;
-            String message;
-            title = Message.get(Message.MessageType.Info);
-            header = Message.get(Message.MessageType.Info);
-            message = result.getMessage();
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-        }
-    }
-
-    @FXML
-    private void button_employeeRefresh_clicked(ActionEvent event) throws IOException {
-        refreshEmployees();
-    }
-
-    private void refreshEmployees() {
-        Result<Void> result = DataCache.getInstance().refreshEmployeeList();
-
-        if (result.getState() == Result.State.FAILED) {
-            String title;
-            String header;
-            String message;
-            title = Message.get(Message.MessageType.Info);
-            header = Message.get(Message.MessageType.Info);
-            message = result.getMessage();
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-        }
-    }
-
-
-    @FXML
-    private void button_removeArticle_clicked(ActionEvent event) throws IOException {
+        // Ermittelt den selektierten Artikel in der Tabelle
         Object selectedItem = tableView_articles.getSelectionModel().getSelectedItem();
+
+        // Ist ein Artikel selektiert, wird fortgesetzt
         if (selectedItem != null) {
+
             Article article = (Article) selectedItem;
+
+            // Ruft auf dem ClientController die removeArticle()-Methode auf, diese wird an den Server weiter gereicht
             Result<Void> result = ClientController.getInstance().removeArticle(article);
 
-            String title = Message.get(Message.MessageType.Info);
-            String header = Message.get(Message.MessageType.Info);
-            String message = result.getMessage();
-
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-            refreshArticles();
-            refreshEvents();
+            MainSceneController.showResultMessageBox(result);
+            if (result.getState() == Result.State.SUCCESSFULL) {
+                refreshArticles();
+                refreshEvents();
+            }
         }
     }
 
-
     @FXML
-    private void button_addEmployee_clicked(ActionEvent event) throws IOException {
+    /**
+     * Öffnet eine neue Ansicht, in der ein neuer Mitarbeiter erstellt werden kann.
+     */
+    private void button_addEmployee_clicked(ActionEvent event) {
         MainSceneController.showRegisterEmployeeScene(this, event);
         refreshEmployees();
     }
 
     @FXML
-    private void button_editEmployee_clicked(ActionEvent event) throws IOException {
-        // TODO
-        refreshEmployees();
-    }
+    /**
+     * Wird der removeArticle-Button (Artikel entfernen) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
+    private void button_removeEmployee_clicked(ActionEvent event) {
 
-    @FXML
-    private void button_removeEmployee_clicked(ActionEvent event) throws IOException {
+        // Ermittelt den selektierten Mitarbeiter in der Tabelle
         Object selectedItem = tableView_employees.getSelectionModel().getSelectedItem();
+
+        // Ist ein Mitarbeiter selektiert, wird fortgesetzt
         if (selectedItem != null) {
+
             Employee employee = (Employee) selectedItem;
+
+            // Ruft auf dem ClientController die removePerson()-Methode auf, diese wird an den Server weiter gereicht
             Result<Void> result = ClientController.getInstance().removePerson(employee);
 
-            String title = Message.get(Message.MessageType.Info);
-            String header = Message.get(Message.MessageType.Info);
-            String message = result.getMessage();
-
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-            refreshEmployees();
+            MainSceneController.showResultMessageBox(result);
+            if (result.getState() == Result.State.SUCCESSFULL) {
+                refreshEmployees();
+            }
         }
     }
 
-    private void initEmployeeTableView() {
+    @FXML
+    /**
+     * Wird der logout-Button (Abmelden) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
+    private void button_logout_clicked(ActionEvent event) {
+        // Ruft auf dem ClientController die logout()-Methode auf, diese wird an den Server weiter gereicht
+        ClientController.getInstance().logout();
+        MainSceneController.showLoginScene(this, event);
+    }
 
+    @FXML
+    /**
+     * Wird der eventRefresh-Button (Events Aktualisieren) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     */
+    private void button_eventRefresh_clicked(ActionEvent event) {
+        refreshEvents();
+    }
+
+    @FXML
+    /**
+     * Wird der articleRefresh-Button (Artikel Aktualisieren) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     */
+    private void button_articleRefresh_clicked(ActionEvent event) {
+        refreshArticles();
+    }
+
+    @FXML
+    /**
+     * Wird der employeeRefresh-Button (Mitarbeiter Aktualisieren) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     */
+    private void button_employeeRefresh_clicked(ActionEvent event) {
+        refreshEmployees();
+    }
+
+    /**
+     * Ruft die entsprechende Aktualisierungs-Methode auf und zeigt bei Fehlern dem Benutzer eine Meldung.
+     */
+    private void refreshEmployees() {
+        // Ruft auf dem ClientController die refreshEmployeeList()-Methode auf, diese wird an den Server weiter gereicht
+        Result<Void> result = DataCache.getInstance().refreshEmployeeList();
+        MainSceneController.showResultMessageBox(result, false);
+    }
+
+    /**
+     * Ruft die entsprechende Aktualisierungs-Methode auf und zeigt bei Fehlern dem Benutzer eine Meldung.
+     */
+    private void refreshArticles() {
+        // Ruft auf dem ClientController die refreshArticleList()-Methode auf, diese wird an den Server weiter gereicht
+        Result<Void> result = DataCache.getInstance().refreshArticleList();
+        MainSceneController.showResultMessageBox(result, false);
+    }
+
+    /**
+     * Ruft die entsprechende Aktualisierungs-Methode auf und zeigt bei Fehlern dem Benutzer eine Meldung.
+     */
+    private void refreshEvents() {
+        // Ruft auf dem ClientController die refreshEventList()-Methode auf, diese wird an den Server weiter gereicht
+        Result<Void> result = DataCache.getInstance().refreshEventList();
+        MainSceneController.showResultMessageBox(result, false);
+    }
+
+    /**
+     * Initialisiert die Mitarbeiter-Tabelle:
+     * Dafür werden hier die Spaltenbezeichnungen, sowie die Eigenschaften die sie anzeigen sollen definiert.
+     * Einer Spalte wird im Prinzip gesagt, welches Objekt sie zur Anzeige bekommt und welcher Getter davon
+     * aufgerufen werden soll. z.B. Spaltenbezeichnung: NAME ; aufzurufender Getter: objekt.getName() ... usw.
+     * Der Tabelle wird zuletzt dann die entsprechende Liste als Quelle gesetzt, dadurch
+     * zeigt die Tabelle automatisch wie definiert die Daten an.
+     */
+    private void initEmployeeTableView() {
         TableColumn<Employee, Integer> columnEmployeeId = new TableColumn<>("ID");
         columnEmployeeId.setEditable(false);
         columnEmployeeId.setSortable(true);
@@ -201,6 +211,14 @@ public class EmployeeSceneController {
         tableView_employees.refresh();
     }
 
+    /**
+     * Initialisiert die Event-Tabelle:
+     * Dafür werden hier die Spaltenbezeichnungen, sowie die Eigenschaften die sie anzeigen sollen definiert.
+     * Einer Spalte wird im Prinzip gesagt, welches Objekt sie zur Anzeige bekommt und welcher Getter davon
+     * aufgerufen werden soll. z.B. Spaltenbezeichnung: NAME ; aufzurufender Getter: objekt.getName() ... usw.
+     * Der Tabelle wird zuletzt dann die entsprechende Liste als Quelle gesetzt, dadurch
+     * zeigt die Tabelle automatisch wie definiert die Daten an.
+     */
     private void initEventTableView() {
         TableColumn<Event, Date> columnTimestamp = new TableColumn<>("Zeitstempel");
         columnTimestamp.setEditable(false);
@@ -248,6 +266,14 @@ public class EmployeeSceneController {
         tableView_events.refresh();
     }
 
+    /**
+     * Initialisiert die Artikel-Tabelle:
+     * Dafür werden hier die Spaltenbezeichnungen, sowie die Eigenschaften die sie anzeigen sollen definiert.
+     * Einer Spalte wird im Prinzip gesagt, welches Objekt sie zur Anzeige bekommt und welcher Getter davon
+     * aufgerufen werden soll. z.B. Spaltenbezeichnung: NAME ; aufzurufender Getter: objekt.getName() ... usw.
+     * Der Tabelle wird zuletzt dann die entsprechende Liste als Quelle gesetzt, dadurch
+     * zeigt die Tabelle automatisch wie definiert die Daten an.
+     */
     private void initArticleTableView() {
         TableColumn<Article, String> columnName = new TableColumn<>("Bezeichnung");
         columnName.setEditable(false);
@@ -281,11 +307,5 @@ public class EmployeeSceneController {
 
         tableView_articles.setItems(DataCache.getInstance().getArticleList());
         tableView_articles.refresh();
-    }
-
-    @FXML
-    private void button_logout_clicked(ActionEvent event) throws IOException {
-        ClientController.getInstance().logout();
-        MainSceneController.showLoginScene(this, event);
     }
 }

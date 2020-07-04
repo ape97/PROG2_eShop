@@ -54,22 +54,10 @@ public class CustomerSceneController {
         // Ruft auf dem ClientController die addCustomer()-Methode auf, diese wird an den Server weiter gereicht
         Result<Void> result = ClientController.getInstance().clearShoppingCart();
 
-        // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
+        MainSceneController.showResultMessageBox(result);
         if (result.getState() == Result.State.SUCCESSFULL) {
-            MainSceneController.showMessageBox(
-                    Alert.AlertType.INFORMATION,
-                    Message.get(Message.MessageType.Info),
-                    Message.get(Message.MessageType.Info),
-                    result.getMessage());
-        } else {
-            MainSceneController.showMessageBox(
-                    Alert.AlertType.ERROR,
-                    Message.get(Message.MessageType.Error),
-                    Message.get(Message.MessageType.Error),
-                    result.getMessage());
+            refreshShoppingCartItems();
         }
-
-        refreshShoppingCartItems();
     }
 
     @FXML
@@ -92,109 +80,151 @@ public class CustomerSceneController {
             // Ruft auf dem ClientController die addCustomer()-Methode auf, diese wird an den Server weiter gereicht
             Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(article, quantity);
 
-            // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
+            MainSceneController.showResultMessageBox(result);
             if (result.getState() == Result.State.SUCCESSFULL) {
-                MainSceneController.showMessageBox(
-                        Alert.AlertType.INFORMATION,
-                        Message.get(Message.MessageType.Info),
-                        Message.get(Message.MessageType.Info),
-                        result.getMessage());
-
                 refreshShoppingCartItems();
                 refreshArticles();
-            } else {
-                MainSceneController.showMessageBox(Alert.AlertType.ERROR, Message.get(Message.MessageType.Error), Message.get(Message.MessageType.Error), result.getMessage());
             }
         }
     }
 
     @FXML
+    /**
+     * Wird der articleChangeQuantity-Button (Artikelanzahl ändern) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
     private void button_articleChangeQuantityInCart_clicked(ActionEvent event) throws IOException {
+
+        // Ließt die Eingaben des Benutzers als Strings ein
+        String quantity = textField_articleQuantityInCart.getText();
+
+        // Ermittelt das selektierte ShoppingCartItem in der Tabelle
         Object selectedItem = tableView_shoppingCart.getSelectionModel().getSelectedItem();
 
-        String title;
-        String header;
-        String message;
-
+        // Ist ein ShoppingCartItem selektiert, wird fortgesetzt
         if (selectedItem != null) {
 
-            String quantity = textField_articleQuantityInCart.getText();
-
-
             ShoppingCartItem shoppingCartItem = (ShoppingCartItem) selectedItem;
-            Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(shoppingCartItem.getArticle(), quantity);
-            message = result.getMessage();
 
+            // Ruft auf dem ClientController die addArticleToShoppingCart()-Methode auf, diese wird an den Server weiter gereicht
+            Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(shoppingCartItem.getArticle(), quantity);
+
+            MainSceneController.showResultMessageBox(result);
             if (result.getState() == Result.State.SUCCESSFULL) {
-                title = Message.get(Message.MessageType.Info);
-                header = Message.get(Message.MessageType.Info);
-                MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
                 refreshShoppingCartItems();
-            } else {
-                title = Message.get(Message.MessageType.Error);
-                header = Message.get(Message.MessageType.Error);
-                MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
             }
         }
     }
 
     @FXML
+    /**
+     * Wird der articleRemove-Button (Artikel aus Warenkorb entfernen) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
     private void button_articleRemoveFromCart_clicked(ActionEvent event) throws IOException {
+
+        // Ermittelt das selektierte ShoppingCartItem in der Tabelle
         Object selectedItem = tableView_shoppingCart.getSelectionModel().getSelectedItem();
+
+        // Ist ein ShoppingCartItem selektiert, wird fortgesetzt
         if (selectedItem != null) {
+
             ShoppingCartItem shoppingCartItem = (ShoppingCartItem) selectedItem;
+
+            // Ruft auf dem ClientController die removeArticleFromShoppingCart()-Methode auf, diese wird an den Server weiter gereicht
             Result<Void> result = ClientController.getInstance().removeArticleFromShoppingCart(shoppingCartItem.getArticle());
 
-            String title = Message.get(Message.MessageType.Info);
-            String header = Message.get(Message.MessageType.Info);
-            String message = result.getMessage();
-
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-            refreshShoppingCartItems();
+            MainSceneController.showResultMessageBox(result);
+            if (result.getState() == Result.State.SUCCESSFULL) {
+                refreshShoppingCartItems();
+            }
         }
     }
 
 
     @FXML
+    /**
+     * Wird der logout-Button (Abmelden) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
     private void button_logout_clicked(ActionEvent event) throws IOException {
+        // Ruft auf dem ClientController die logout()-Methode auf, diese wird an den Server weiter gereicht
         ClientController.getInstance().logout();
         MainSceneController.showLoginScene(this, event);
     }
 
     @FXML
+    /**
+     * Wird der buy-Button (Kaufen) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     * Der Erfolg der Aktion wird hier ausgwertet und dem Benutzer angezeigt.
+     */
     private void button_buy_clicked(ActionEvent event) throws IOException {
+
+        // Ruft auf dem ClientController die buyShoppingCart()-Methode auf, diese wird an den Server weiter gereicht
+        // In diesem Fall liefert der Server bei Erfolg der AKtion ein Bill-Objekt zurück, welches die Rechnung abbildet
         Result<Bill> result = ClientController.getInstance().buyShoppingCart();
 
-        String title;
-        String header;
-        String message;
-
-        message = result.getMessage();
-
         if (result.getState() == Result.State.SUCCESSFULL) {
-            title = Message.get(Message.MessageType.Info);
-            header = Message.get(Message.MessageType.Bill);
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, result.getObject().toString());
-        } else {
-            title = Message.get(Message.MessageType.Error);
-            header = Message.get(Message.MessageType.Error);
-            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
-        }
+            // Zeigt die Rechnung inkl. Positionen an
+            MainSceneController.showMessageBox(
+                    Alert.AlertType.INFORMATION,
+                    Message.get(Message.MessageType.Info),
+                    Message.get(Message.MessageType.Info),
+                    result.getObject().toString());
 
-        refreshShoppingCartItems();
-        refreshArticles();
+            refreshShoppingCartItems();
+            refreshArticles();
+        } else {
+            MainSceneController.showMessageBox(
+                    Alert.AlertType.ERROR,
+                    Message.get(Message.MessageType.Error),
+                    Message.get(Message.MessageType.Error),
+                    result.getMessage());
+        }
     }
 
     @FXML
+    /**
+     * Wird der articleRefresh-Button (Artikel Aktualisieren) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     */
     private void button_articleRefresh_clicked(ActionEvent event) throws IOException {
         refreshArticles();
     }
 
     @FXML
+    /**
+     * Wird der shoppingCartRefresh-Button (Warenkorb Aktualisieren) geklickt, wird die entsprechende Methode auf dem ClientController aufgerufen.
+     */
     private void button_shoppingCartRefresh_clicked(ActionEvent event) throws IOException {
         refreshShoppingCartItems();
     }
 
+    /**
+     * Ruft die entsprechende Aktualisierungs-Methode auf und zeigt bei Fehlern dem Benutzer eine Meldung.
+     */
+    private void refreshArticles() {
+        // Ruft auf dem ClientController die refreshArticleList()-Methode auf, diese wird an den Server weiter gereicht
+        Result<Void> result = DataCache.getInstance().refreshArticleList();
+        MainSceneController.showResultMessageBox(result, false);
+    }
+
+    /**
+     * Ruft die entsprechende Aktualisierungs-Methode auf und zeigt bei Fehlern dem Benutzer eine Meldung.
+     */
+    private void refreshShoppingCartItems() {
+        // Ruft auf dem ClientController die refreshShoppingCartItemList()-Methode auf, diese wird an den Server weiter gereicht
+        Result<Void> result = DataCache.getInstance().refreshShoppingCartItemList();
+        MainSceneController.showResultMessageBox(result, false);
+    }
+
+    /**
+     * Initialisiert die Artikel-Tabelle:
+     * Dafür werden hier die Spaltenbezeichnungen, sowie die Eigenschaften die sie anzeigen sollen definiert.
+     * Einer Spalte wird im Prinzip gesagt, welches Objekt sie zur Anzeige bekommt und welcher Getter davon
+     * aufgerufen werden soll. z.B. Spaltenbezeichnung: NAME ; aufzurufender Getter: objekt.getName() ... usw.
+     * Der Tabelle wird zuletzt dann die entsprechende Liste als Quelle gesetzt, dadurch
+     * zeigt die Tabelle automatisch wie definiert die Daten an.
+     */
     private void initArticleTableView() {
         TableColumn<Article, String> columnName = new TableColumn<>("Bezeichnung");
         columnName.setEditable(false);
@@ -230,8 +260,15 @@ public class CustomerSceneController {
         tableView_articles.refresh();
     }
 
+    /**
+     * Initialisiert die Warenkorb-Tabelle:
+     * Dafür werden hier die Spaltenbezeichnungen, sowie die Eigenschaften die sie anzeigen sollen definiert.
+     * Einer Spalte wird im Prinzip gesagt, welches Objekt sie zur Anzeige bekommt und welcher Getter davon
+     * aufgerufen werden soll. z.B. Spaltenbezeichnung: NAME ; aufzurufender Getter: objekt.getName() ... usw.
+     * Der Tabelle wird zuletzt dann die entsprechende Liste als Quelle gesetzt, dadurch
+     * zeigt die Tabelle automatisch wie definiert die Daten an.
+     */
     private void initShoppingCartView() {
-
         TableColumn<ShoppingCartItem, String> columnArticle = new TableColumn<>("Artikel");
         columnArticle.setEditable(false);
         columnArticle.setSortable(true);
@@ -258,33 +295,5 @@ public class CustomerSceneController {
 
         tableView_shoppingCart.setItems(DataCache.getInstance().getShoppingCartItemList());
         tableView_shoppingCart.refresh();
-    }
-
-    private void refreshArticles() {
-        Result<Void> result = DataCache.getInstance().refreshArticleList();
-
-        if (result.getState() == Result.State.FAILED) {
-            String title;
-            String header;
-            String message;
-            title = Message.get(Message.MessageType.Info);
-            header = Message.get(Message.MessageType.Info);
-            message = result.getMessage();
-            MainSceneController.showMessageBox(Alert.AlertType.INFORMATION, title, header, message);
-        }
-    }
-
-    private void refreshShoppingCartItems() {
-        Result<Void> result = DataCache.getInstance().refreshShoppingCartItemList();
-
-        if (result.getState() == Result.State.FAILED) {
-            String title;
-            String header;
-            String message;
-            title = Message.get(Message.MessageType.Error);
-            header = Message.get(Message.MessageType.Error);
-            message = result.getMessage();
-            MainSceneController.showMessageBox(Alert.AlertType.ERROR, title, header, message);
-        }
     }
 }

@@ -49,21 +49,10 @@ public class AddArticleSceneController {
             Result<Void> result = ClientController.getInstance().addArticle(name, stock, price, unit);
 
             // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
-            if (result.getState() == Result.State.SUCCESSFULL) {
-                MainSceneController.showMessageBox(
-                        Alert.AlertType.INFORMATION,
-                        Message.get(Message.MessageType.Info),
-                        Message.get(Message.MessageType.Info),
-                        result.getMessage());
 
-                // Zeigt wieder die Hauptansicht an
+            MainSceneController.showResultMessageBox(result);
+            if(result.getState() == Result.State.SUCCESSFULL){
                 MainSceneController.showEmployeeScene(this, event);
-            } else {
-                MainSceneController.showMessageBox(
-                        Alert.AlertType.ERROR,
-                        Message.get(Message.MessageType.Error),
-                        Message.get(Message.MessageType.Error),
-                        result.getMessage());
             }
         }
     }

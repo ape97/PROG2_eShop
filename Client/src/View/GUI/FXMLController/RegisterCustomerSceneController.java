@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+
 import java.io.IOException;
 
 /**
@@ -65,20 +66,10 @@ public class RegisterCustomerSceneController {
                     street, housenumber, postcode, city);
 
             // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
+            MainSceneController.showResultMessageBox(result);
+
             if (result.getState() == Result.State.SUCCESSFULL) {
-                MainSceneController.showMessageBox(
-                        Alert.AlertType.INFORMATION,
-                        Message.get(Message.MessageType.Info),
-                        Message.get(Message.MessageType.Info),
-                        result.getMessage());
-                // Zeigt wieder die Hauptansicht an
                 MainSceneController.showLoginScene(this, event);
-            } else {
-                MainSceneController.showMessageBox(
-                        Alert.AlertType.ERROR,
-                        Message.get(Message.MessageType.Error),
-                        Message.get(Message.MessageType.Error),
-                        result.getMessage());
             }
         }
     }
