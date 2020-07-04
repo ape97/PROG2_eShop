@@ -134,17 +134,13 @@ public class PersonController {
      * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     private Result<Void> checkPersonValuesValid(String firstname, String lastname, String username, String password) {
-        return checkPersonValuesValid(null, firstname, lastname, username, password);
-    }
-
-    private Result<Void> checkPersonValuesValid(Person person, String firstname, String lastname, String username, String password) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
 
         if (firstname.trim().isEmpty()) {
             result.setMessage(Message.get(Message.MessageType.Error_FirstNameNotEmpty));
         } else if (lastname.trim().isEmpty()) {
             result.setMessage(Message.get(Message.MessageType.Error_LastNameNotEmpty));
-        } else if ((person == null || (person != null && person.getUsername() != username)) && checkUsernameExists(username)) { // der username nicht geändert hat, dann muss er auch nicht geprüft werden
+        } else if (checkUsernameExists(username)) {
             result.setMessage(Message.get(Message.MessageType.Error_UsernameExists));
         } else if (!checkUsernameIsValid(username)) {
             result.setMessage(Message.get(Message.MessageType.Error_UsernameInvalid));

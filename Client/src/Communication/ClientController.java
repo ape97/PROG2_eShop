@@ -10,9 +10,6 @@ import java.util.ArrayList;
  * gesamten Client-Projekt.
  * Der ClientController enthält alle möglichen Server-Requests (Fragen). Über das Objekt dieser Klasse können
  * im Client an den entsprechenden Stellen die benötigten Daten vom Server angefordert und empfangen werden.
- *
- * Singelton wurde implementiert, weil es ein internes ServerRegisterProcessor-Objekt gibt und eine Initialiserung
- * ohne Konstruktor über eine spezielle Methode etc. vom Programmierstil dieses Projektes abweichen würde.
  */
 public class ClientController {
     private static ClientController _instance; // Singelton: Statsiches eindeutiges Objekt der Klasse

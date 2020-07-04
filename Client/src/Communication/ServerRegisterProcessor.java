@@ -6,7 +6,7 @@ import java.net.Socket;
 
 /**
  * Ein Objekt der Klasse ServerRegisterProcessor ist ein Thread, welcher beim Starten nach dem Server sucht und
- * sich mit diesem verbindet. Unter Virbindung wird verstanden, dass ein ObjectOutputStream und ein
+ * sich mit diesem verbindet. Unter Verbindung wird verstanden, dass ein ObjectOutputStream und ein
  * ObjectInputStream aufgebaut wird, damit ein Austausch stattfinden kann.
  * Die Verwendung als Thread ist nötig, damit der Verbindungsprozess parallel zur GUI stattfinden kann.
  * <p>
@@ -45,7 +45,7 @@ public class ServerRegisterProcessor extends Thread {
                 System.out.println("VERBUNDEN"); // Kurze Info in der Console
             } catch (Exception ex) {
                 // Bei jeglichem Fehler, wird eine kurze Ausgabe getätigt und das Loop läuft weiter
-                System.out.println("KEINE VERBINDUNGV MÖGLICH! " + ex.getMessage()); // Kurze Info in der Console
+                System.out.println("KEINE VERBINDUNG MÖGLICH! " + ex.getMessage()); // Kurze Info in der Console
             }
         }
     }
