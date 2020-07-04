@@ -10,24 +10,25 @@ package Model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Objekte dieser Klassen bilden die Events ab. (Objekt => Eintrag im Änderungsprotokoll)
+ * Diese Objekte werden zum Speichern serialisiert.
+ */
 public class Event implements Serializable {
     private Date _timeStamp; // Zeitstempel
-    //private Article _article; // Der betreffende Artiekl
-   // private Person _person; // Person die für die Änderung des Lagerbestandes verantwortlich ist (Kunde beim Kauf, Mitarbeiter beim Buchen neuer Bestände)
     private int _stockChangeValue; // Summer der Bestandsveränderung (negativ oder positiv)
 
-    // Person wird nicht referenziert, weil TODO
+    // Person wird bewusst nicht refernziert, weil bei Löschung der referenzierten Person, würden die Daten inkonsisten werden
     private String _personFirstname;
     private String _personLastname;
     private int _personId;
 
-    // Artikel wird nicht referenziert, falls dieser gelöscht wird, führt das zu inkonsistenten Daten
+    // Artikel wird bewusst nicht refernziert, weil bei Löschung des referenzierten Artikels, würden die Daten inkonsisten werden
     private String _articleName;
     private int _articleNumber;
 
     public Event(Article article, Person person, int changeValue) {
         _timeStamp = new Date();
-        //_article = article;
         _articleName = article.getName();
         _articleNumber = article.getArticleNumber();
         _personId = person.getId();

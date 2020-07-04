@@ -1,5 +1,9 @@
 package Model;
 
+/**
+ * Erweitert die Klasse Artikel um Artikel mit Verpackungseinheit. Erbt von Artikel.
+ * Diese Objekte werden zum Speichern serialisiert.
+ */
 public class BulkArticle extends Article {
     private int _packagingUnit; // Verpackungseinheit
 

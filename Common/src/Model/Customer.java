@@ -1,12 +1,10 @@
-/**
- * Info:
- * Enthält die wesentlichen Daten eines Kunden
- * Leitet von Person ab und erweitert den super-Konstruktor um ein Adress-Objekt
- **/
-
-
 package Model;
 
+/**
+ * Objekte dieser Klasse bilden die Kunden ab.
+ * Diese Objekte werden zum Speichern serialisiert.
+ * Erbt von der abstrakten Klasse Person.
+ */
 public class Customer extends Person {
     private Address _address; // Adresse
     private ShoppingCart _shoppingCart; // Einkaufswagen

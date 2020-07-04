@@ -2,6 +2,10 @@ package Model;
 
 import java.io.Serializable;
 
+/**
+ * Objekte dieser Klassen bilden die Addressen ab.
+ * Diese Objekte werden zum Speichern serialisiert.
+ */
 public class Address implements Serializable {
 
     private String _street; // Straße
@@ -16,15 +20,11 @@ public class Address implements Serializable {
         _city = city;
     }
 
-    public String toString() {
-        return _street + " " + _houseNumber + "\n" + _postCode + " " + _city;
-    }
-
     public String getStreet() {
         return _street;
     }
 
-    public void set_street(String street) {
+    public void setStreet(String street) {
         _street = street;
     }
 

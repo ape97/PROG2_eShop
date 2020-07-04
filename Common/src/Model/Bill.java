@@ -17,6 +17,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Objekte dieser Klassen bilden die Artikel ab.
+ * Diese Objekte werden zum Speichern serialisiert.
+ */
 public class Bill implements Serializable {
     private Customer _customer; // Kunde
     private ArrayList<String> _invoiceItems; // Liste mit den Positionen der Rechnung, jeder Srring steht für eine Position
@@ -29,6 +33,7 @@ public class Bill implements Serializable {
         _timeStamp = new Date();
     }
 
+    // Erzeugt die Rechnung als formtaierten String, indem für jede Rechnungsposition ein String erzeugt wird
     public String toString() {
         String result = _timeStamp.toString() + "\n" + _customer.getFirstname() + " " + _customer.getLastname();
         result += "\n" + _customer.getAddress().toString();
@@ -42,20 +47,8 @@ public class Bill implements Serializable {
         return result;
     }
 
-    public Customer getCustomer() {
-        return _customer;
-    }
-
     public ArrayList<String> getInvoiceItems() {
         return _invoiceItems;
-    }
-
-    public Date getTimeStamp() {
-        return _timeStamp;
-    }
-
-    public double getTotalPrice() {
-        return _totalPrice;
     }
 
     public void setTotalPrice(double totalPrice) {

@@ -1,13 +1,11 @@
-/**
- * Info:
- * Dient als Basis-Klasse für Mitarbeiter (Employee) und Kunden (Customer)
- * Enthält alle Keerndaten einer Person, dient lediglich der Datenkapselung
- **/
-
 package Model;
 
 import java.io.Serializable;
 
+/**
+ * Dient als Basis-Klasse für Mitarbeiter (Employee) und Kunden (Customer)
+ * Enthält alle Keerndaten einer Person, dient lediglich der Datenkapselung
+ */
 public abstract class Person implements Serializable {
     private String _firstname; // Vorname
     private String _lastname; // Nachname

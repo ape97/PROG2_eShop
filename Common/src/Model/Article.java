@@ -2,6 +2,10 @@ package Model;
 
 import java.io.Serializable;
 
+/**
+ * Objekte dieser Klassen bilden die Artikel ab.
+ * Diese Objekte werden zum Speichern serialisiert.
+ */
 public class Article implements Serializable {
     private String _name; // Artikel-Bezeichnung
     private int _articleNumber; // Artikel-Nummer
@@ -15,6 +19,7 @@ public class Article implements Serializable {
         _price = price;
     }
 
+    // Wird zum Erstellen einer Rechnung benötigt, weil jeder Artikel eine Rechnungsposition abbildet
     public String toString(boolean withStock) {
         String result = _articleNumber + " - " + _name + " - " + _price + "€";
 

@@ -9,11 +9,21 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Eine Sammlung an nützlichen Funktionen für JavaFX.
+ * [Anmerkung] Befindet sich in Common, da der Server später theoretisch ebenfalls eine GUI verwenden könnte.
+ */
 public class JavaFXExtension {
 
-    private JavaFXExtension() {
-    } // Static
+    private JavaFXExtension() { //  private, weil statisch
+    }
 
+    /**
+     * Zeigt eine beliebige Scene auf der übergebenden Stage an.
+     * @param caller Der Aufrufer
+     * @param sceneName Der Name der Scene in den Ressourcen
+     * @param window Die Stage bzw. das Fenster auf dem die Scene angezeigt werden soll
+     */
     public static void showScene(Object caller, String sceneName, Stage window) {
         try {
             Parent view = FXMLLoader.load(caller.getClass().getClassLoader().getResource(sceneName));
@@ -28,6 +38,11 @@ public class JavaFXExtension {
         }
     }
 
+    /**
+     * Ermittelt die Stage von einem ActionEvent und gibt dieses zurück.
+     * @param event
+     * @return Die ermittelte Stage
+     */
     public static Stage getStageByActionEvent(ActionEvent event) {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         return window;

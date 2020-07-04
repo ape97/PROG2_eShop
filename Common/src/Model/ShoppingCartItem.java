@@ -1,9 +1,12 @@
 package Model;
 
-import org.omg.CORBA.ARG_IN;
-
 import java.io.Serializable;
 
+/**
+ * Objekte dieser Klasse bilden die Artikel im Einkaufswagen der Kunden ab.
+ * Ein ShoppingCartItem-Objekt kapselt einen Artikel mit einer Anzahl.
+ * Diese Objekte werden zum Speichern serialisiert.
+ */
 public class ShoppingCartItem implements Serializable {
     private Article _article;
     private int _quantity;

@@ -1,5 +1,9 @@
 package Utilities;
 
+/**
+ * Werte dieses Enums werden für die Kommunikation zwischen CLient und Server verwendet.
+ * Der Client schickt dem Server mittels dieser Werte, welche Aktion ausgeführt werden soll.
+ */
 public enum ClientAction {
     LOGIN,
     LOGOUT,
@@ -21,8 +25,4 @@ public enum ClientAction {
     BUY_SHOPPINGCART,
     CLEAR_SHOPPINGCART,
     GET_SHOPPINGCART
-
-
-
-
 }

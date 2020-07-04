@@ -3,15 +3,8 @@ package Controller;
 import Model.Article;
 import Model.Event;
 import Model.Person;
-import Utilities.EventSortMode;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.io.Serializable;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * WARNING: Sollte nur vom MainController verwendet werden

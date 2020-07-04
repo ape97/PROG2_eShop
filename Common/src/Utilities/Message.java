@@ -1,12 +1,22 @@
 package Utilities;
 
+/**
+ * Diese statische Klasse dient der Abschaffung von statischen String im Code.
+ * Hier können Texte zu Konstanten zugeordnet und dann im Code verwendet werden.
+ * Desweiteren besteht die MÖglichkeit so mehrere Sprachen zu definieren.
+ */
 public class Message {
+    private static Language _language = Language.German; // Die festgelegte Sprache
 
-    private static Language _language = Language.German;
+    private Message() { // private, weil statisch
+    }
 
-
-    final static String ERROR_TEXT = "HALLO";
-
+    /**
+     * Gibt basierend auf einer Konstante und der festgelegten Sprache einen String zurück.
+     *
+     * @param messageType Die Konstante
+     * @return Der mit der Konstante verknüpfte String
+     */
     public static String get(MessageType messageType) {
         String result = "";
 
@@ -19,11 +29,16 @@ public class Message {
         return result;
     }
 
+    /**
+     * Gibt basierend auf einer Konstante den deutschen String zurück.
+     *
+     * @param messageType Die Konstante
+     * @return Der mit der Konstante verknüpfte deutsche String
+     */
     private static String getGermanMessage(MessageType messageType) {
         String result = "KEIN TEXT";
 
         switch (messageType) {
-
             case Error_StreetNotEmpty:
                 result = "Die Straße muss angegeben werden.";
                 break;
@@ -76,10 +91,10 @@ public class Message {
                 result = "Der angegebene Benutzername ist bereits vergeben.";
                 break;
             case Error_UsernameInvalid:
-                result = "Der angegebene Benutzername ist ungültig. (nicht leer, keine Leerzeichen, mindestens 3 Zeichen)"; //TODO: Kriterien
+                result = "Der angegebene Benutzername ist ungültig. (nicht leer, keine Leerzeichen, mindestens 3 Zeichen)";
                 break;
             case Error_PasswordInvalid:
-                result = "Das angegebene Passwort ist ungültig. (nicht leer, mindestens 8 Zeichen)"; //TODO: Kriterien
+                result = "Das angegebene Passwort ist ungültig. (nicht leer, mindestens 8 Zeichen)";
                 break;
             case TotalPrice:
                 result = "Gesamtsumme";
@@ -158,8 +173,16 @@ public class Message {
         return result;
     }
 
+    /**
+     * Gibt basierend auf einer Konstante den englischen String zurück.
+     *
+     * @param messageType Die Konstante
+     * @return Der mit der Konstante verknüpfte englische String
+     */
     private static String getEnglishMessage(MessageType messageType) {
         String result = "NO TEXT";
+
+        // NUR ALS BEISPIEL, HIER KÖNNTEN DIE ENGLISCHEN TEXTE STEHEN
 
         return result;
     }
@@ -168,6 +191,9 @@ public class Message {
         _language = language;
     }
 
+    /**
+     * Für jedenn String muss hier eine eindeutige Konstante definiert werden.
+     */
     public enum MessageType {
         Error_StreetNotEmpty,
         Error_HouseNumberNotEmpty,
@@ -214,6 +240,9 @@ public class Message {
         Bill
     }
 
+    /**
+     * Die möglichen Sprachen.
+     */
     public enum Language {
         German,
         English
