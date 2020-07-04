@@ -31,7 +31,7 @@
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button disable="true" layoutX="463.0" layoutY="170.0" mnemonicParsing="false" onAction="#button_editArticle_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="45.0">
+                        <Button disable="true" layoutX="463.0" layoutY="170.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="45.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
@@ -66,7 +66,7 @@
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button disable="true" layoutX="463.0" layoutY="170.0" mnemonicParsing="false" onAction="#button_editEmployee_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="45.0">
+                        <Button disable="true" layoutX="463.0" layoutY="170.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="45.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>

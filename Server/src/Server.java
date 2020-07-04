@@ -1,4 +1,6 @@
 import Communication.ServerController;
+import org.omg.CORBA.Environment;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -21,6 +23,7 @@ public class Server {
         }
 
         serverController.stop();
+       System.exit(0); //TODO: Wird aktuell noch aufgerufen, weil die ClientRequestProcessor-Objekte noch nicht von außen beendet werden können
     }
 
     private static String readConsoleInput() {
