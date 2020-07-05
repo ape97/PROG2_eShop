@@ -20,6 +20,10 @@ public class Address implements Serializable {
         _city = city;
     }
 
+    public String toString() {
+        return _street + " " + _houseNumber + "\n" + _postCode + " " + _city;
+    }
+
     public String getStreet() {
         return _street;
     }
