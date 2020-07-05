@@ -1,11 +1,9 @@
 import Communication.ServerController;
-import org.omg.CORBA.Environment;
-
 import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Der Einstiegpunkt der Server-Anwendung.
+ * Der Einstiegspunkt der Server-Anwendung.
  */
 public class Server {
 
@@ -19,7 +17,7 @@ public class Server {
         //          Der Server muss stets korrekt beendet werden!
         System.out.println("Um die Daten zu SPEICHERN und den Server zu BEENDEN, bitte 'stop' eingeben!!!");
         while (!readConsoleInput().equals("stop")) {
-            // Wartet bis der Stopp Befehl eingegebn wurde
+            // Wartet bis der Stopp Befehl eingegeben wurde
         }
 
         serverController.stop();

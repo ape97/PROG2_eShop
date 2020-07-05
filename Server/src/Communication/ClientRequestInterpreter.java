@@ -300,10 +300,11 @@ public class ClientRequestInterpreter {
     }
 
     /**
-     * Sendet ein Result<T>-Objekt an den Client, als Antwort auf dessen Anfrage.
-     * Wichtig ist, dass auf die jewielige Anfrage der richtige Typ <T> zurückgeschickt wird.
+     * Sendet ein Result-Objekt an den Client, als Antwort auf dessen Anfrage.
+     * Wichtig ist, dass auf die jeweilige Anfrage der richtige Typ zurückgeschickt wird.
      *
      * @param result Das Result-Objekt, welches an den Client geschickt werden soll.
+     * @param <T> Der generische Typ des Result-Objektes
      */
     public <T> void sendToClient(Result<T> result) {
         try {

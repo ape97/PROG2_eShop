@@ -55,7 +55,7 @@ public class CustomerSceneController {
         Result<Void> result = ClientController.getInstance().clearShoppingCart();
 
         MainSceneController.showResultMessageBox(result);
-        if (result.getState() == Result.State.SUCCESSFULL) {
+        if (result.getState() == Result.State.SUCCESSFUL) {
             refreshShoppingCartItems();
         }
     }
@@ -81,7 +81,7 @@ public class CustomerSceneController {
             Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(article, quantity);
 
             MainSceneController.showResultMessageBox(result);
-            if (result.getState() == Result.State.SUCCESSFULL) {
+            if (result.getState() == Result.State.SUCCESSFUL) {
                 refreshShoppingCartItems();
                 refreshArticles();
             }
@@ -110,7 +110,7 @@ public class CustomerSceneController {
             Result<Void> result = ClientController.getInstance().addArticleToShoppingCart(shoppingCartItem.getArticle(), quantity);
 
             MainSceneController.showResultMessageBox(result);
-            if (result.getState() == Result.State.SUCCESSFULL) {
+            if (result.getState() == Result.State.SUCCESSFUL) {
                 refreshShoppingCartItems();
             }
         }
@@ -135,7 +135,7 @@ public class CustomerSceneController {
             Result<Void> result = ClientController.getInstance().removeArticleFromShoppingCart(shoppingCartItem.getArticle());
 
             MainSceneController.showResultMessageBox(result);
-            if (result.getState() == Result.State.SUCCESSFULL) {
+            if (result.getState() == Result.State.SUCCESSFUL) {
                 refreshShoppingCartItems();
             }
         }
@@ -164,7 +164,7 @@ public class CustomerSceneController {
         // In diesem Fall liefert der Server bei Erfolg der AKtion ein Bill-Objekt zurück, welches die Rechnung abbildet
         Result<Bill> result = ClientController.getInstance().buyShoppingCart();
 
-        if (result.getState() == Result.State.SUCCESSFULL) {
+        if (result.getState() == Result.State.SUCCESSFUL) {
             // Zeigt die Rechnung inkl. Positionen an
             MainSceneController.showMessageBox(
                     Alert.AlertType.INFORMATION,

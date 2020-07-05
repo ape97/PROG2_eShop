@@ -65,7 +65,7 @@ public class EmployeeSceneController {
             Result<Void> result = ClientController.getInstance().removeArticle(article);
 
             MainSceneController.showResultMessageBox(result);
-            if (result.getState() == Result.State.SUCCESSFULL) {
+            if (result.getState() == Result.State.SUCCESSFUL) {
                 refreshArticles();
                 refreshEvents();
             }
@@ -100,7 +100,7 @@ public class EmployeeSceneController {
             Result<Void> result = ClientController.getInstance().removePerson(employee);
 
             MainSceneController.showResultMessageBox(result);
-            if (result.getState() == Result.State.SUCCESSFULL) {
+            if (result.getState() == Result.State.SUCCESSFUL) {
                 refreshEmployees();
             }
         }

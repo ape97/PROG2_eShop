@@ -13,13 +13,13 @@ public class Parse {
 
     /**
      * Versucht einen String in einen Integer zu parsen.
-     * Gibt ein Result<Integer> mit dem Ergebis zurück.
+     * Gibt ein Result-Integer mit dem Ergebis zurück.
      * @param value Der String zum Parsen
-     * @return Das Ergebnis der Aktion als Result<Integer> (hier wird keine Benutzermeldung angegeben, da es für interne Zwecke gedacht ist)
+     * @return Das Ergebnis der Aktion als Result-Integer (hier wird keine Benutzermeldung angegeben, da es für interne Zwecke gedacht ist)
      */
     public static Result<Integer> tryParseInt(String value) {
         try {
-            return new Result<Integer>(Result.State.SUCCESSFULL, "", Integer.parseInt(value));
+            return new Result<Integer>(Result.State.SUCCESSFUL, "", Integer.parseInt(value));
         } catch (NumberFormatException e) {
             return new Result<Integer>(Result.State.FAILED, "", null);
         }
@@ -37,13 +37,13 @@ public class Parse {
 
     /**
      * Versucht einen String in einen Double zu parsen.
-     * Gibt ein Result<Double> mit dem Ergebis zurück.
+     * Gibt ein Result-Double mit dem Ergebnis zurück.
      * @param value Der String zum Parsen
-     * @return Das Ergebnis der Aktion als Result<Double> (hier wird keine Benutzermeldung angegeben, da es für interne Zwecke gedacht ist)
+     * @return Das Ergebnis der Aktion als Result-Double (hier wird keine Benutzermeldung angegeben, da es für interne Zwecke gedacht ist)
      */
     public static Result<Double> tryParseDouble(String value) {
         try {
-            return new Result<Double>(Result.State.SUCCESSFULL, "", Double.parseDouble(value));
+            return new Result<Double>(Result.State.SUCCESSFUL, "", Double.parseDouble(value));
         } catch (NumberFormatException e) {
             return new Result<Double>(Result.State.FAILED, "", null);
         }

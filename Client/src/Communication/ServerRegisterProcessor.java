@@ -12,11 +12,11 @@ import java.net.Socket;
  * <p>
  * BUGS: Wurde die Verbindung erstmalig aufgebaut und bricht später wieder ab, kann die Verbindung
  * nicht ohne einen Neustart des Clients aufgebaut werden. Um dies zu realisieren müsste
- * regelmäßig auf den Verbindungsstatus geprüft werden und bei Verbindungsabbruch das Verbindungsloop
+ * regelmäßig auf den Verbindungsstatus geprüft werden und bei Verbindungsabbruch das Verbindung-Loop
  * neugestartet werden.
  */
 public class ServerRegisterProcessor extends Thread {
-    private boolean _isActive; // Gibt an, ob das Verbindungsloop ausgeführt werden soll (Abbruchbedingung)
+    private boolean _isActive; // Gibt an, ob das Verbindung-Loop ausgeführt werden soll (Abbruchbedingung)
 
     private Socket _socket; // Schnittstelle zwischen Server und Client
     private ObjectInputStream _objectInputStream; // Eingehender Stream vom Server
@@ -29,7 +29,7 @@ public class ServerRegisterProcessor extends Thread {
     @Override
     /**
      *  Die run()-Methode wird ausgeführt, wenn der Thread gestartet wird.
-     *  In diesem Fall wird ein Verbindungsloop ausgeführt, welches versucht eine Verbindung zum Server
+     *  In diesem Fall wird ein Verbindung-Loop ausgeführt, welches versucht eine Verbindung zum Server
      *  aufzubauen und solange läuft bis die Verbindung möglich war oder die Abbruchbedingung _isActive auf
      *  false gesetzt wird.
      */
@@ -51,9 +51,9 @@ public class ServerRegisterProcessor extends Thread {
     }
 
     /**
-     * Die exit()-Methode setzt die Abbruchbedingung des Verbindungsloops, damit dieses abgebrochen wird
+     * Die exit()-Methode setzt die Abbruchbedingung des Verbindung-Loops, damit dieses abgebrochen wird
      * Anwendungsbeispiel: Beim Beenden des Clients, würde im Hintergrund weiter versucht werden eine
-     * Verbindung aufzubauen (sofern das Loop noch läuft), da dies ein Therad ist.
+     * Verbindung aufzubauen (sofern das Loop noch läuft), da dies ein Thread ist.
      */
     public void exit() {
         _isActive = false;

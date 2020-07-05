@@ -40,7 +40,7 @@ public class LoginSceneController {
 
         // War das Anmelden erfolgreich, wird jenachdem welcher Typ die angemeldete Person ist
         // entweder die Ansicht für Kunden oder für Mitarbeiter angezeigt
-        if (result.getState() == Result.State.SUCCESSFULL) {
+        if (result.getState() == Result.State.SUCCESSFUL) {
             if (result.getObject() == PersonType.Employee) {
                 MainSceneController.showEmployeeScene(this, event);
             } else {

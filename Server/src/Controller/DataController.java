@@ -9,21 +9,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Die Klasse DataController implementiert das SingeltonPattern, für einen Zugriff auf das selbe Objekt und somit
+ * Die Klasse DataController implementiert das Singleton-Pattern, für einen Zugriff auf das selbe Objekt und somit
  * auf die selben Daten in dem gesamten Server-Projekt.
- * (Die einzelnen Threads für die Clients arbeiten somit auf dem sekben Datenbestand.)
+ * (Die einzelnen Threads für die Clients arbeiten somit auf dem selben Datenbestand.)
  * Der DataController enthält alle relevanten Daten die gespeichert (serialisiert) werden sollen.
  */
 public class DataController implements Serializable {
 
-    private static DataController _instance;  // Singelton: Statsiches eindeutiges Objekt der Klasse
+    private static DataController _instance;  // Singleton: Statisches eindeutiges Objekt der Klasse
 
     private ArrayList<Article> _articleList; // Liste der Artikel
     private ArrayList<Event> _eventList; // Liste der Events (Änderungsprotokoll)
     private ArrayList<Person> _personList; // Liste der Personen
 
     /**
-     * Singelton: private, damit nur intern ein Objekt erzeugt werden kann
+     * Singleton: private, damit nur intern ein Objekt erzeugt werden kann
      */
     private DataController() {
         _articleList = new ArrayList<>();
@@ -36,8 +36,8 @@ public class DataController implements Serializable {
     }
 
     /**
-     * Singelton:
-     * Ermöglicht den Zugriff auf das Singelton DataController-Objekt.
+     * Singleton:
+     * Ermöglicht den Zugriff auf das Singleton DataController-Objekt.
      * Durch Prüfung auf ein existierendes Objekt, wird eins erstellt oder das vorhandene zurückgegeben.
      *
      * @return Gibt die einzigartige Instanz von DataController zurück
@@ -57,7 +57,7 @@ public class DataController implements Serializable {
      * <p>
      * War das Laden erfolgreich, wird die Instanz des DataControllers auf das geladene Objekt referenziert.
      *
-     * @return Gibt den Erfolgsstatus der Aktion als Result<Void> zurück.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public static Result<Void> loadData() {
         DataWriterReader dataWriterReader = new DataWriterReader("data.bn");
@@ -68,14 +68,14 @@ public class DataController implements Serializable {
         }
 
         _instance = (DataController) loadDataResult.getObject();
-        return new Result<Void>(Result.State.SUCCESSFULL, loadDataResult.getMessage(), null);
+        return new Result<Void>(Result.State.SUCCESSFUL, loadDataResult.getMessage(), null);
     }
 
     /**
      * Speichert mithilfe von DataWriterReader die Daten.
-     * Dafür wird dem DataWriterReader die Instanz (im Prinzip: this) des DataControllers übergeben, da dieser alle daten enthält.
+     * Dafür wird dem DataWriterReader die Instanz (im Prinzip: this) des DataControllers übergeben, da dieser alle Daten enthält.
      *
-     * @return Gibt den Erfolgsstatus der Aktion als Result<Void> zurück.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> saveData() {
         DataWriterReader dataWriterReader = new DataWriterReader("data.bn");

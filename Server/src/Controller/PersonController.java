@@ -7,11 +7,7 @@ import Model.Person;
 import Utilities.Message;
 import Utilities.PersonType;
 import Utilities.Result;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -34,7 +30,7 @@ public class PersonController {
      * @param lastname  Der Nachname des Mitarbeiters
      * @param username  Der Benutzername des Mitarbeiters
      * @param password  Das Passwort des Mitarbeiters
-     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     * @return Gibt ein Result-Void- zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> addEmployee(String firstname, String lastname, String username, String password) {
 
@@ -47,7 +43,7 @@ public class PersonController {
             Employee employee = new Employee(firstname, lastname, generatePersonId(), username, password);
             DataController.getInstance().getPersonList().add(employee);
 
-            result.setState(Result.State.SUCCESSFULL);
+            result.setState(Result.State.SUCCESSFUL);
             result.setMessage(Message.get(Message.MessageType.Info_EmployeeCreated));
         }
 
@@ -63,7 +59,7 @@ public class PersonController {
      * @param username  Der Benutzername des Kunden
      * @param password  Das Passwort des Kunden
      * @param address   Das Address-Objekt des Kunden, welches die Adressdaten enthält
-     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> addCustomer(String firstname, String lastname, String username, String password, Address address) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
@@ -75,7 +71,7 @@ public class PersonController {
             Customer customer = new Customer(firstname, lastname, generatePersonId(), username, password, address);
             DataController.getInstance().getPersonList().add(customer);
 
-            result.setState(Result.State.SUCCESSFULL);
+            result.setState(Result.State.SUCCESSFUL);
             result.setMessage(Message.get(Message.MessageType.Info_CustomerCreated));
         }
 
@@ -87,13 +83,13 @@ public class PersonController {
      * Löscht die Person mit der angegebenen ID aus den Daten.
      *
      * @param personID ID der Person die gelöscht werden soll
-     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> removePerson(int personID) {
         Person person = getPersonById(personID);
         if (person != null) {
             DataController.getInstance().getPersonList().remove(person);
-            return new Result<Void>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_PersonRemoved), null);
+            return new Result<Void>(Result.State.SUCCESSFUL, Message.get(Message.MessageType.Info_PersonRemoved), null);
         } else {
             return new Result<Void>(Result.State.FAILED, "Keine Person mit dieser ID gefunden.", null);
         }
@@ -105,7 +101,7 @@ public class PersonController {
      *
      * @param username Der Benutzername
      * @param password Das Passwort
-     * @return Gibt ein Result<PersonType> zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     * @return Gibt ein Result-PersonType zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      * Der PersonType gibt an, ob es sich bei der angemeldeten Person um einen Kunden oder Mitarbeiter handelt.
      */
     public Result<PersonType> login(String username, String password) {
@@ -114,7 +110,7 @@ public class PersonController {
         for (Person person : DataController.getInstance().getPersonList()) {
             if (person.getUsername().equals(username) && person.getPassword().equals(password)) {
                 _registeredPerson = person;
-                result.setState(Result.State.SUCCESSFULL);
+                result.setState(Result.State.SUCCESSFUL);
                 result.setMessage(Message.get(Message.MessageType.Info_LoginSuccess));
                 result.setObject(getRegisteredPersonType());
                 break;
@@ -125,7 +121,7 @@ public class PersonController {
     }
 
     /**
-     * Prüft ob die Person-Konstrukor relevanten Parameter den Anforderungen entsprechen.
+     * Prüft ob die Person-Konstruktor relevanten Parameter den Anforderungen entsprechen.
      *
      * @param firstname Der Vorname der Person
      * @param lastname  Der Nachname der Person
@@ -147,7 +143,7 @@ public class PersonController {
         } else if (!checkPasswordIsValid(password)) {
             result.setMessage(Message.get(Message.MessageType.Error_PasswordInvalid));
         } else {
-            result.setState(Result.State.SUCCESSFULL);
+            result.setState(Result.State.SUCCESSFUL);
         }
 
         return result;
@@ -273,7 +269,7 @@ public class PersonController {
     }
 
     /**
-     * Setzt den Wert der angemeldeten Person auf null, was dazu führt, dass die Rechte für jegliche Aktionen erlischen.
+     * Setzt den Wert der angemeldeten Person auf null, was dazu führt, dass die Rechte für jegliche Aktionen entzogen werden.
      */
     public void logout() {
         _registeredPerson = null;

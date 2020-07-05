@@ -99,7 +99,7 @@ public class MainSceneController {
     /**
      * Zeigt eine MessageBox basierend auf einem Result-Objekt an.
      * Damit alle Result-Objekte unterstützt werden, wurde hier mit
-     * dem generischen Platzhalter <T> gearbeitet.
+     * dem generischen Platzhalter T gearbeitet.
      *
      * @param result Das auszuwertende und anzuzeigende Result
      * @param <T>    Der generische Typ, welcher im Result unterschiedlich sein kann.
@@ -113,14 +113,14 @@ public class MainSceneController {
      * <p>
      * Zeigt eine MessageBox basierend auf einem Result-Objekt an.
      * Damit alle Result-Objekte unterstützt werden, wurde hier mit
-     * dem generischen Platzhalter <T> gearbeitet.
+     * dem generischen Platzhalter T gearbeitet.
      *
      * @param result      Das auszuwertende und anzuzeigende Result
-     * @param showSuccess Sollen auch positive Meldungen angzeigt werden, bei false weren nur negative angezeigt
+     * @param showSuccess Sollen auch positive Meldungen angezeigt werden, bei false weren nur negative angezeigt
      * @param <T>         Der generische Typ, welcher im Result unterschiedlich sein kann.
      */
     public static <T> void showResultMessageBox(Result<T> result, boolean showSuccess) {
-        if (result.getState() == Result.State.SUCCESSFULL) {
+        if (result.getState() == Result.State.SUCCESSFUL) {
 
             if (showSuccess) {
                 MainSceneController.showMessageBox(

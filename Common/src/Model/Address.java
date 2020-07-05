@@ -3,7 +3,7 @@ package Model;
 import java.io.Serializable;
 
 /**
- * Objekte dieser Klassen bilden die Addressen ab.
+ * Objekte dieser Klassen bilden die Adressen ab.
  * Diese Objekte werden zum Speichern serialisiert.
  */
 public class Address implements Serializable {

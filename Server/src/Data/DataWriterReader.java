@@ -5,9 +5,9 @@ import Utilities.Result;
 import java.io.*;
 
 /**
- * Ermöglicht das Speichern und Laden von Objekten durch Serialisierung unde Deserialisierung.
+ * Ermöglicht das Speichern und Laden von Objekten durch Serialisierung und Deserialisierung.
  * Wichtig: Objekte und referenzierte Objekte müssen als serialisierbar gekennzeichnet sein!
- * Alternativ: transient, als Kennzeichung das dieses Objekt nicht serialisert werden soll
+ * Alternativ: transient, als Kennzeichnung das dieses Objekt nicht serialisiert werden soll
  * <p>
  * Quelle: https://mkyong.com/java/how-to-read-and-write-java-object-to-a-file/
  */
@@ -22,7 +22,7 @@ public class DataWriterReader {
      * Speichert den Zustand eines serialiserbaren Objekts in eine Datei.
      *
      * @param object Das zu speichernede Objekt
-     * @return Das Result<Void> gibt den Erfolg der Aktion zurück.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> save(Object object) {
         try {
@@ -42,13 +42,13 @@ public class DataWriterReader {
             return new Result<Void>(Result.State.FAILED, "Daten konnten nicht gespeichert werden. " + ex.getMessage(), null);
         }
 
-        return new Result<Void>(Result.State.SUCCESSFULL, "Daten wurden erfolgreich gespeichert.", null);
+        return new Result<Void>(Result.State.SUCCESSFUL, "Daten wurden erfolgreich gespeichert.", null);
     }
 
     /**
      * Lädt den Zustand eines serialisierten Objekts aus einer Datei ein.
      *
-     * @return Das Result<Object> gibt den Erfolg der Aktion zurück und enthält ggf. das geladene/eingelesene Objekt.
+     * @return Das Result-Object gibt den Erfolg der Aktion zurück und enthält ggf. das geladene/eingelesene Objekt.
      */
     public Result<Object> load() {
         Object object = null;
@@ -70,6 +70,6 @@ public class DataWriterReader {
             return new Result<Object>(Result.State.FAILED, "Daten konnten nicht geladen werden. " + ex.getMessage(), null);
         }
 
-        return new Result<Object>(Result.State.SUCCESSFULL, "Daten wurden erfolgreich geladen.", object);
+        return new Result<Object>(Result.State.SUCCESSFUL, "Daten wurden erfolgreich geladen.", object);
     }
 }
