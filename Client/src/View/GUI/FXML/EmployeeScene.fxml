@@ -61,12 +61,12 @@
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button layoutX="459.0" layoutY="212.0" mnemonicParsing="false" onAction="#button_removeEmployee_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Löschen" AnchorPane.rightAnchor="41.0">
+                        <Button disable="true" layoutX="459.0" layoutY="166.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button disable="true" layoutX="459.0" layoutY="166.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="41.0">
+                        <Button layoutX="459.0" layoutY="212.0" mnemonicParsing="false" onAction="#button_removeEmployee_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Löschen" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>

@@ -38,17 +38,17 @@
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button layoutX="481.0" layoutY="228.0" mnemonicParsing="false" onAction="#button_buy_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Kaufen" AnchorPane.rightAnchor="19.0">
-                            <font>
-                                <Font name="Segoe UI Light" size="14.0" />
-                            </font>
-                        </Button>
                         <Button layoutX="481.0" layoutY="136.0" mnemonicParsing="false" onAction="#button_articleRemoveFromCart_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Entfernen" AnchorPane.rightAnchor="19.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
                         <Button layoutX="481.0" layoutY="182.0" mnemonicParsing="false" onAction="#button_clearShoppingCart_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Leeren" AnchorPane.rightAnchor="19.0">
+                            <font>
+                                <Font name="Segoe UI Light" size="14.0" />
+                            </font>
+                        </Button>
+                        <Button layoutX="481.0" layoutY="228.0" mnemonicParsing="false" onAction="#button_buy_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Kaufen" AnchorPane.rightAnchor="19.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
