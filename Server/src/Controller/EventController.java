@@ -4,7 +4,6 @@ import Model.Article;
 import Model.Event;
 import Model.Person;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +17,7 @@ public class EventController {
 
     /**
      * Neues Event:
-     * Prüft die Parameter und erzeugt ein neues Event-Objekt und fügt dieses der ArrayList _eventList hinzu.
+     * Prüft die Parameter und erzeugt ein neues Event-Objekt und fügt dieses den Daten hinzu.
      *
      * @param article          Der Artikel dessen Bestand sich verändert hat
      * @param person           Die Person die den Bestand verändert hat (Kunde/Mitarbeiter)

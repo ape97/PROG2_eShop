@@ -68,7 +68,7 @@ public class RegisterCustomerSceneController {
             // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
             MainSceneController.showResultMessageBox(result);
 
-            if (result.getState() == Result.State.SUCCESSFULL) {
+            if (result.getState() == Result.State.SUCCESSFUL) {
                 MainSceneController.showLoginScene(this, event);
             }
         }

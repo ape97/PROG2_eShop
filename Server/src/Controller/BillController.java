@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 /**
  * WARNING: Sollte nur vom MainController verwendet werden
- * Wird zum Hinzufügen von Positionen zu einem Bill-OBjekt verwendet und zum Erstellen eines Bill-Objektes.
- * Da Rechnungen aktuell nicht gespeichert, sondern nur ausgegeben werden, sind die Methoden sehr üebrsichtlich.
+ * Wird zum Hinzufügen von Positionen zu einem Bill-Objekt verwendet und zum Erstellen eines Bill-Objektes.
+ * Da Rechnungen aktuell nicht gespeichert, sondern nur ausgegeben werden, sind die Methoden sehr übersichtlich.
  */
 public class BillController {
 

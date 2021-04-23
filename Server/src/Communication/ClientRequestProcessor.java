@@ -54,7 +54,7 @@ public class ClientRequestProcessor extends Thread {
                 _isActive = false;
             } catch (ClassNotFoundException ex) {
                 System.out.println("Fehler: " + ex);
-                // Daten konnten nicht verabeitet werden oder so
+                // Daten konnten nicht verarbeitet werden oder so
             }
         }
         System.out.println("Verbindung zum Client wurde getrennt!");
@@ -63,7 +63,7 @@ public class ClientRequestProcessor extends Thread {
     /**
      * Setzt die Abbruchbedingung und schließt somit die Verbindung mit dem Client.
      * Aktuell wird diese Methode noch nicht von außerhalb aufgerufen.
-     * TODO: Muss eigentlich von außen aufegrufen werden können, beim stoppen des Servers
+     * TODO: Muss eigentlich von außen aufgerufen werden können, beim stoppen des Servers
      */
     public void exit() {
         System.out.println("Verbindung zum Client wird getrennt...");

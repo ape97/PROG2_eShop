@@ -9,18 +9,18 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 /**
- * Die Klasse DataCache implementiert das SingeltonPattern, für einen Zugriff auf das selbe Objekt in dem
+ * Die Klasse DataCache implementiert das Singleton-Pattern, für einen Zugriff auf das selbe Objekt in dem
  * gesamten Client-Projekt.
- * Der DataCache enthält die für die Anzeige relevanten Daten und kann diese bei Bedarf aktualiseren.
+ * Der DataCache enthält die für die Anzeige relevanten Daten und kann diese bei Bedarf aktualisieren.
  *
- * Singelton wurde implementiert, weil diese Daten in mehreren Klassen in Verwendung sind und es zu
+ * Singleton wurde implementiert, weil diese Daten in mehreren Klassen in Verwendung sind und es zu
  * unübersichtlich werden würde, wenn man anderen Objekten Referenzen über Konstruktoren/Methoden auf ein
  * Objekt von DataCache geben würde. Statisch wurde nicht verwendet, da sich bewusst für die Verwendung eines
  * Konstruktors entschieden wurde, im Zusammenhang mit der Prüfung auf die Instanz.
  */
 public class DataCache {
 
-    private static DataCache _instance; // Singelton: Statsiches eindeutiges Objekt der Klasse
+    private static DataCache _instance; // Singleton: Statisches eindeutiges Objekt der Klasse
 
     private ObservableList<Article> _articleList; // Die Artikel-Liste
     private ObservableList<Employee> _employeeList; // Die Mitarbeiter-Liste
@@ -28,7 +28,7 @@ public class DataCache {
     private ObservableList<ShoppingCartItem> _shoppingCartItemList; // Die Liste der Artikel im Einkaufswagen
 
     /**
-     * Singelton: private, damit nur intern ein Objekt erzeugt werden kann
+     * Singleton: private, damit nur intern ein Objekt erzeugt werden kann
      */
     private DataCache() {
         _articleList = FXCollections.observableArrayList(new ArrayList<>());
@@ -38,11 +38,11 @@ public class DataCache {
     }
 
     /**
-     * Singelton:
-     * Ermöglicht den Zugriff auf das Singelton DataCache-Objekt.
+     * Singleton:
+     * Ermöglicht den Zugriff auf das Singleton DataCache-Objekt.
      * Durch Prüfung auf ein existierendes Objekt, wird eins erstellt oder das vorhandene zurückgegeben.
      *
-     * @return Gibt die einzigartige Instanz von DataCache zurück
+     * @return Gibt die einzigartige Instanz von DataCache zurück.
      */
     public static DataCache getInstance() {
         if (_instance == null) {
@@ -53,7 +53,7 @@ public class DataCache {
 
     /**
      * Aktualisiert die Artikel-Daten und gibt die Liste zurück.
-     * @return Die Artikel-Liste ObservableList<Article>
+     * @return Die Artikel-Liste ObservableList-Article
      */
     public ObservableList<Article> getArticleList() {
         refreshArticleList();
@@ -62,7 +62,7 @@ public class DataCache {
 
     /**
      * Aktualisiert die Mitarbeiter-Daten und gibt die Liste zurück.
-     * @return Die Mitarbeiter-Liste ObservableList<Employee>
+     * @return Die Mitarbeiter-Liste
      */
     public ObservableList<Employee> getEmployeeList() {
         refreshEmployeeList();
@@ -71,7 +71,7 @@ public class DataCache {
 
     /**
      * Aktualisiert die ShoppingCartItem-Daten und gibt die Liste zurück.
-     * @return Die ShoppingCartItem-Liste ObservableList<ShoppingCartItem>
+     * @return Die ShoppingCartItem-Liste
      */
     public ObservableList<ShoppingCartItem> getShoppingCartItemList() {
         refreshShoppingCartItemList();
@@ -80,7 +80,7 @@ public class DataCache {
 
     /**
      * Aktualisiert die Event-Daten und gibt die Liste zurück.
-     * @return Die Event-Liste ObservableList<Event>
+     * @return Die Event-Liste
      */
     public ObservableList<Event> getEventList() {
         refreshEventList();
@@ -90,11 +90,11 @@ public class DataCache {
     /**
      * Aktualisiert die Artikel-Daten bzw. die Liste.
      * Dafür werden die alten Daten entfernt, die neuen angefordert und in die ObservableList eingefügt.
-     * @return Gibt ein Result<Void> zurück.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> refreshArticleList() {
         Result<ArrayList<Article>> result = ClientController.getInstance().getArticleList();
-        if (result.getState() == Result.State.SUCCESSFULL) {
+        if (result.getState() == Result.State.SUCCESSFUL) {
             _articleList.clear();
             for (Article article : result.getObject()) {
                 _articleList.add(article);
@@ -106,11 +106,11 @@ public class DataCache {
     /**
      * Aktualisiert die Mitarbeiter-Daten bzw. die Liste.
      * Dafür werden die alten Daten entfernt, die neuen angefordert und in die ObservableList eingefügt.
-     * @return Gibt ein Result<Void> zurück.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> refreshEmployeeList() {
         Result<ArrayList<Employee>> result = ClientController.getInstance().getEmployeeList();
-        if (result.getState() == Result.State.SUCCESSFULL) {
+        if (result.getState() == Result.State.SUCCESSFUL) {
             _employeeList.clear();
             for (Employee employee : result.getObject()) {
                 _employeeList.add(employee);
@@ -123,11 +123,11 @@ public class DataCache {
     /**
      * Aktualisiert die Event-Daten bzw. die Liste.
      * Dafür werden die alten Daten entfernt, die neuen angefordert und in die ObservableList eingefügt.
-     * @return Gibt ein Result<Void> zurück.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> refreshEventList() {
         Result<ArrayList<Event>> result = ClientController.getInstance().getEventList();
-        if (result.getState() == Result.State.SUCCESSFULL) {
+        if (result.getState() == Result.State.SUCCESSFUL) {
             _eventList.clear();
             for (Event event : result.getObject()) {
                 _eventList.add(event);
@@ -140,11 +140,11 @@ public class DataCache {
     /**
      * Aktualisiert die ShoppingCartItem-Daten bzw. die Liste.
      * Dafür werden die alten Daten entfernt, die neuen angefordert und in die ObservableList eingefügt.
-     * @return Gibt ein Result<Void> zurück.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> refreshShoppingCartItemList() {
         Result<ArrayList<ShoppingCartItem>> result = ClientController.getInstance().getShoppingCartItemList();
-        if (result.getState() == Result.State.SUCCESSFULL) {
+        if (result.getState() == Result.State.SUCCESSFUL) {
             _shoppingCartItemList.clear();
             for (ShoppingCartItem shoppingCartItem : result.getObject()) {
                 _shoppingCartItemList.add(shoppingCartItem);

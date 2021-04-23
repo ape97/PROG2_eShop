@@ -5,7 +5,6 @@ import Model.ShoppingCart;
 import Model.ShoppingCartItem;
 import Utilities.Message;
 import Utilities.Result;
-import java.io.Serializable;
 
 /**
  * WARNING: Sollte nur vom MainController verwendet werden
@@ -16,9 +15,9 @@ public class ShoppingCartController {
     /**
      * Fügt ein ShoppingCartItem einem ShoppingCart hinzu.
      * Falls ein ShoppingCartItem mit dem selben Artikel bereits vorhanden ist, wird dieses ersetzt.
-     * @param shoppingCart Das enstprechende ShoppingCart (Warenkorb/Einkaufswagen)
+     * @param shoppingCart Das entsprechende ShoppingCart (Warenkorb/Einkaufswagen)
      * @param shoppingCartItem Das ShoppingCartItem, welches dem ShoppingCart hinzugefügt werden soll
-     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht inkl. Meldung.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht inkl. Meldung.
      */
     public Result<Void> addShoppingCartItem(ShoppingCart shoppingCart, ShoppingCartItem shoppingCartItem) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
@@ -28,7 +27,7 @@ public class ShoppingCartController {
             //remove
             if (oldShoppingCartItem != null) {
                 shoppingCart.getShoppingCartItemList().remove(oldShoppingCartItem);
-                result.setState(Result.State.SUCCESSFULL);
+                result.setState(Result.State.SUCCESSFUL);
                 result.setMessage(Message.get(Message.MessageType.Info_ArticleRemovedFromCartSuccess));
             } else {
                 result.setState(Result.State.FAILED);
@@ -44,7 +43,7 @@ public class ShoppingCartController {
                 shoppingCart.getShoppingCartItemList().add(shoppingCartItem);
                 result.setMessage(Message.get(Message.MessageType.Info_ArticleAddedToCart));
             }
-            result.setState(Result.State.SUCCESSFULL);
+            result.setState(Result.State.SUCCESSFUL);
         }
 
         return result;
@@ -53,25 +52,25 @@ public class ShoppingCartController {
 
     /**
      * Entfernt ein ShoppingCartItem aus einem ShoppingCart.
-     * @param shoppingCart Das enstprechende ShoppingCart aus dem das ShoppingCartItem entfernt werden soll
+     * @param shoppingCart Das entsprechende ShoppingCart aus dem das ShoppingCartItem entfernt werden soll
      * @param articleNumber Der Artikel welcher in dem ShoppingCartItem hinterlegt ist, dass entfernt werden soll
-     * @return Gibt ein Result<Void> zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht inkl. Meldung.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht inkl. Meldung.
      */
     public Result<Void> removeShoppingCartItem(ShoppingCart shoppingCart, int articleNumber) {
         ShoppingCartItem shoppingCartItem = getShoppingCartItemByArticleNumber(shoppingCart, articleNumber);
         if (shoppingCartItem == null) {
-            return new Result<Void>(Result.State.FAILED, "Keinm ARtikel mit dieser ARtikelnummer im Shoppingcart", null);
+            return new Result<Void>(Result.State.FAILED, "Kein Artikel mit dieser AArtikelnummer im ShoppingCart", null);
         }
 
         shoppingCart.getShoppingCartItemList().remove(shoppingCartItem);
 
-        return new Result<Void>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ArticleRemovedFromCartSuccess), null);
+        return new Result<Void>(Result.State.SUCCESSFUL, Message.get(Message.MessageType.Info_ArticleRemovedFromCartSuccess), null);
     }
 
     /**
      * Gibt das entsprechende ShoppingCartItem-Object zurück, welches auf den übergebenen Artikel referenziert.
      * @param shoppingCart Das ShoppingCart in dem sich das ShoppingCartItem befindet
-     * @param article Das Article-Objekt, welches in dem egsuchten SHoppingCartItem hinterlegt ist
+     * @param article Das Article-Objekt, welches in dem gesuchten ShoppingCartItem hinterlegt ist
      * @return Gibt das ShoppingCartItem zurück, dass den Artikel referenziert, null falls nicht gefunden
      */
     public ShoppingCartItem getShoppingCartItemByArticle(ShoppingCart shoppingCart, Article article) {

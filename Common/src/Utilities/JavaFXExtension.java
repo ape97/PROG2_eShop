@@ -40,7 +40,7 @@ public class JavaFXExtension {
 
     /**
      * Ermittelt die Stage von einem ActionEvent und gibt dieses zurück.
-     * @param event
+     * @param event Das entsprechende ActionEvent
      * @return Die ermittelte Stage
      */
     public static Stage getStageByActionEvent(ActionEvent event) {

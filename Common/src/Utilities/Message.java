@@ -3,7 +3,7 @@ package Utilities;
 /**
  * Diese statische Klasse dient der Abschaffung von statischen String im Code.
  * Hier können Texte zu Konstanten zugeordnet und dann im Code verwendet werden.
- * Desweiteren besteht die MÖglichkeit so mehrere Sprachen zu definieren.
+ * Des Weiteren besteht die MMöglichkeit so mehrere Sprachen zu definieren.
  */
 public class Message {
     private static Language _language = Language.German; // Die festgelegte Sprache
@@ -148,7 +148,7 @@ public class Message {
                 result = "Person wurde erfolgreich gelöscht";
                 break;
             case Info_EmployeeEdited:
-                result = "Der MItarbeiter wurde editiert.";
+                result = "Der MMitarbeiter wurde editiert.";
                 break;
             case Info:
                 result = "Information";
@@ -166,7 +166,7 @@ public class Message {
                 result = "Artikelanzahl geändert.";
                 break;
             case Bill:
-                result = "Bill";
+                result = "Rechnung";
                 break;
         }
 

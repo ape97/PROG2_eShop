@@ -4,7 +4,6 @@ import Model.Article;
 import Model.BulkArticle;
 import Utilities.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +23,8 @@ public class ArticleController {
      * @param stock         Der Lagerbestand des Artikels (stk.)
      * @param price         Der Preis des Artikels
      * @param packagingUnit Die Verpackungseinheit des Artikels (relevant für BullArticle)
-     * @return Gibt ein Result<Article>-Objekt zurück. Enthält den Status der Aktion und ggf. das Article-Objekt.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     *         Über die getObject()-Methode gibt bei Erfolg der Aktion den neuen Artikel zurück.
      */
     public Result<Article> addArticle(String name, String stock, String price, String packagingUnit) {
 
@@ -44,13 +44,13 @@ public class ArticleController {
             DataController.getInstance().getArticleList().add(article);
             System.out.println(article.getArticleNumber());
 
-            return new Result<Article>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ArticleCreated), article);
+            return new Result<Article>(Result.State.SUCCESSFUL, Message.get(Message.MessageType.Info_ArticleCreated), article);
         }
 
     }
 
     /**
-     * Prüft die übergebenen Artikeldaten auf Ihre Zulässigkeit und gibt demenstprechend ein Result<Void> zurück.
+     * Prüft die übergebenen Artikeldaten auf Ihre Zulässigkeit und gibt dementsprechend ein Result-Void zurück.
      *
      * @param name          Artikelbezeichnung
      * @param stock         Lagerbestand
@@ -87,7 +87,7 @@ public class ArticleController {
             return new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit), null);
         }
 
-        return new Result<Void>(Result.State.SUCCESSFULL, "", null);
+        return new Result<Void>(Result.State.SUCCESSFUL, "", null);
     }
 
     /**
@@ -95,8 +95,9 @@ public class ArticleController {
      * <p>
      * Entfernt das Article-Objekt mit übereinstimmender Artikelnummer aus den Daten.
      *
-     * @param articleNumber Die Artikelnumemr des zu entfernenden Artikels
-     * @return Gibt ein Result<Article>-Objekt zurück. Enthält den Status der Aktion und ggf. das entfernte Article-Objekt.
+     * @param articleNumber Die Artikelnummer des zu entfernenden Artikels
+     * @return Gibt ein Result-Article zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     *         Über die getObject()-Methode gibt bei Erfolg der Aktion den entfernten Artikel zurück.
      */
     public Result<Article> removeArticle(String articleNumber) {
 
@@ -111,16 +112,16 @@ public class ArticleController {
         }
 
         DataController.getInstance().getArticleList().remove(article);
-        return new Result<Article>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ArticleRemoved), article);
+        return new Result<Article>(Result.State.SUCCESSFUL, Message.get(Message.MessageType.Info_ArticleRemoved), article);
     }
 
 
     /**
      * Bestandsänderung des Artikels
      *
-     * @param article          Der Artikel dessen Bestand sich verändern soll
+     * @param article Der Artikel dessen Bestand sich verändern soll
      * @param stockChangeValue Die Anzahl um die sich der Bestand verändern soll
-     * @return Gibt den Erfolgsstaus der Aktion als Result<Void> zurück.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> updateStock(Article article, int stockChangeValue) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, "", null);
@@ -130,7 +131,7 @@ public class ArticleController {
         } else if (!checkArticleStockMatchPackagingUnit(article, stockChangeValue)) {
             result.setMessage(Message.get(Message.MessageType.Error_ArticleStockNotMatchPackagingUnit));
         } else {
-            result.setState(Result.State.SUCCESSFULL);
+            result.setState(Result.State.SUCCESSFUL);
             result.setMessage(Message.get(Message.MessageType.Info_ArticleStockChanged));
             article.setStock(article.getStock() + stockChangeValue);
         }

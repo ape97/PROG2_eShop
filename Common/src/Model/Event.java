@@ -11,19 +11,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Objekte dieser Klassen bilden die Events ab. (Objekt => Eintrag im Änderungsprotokoll)
+ * Objekte dieser Klassen bilden die Events ab. (Eintrag im Änderungsprotokoll)
  * Diese Objekte werden zum Speichern serialisiert.
  */
 public class Event implements Serializable {
     private Date _timeStamp; // Zeitstempel
     private int _stockChangeValue; // Summer der Bestandsveränderung (negativ oder positiv)
 
-    // Person wird bewusst nicht refernziert, weil bei Löschung der referenzierten Person, würden die Daten inkonsisten werden
+    // Person wird bewusst nicht referenziert, weil bei Löschung der referenzierten Person, würden die Daten inkonsisten werden
     private String _personFirstname;
     private String _personLastname;
     private int _personId;
 
-    // Artikel wird bewusst nicht refernziert, weil bei Löschung des referenzierten Artikels, würden die Daten inkonsisten werden
+    // Artikel wird bewusst nicht referenziert, weil bei Löschung des referenzierten Artikels, würden die Daten inkonsisten werden
     private String _articleName;
     private int _articleNumber;
 
@@ -36,18 +36,6 @@ public class Event implements Serializable {
         _personLastname = person.getLastname();
         _stockChangeValue = changeValue;
     }
-
-/*    public String toString() {
-        String stockText = "eingelagert";
-
-        if (_stockChangeValue < 0) {
-            stockText = "verkauft";
-        }
-
-        return "Zeitstempel: " + _timeStamp + " - " + " Bestandsveränderung: " + _stockChangeValue +
-                " Artikel:" + _articleName + " " + stockText + " Artikelnummer:" + _articleNumber +
-                " - " + " Person: " + _personFirstname+ " " + _personLastname;
-    }*/
 
     public Date getTimeStamp() {
         return _timeStamp;

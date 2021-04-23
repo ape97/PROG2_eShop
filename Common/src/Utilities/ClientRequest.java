@@ -3,7 +3,7 @@ package Utilities;
 import java.io.Serializable;
 
 /**
- * Objekte dieser Klasse werden für den Client -> Server Datenaustausch verwendet.
+ * Objekte dieser Klasse werden für den Client zu Server Datenaustausch verwendet.
  * Der Client schickt dem Server ausschließlich Objekte dieser Klasse.
  * Der Server bekommt die auszuführende ClientAction inkl. der Werte als String-Array.
  *

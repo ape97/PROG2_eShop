@@ -12,7 +12,7 @@
                     <children>
                         <TableView fx:id="tableView_events" layoutX="17.0" layoutY="22.0" prefHeight="328.0" prefWidth="404.0" style="-fx-background-color: #f6f6f2;" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="179.0" AnchorPane.topAnchor="22.0" />
 
-                        <Button layoutX="500.0" layoutY="250.0" mnemonicParsing="false" onAction="#button_eventRefresh_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde                   ;" text="Aktualisieren" AnchorPane.rightAnchor="19.0">
+                        <Button layoutX="481.0" layoutY="186.0" mnemonicParsing="false" onAction="#button_eventRefresh_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde                   ;" text="Aktualisieren" AnchorPane.rightAnchor="27.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
@@ -26,23 +26,23 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="371.0" prefWidth="478.0">
                     <children>
                         <TableView fx:id="tableView_articles" layoutX="14.0" layoutY="22.0" prefHeight="328.0" prefWidth="408.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="22.0" />
-                        <Button layoutX="463.0" layoutY="120.0" mnemonicParsing="false" onAction="#button_addArticle_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Hinzufügen" AnchorPane.rightAnchor="45.0">
+                        <Button layoutX="459.0" layoutY="120.0" mnemonicParsing="false" onAction="#button_addArticle_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Hinzufügen" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button disable="true" layoutX="463.0" layoutY="170.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="45.0">
+                        <Button disable="true" layoutX="459.0" layoutY="166.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button layoutX="463.0" layoutY="220.0" mnemonicParsing="false" onAction="#button_removeArticle_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Löschen" AnchorPane.rightAnchor="45.0">
+                        <Button layoutX="459.0" layoutY="212.0" mnemonicParsing="false" onAction="#button_removeArticle_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Löschen" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
 
-                        <Button layoutX="500.0" layoutY="270.0" mnemonicParsing="false" onAction="#button_articleRefresh_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde                   ;" text="Aktualisieren" AnchorPane.rightAnchor="19.0">
+                        <Button layoutX="459.0" layoutY="258.0" mnemonicParsing="false" onAction="#button_articleRefresh_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde                   ;" text="Aktualisieren" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
@@ -56,23 +56,23 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="556.0" prefWidth="861.0">
                     <children>
                         <TableView fx:id="tableView_employees" layoutX="14.0" layoutY="22.0" prefHeight="324.0" prefWidth="408.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="178.0" AnchorPane.topAnchor="22.0" />
-                        <Button layoutX="463.0" layoutY="120.0" mnemonicParsing="false" onAction="#button_addEmployee_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Hinzufügen" AnchorPane.rightAnchor="45.0">
+                        <Button layoutX="459.0" layoutY="120.0" mnemonicParsing="false" onAction="#button_addEmployee_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Hinzufügen" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button layoutX="463.0" layoutY="220.0" mnemonicParsing="false" onAction="#button_removeEmployee_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Löschen" AnchorPane.rightAnchor="45.0">
+                        <Button disable="true" layoutX="459.0" layoutY="166.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button disable="true" layoutX="463.0" layoutY="170.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde;" text="Bearbeiten" AnchorPane.rightAnchor="45.0">
+                        <Button layoutX="459.0" layoutY="212.0" mnemonicParsing="false" onAction="#button_removeEmployee_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde;" text="Löschen" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>
                         </Button>
 
-                        <Button layoutX="500.0" layoutY="300" mnemonicParsing="false" onAction="#button_employeeRefresh_clicked" prefHeight="32.0" prefWidth="92.0" style="-fx-background-color: #a6bfde                   ;" text="Aktualisieren" AnchorPane.rightAnchor="19.0">
+                        <Button layoutX="459.0" layoutY="258.0" mnemonicParsing="false" onAction="#button_employeeRefresh_clicked" prefHeight="32.0" prefWidth="100.0" style="-fx-background-color: #a6bfde                   ;" text="Aktualisieren" AnchorPane.rightAnchor="41.0">
                             <font>
                                 <Font name="Segoe UI Light" size="14.0" />
                             </font>

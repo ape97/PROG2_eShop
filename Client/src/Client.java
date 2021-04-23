@@ -7,11 +7,11 @@ import javafx.application.Application;
  */
 public class Client {
     public static void main(String[] args) {
-        // Startet zuerst das Verbindungsloop im ClientController (intern als Thread)
+        // Startet zuerst das Verbindung-Loop im ClientController (intern als Thread)
         ClientController.getInstance().start();
         // Startet die GUI
         Application.launch(MainFrame.class, args);
-        // Nach Schließung der GUI, wird auch das ggf. aktive Verbindungsloop gestoppt,
+        // Nach Schließung der GUI, wird auch das ggf. aktive Verbindung-Loop gestoppt,
         // damit das Programm nicht ohne GUI weiter läuft
         ClientController.getInstance().stop();
     }

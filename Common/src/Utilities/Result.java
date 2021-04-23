@@ -13,14 +13,14 @@ import java.io.Serializable;
  * übermittelt werden soll.
  *
  * Anwendungsbeispiel:
- * GUI ruft die Login-Funktion auf -> foo.login(username, password);
+ * GUI ruft die Login-Funktion auf: foo.login(username, password);
  * Logik prüft die Daten und stellt fest, dass es keinen Benutzer zu den angegeben Daten gibt:
- * Logik -> return new Result<Void>(FAILED, "Anmeldedaten falsch!", null);
+ * Logik: return new Result-Void (FAILED, "Anmeldedaten falsch!", null);
  * Oder die Daten sind korrekt und es hat sich ein Kunde angemeldet:
- * Logik -> return new Result<PersonType>(SUCCESSFULL, "Willkommne zurück.", PersonType.Customer)
+ * Logik: return new Result-PersonType (SUCCESSFUL, "Willkommen zurück.", PersonType.Customer)
  *
  * Wissenswertes:
- * Result-Objekte werden ebenfalls für die Server -> Client Kommunikation verwendet.
+ * Result-Objekte werden ebenfalls für die Server zum Client Kommunikation verwendet.
  * Der Server antwortet auf jede Anfrage des Clients mit einem Result.
  *
  * @param <T> Das Objekt, welches mit dem Result übergeben werden soll z.B. Void oder Integer
@@ -61,7 +61,7 @@ public class Result<T> implements Serializable {
     }
 
     public enum State {
-        SUCCESSFULL,
+        SUCCESSFUL,
         FAILED
     }
 }

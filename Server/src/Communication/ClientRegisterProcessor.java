@@ -24,9 +24,9 @@ public class ClientRegisterProcessor extends Thread {
     /**
      * Wird ausgeführt, wenn der Thread über start() gestartet wurde.
      * Läuft in einem Loop und nimmt Verbindungsanfragen von Clients entgegen.
-     * Konnte die Verbindung zu einem neuen CLient aufgebaut werden, wird für diesen ein ClientRequestProcessor erstellt.
+     * Konnte die Verbindung zu einem neuen Client aufgebaut werden, wird für diesen ein ClientRequestProcessor erstellt.
      * Dieser sit ebenfalls ein Thread und nimmt ab sofort die Anfragen dieses Clients entgegen.
-     * Für jeden Client wird ein eigener ClientRequestProecssor-Thread ausgeführt.
+     * Für jeden Client wird ein eigener ClientRequestProcessor-Thread ausgeführt.
      * Dadurch können alle Clients asynchron auf dem Server arbeiten.
      */
     public void run() {
@@ -47,7 +47,7 @@ public class ClientRegisterProcessor extends Thread {
             } catch (SocketTimeoutException ex) {
                 // Timeout, kann ignoriert werden
                 // Sorgt dafür, dass die while-Schleife weiter läuft und die Bedingung prüfen kann
-                // Ansonsten würde das Programmm bei .accept() ewig stehen bleiben
+                // Ansonsten würde das Programm bei .accept() ewig stehen bleiben
             } catch (IOException ex) {
                 System.out.println("Verbindung zu Client fehlgeschlagen. " + ex.getMessage());
             }

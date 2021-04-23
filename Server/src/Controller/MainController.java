@@ -2,10 +2,7 @@ package Controller;
 
 import Model.*;
 import Utilities.*;
-import javafx.collections.ObservableList;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +31,12 @@ public class MainController {
 
     /**
      * Reicht den Funktionsaufruf weiter an PersonController, für weitere Informationen siehe: PersonController:addEmployee(...)
+     *
+     * @param firstname Vorname
+     * @param lastname Nachname
+     * @param username Benutzername
+     * @param password Kennwort
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> addEmployee(String firstname, String lastname, String username, String password) {
         Result<Void> result = new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
@@ -51,6 +54,16 @@ public class MainController {
      * PersonController:addCustomer(...)
      * AddressController:createAddress(...)
      * Erstellt mit AddressController ein Address-Objekt und gib dieses weiter an PersonController.
+     *
+     * @param firstname Vorname
+     * @param lastname Nachname
+     * @param username Benutzername
+     * @param password Kennwort
+     * @param street Straße
+     * @param houseNumber Hausnummer
+     * @param postCode Postleitzahl
+     * @param city Stadt/Ort
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> addCustomer(String firstname, String lastname, String username, String password,
                                     String street, String houseNumber, String postCode, String city) {
@@ -59,7 +72,7 @@ public class MainController {
         if (_personController.getRegisteredPersonType() == PersonType.Guest) {
             Result<Address> createAddressResult = _addressController.createAddress(street, houseNumber, postCode, city);
 
-            if (createAddressResult.getState() != Result.State.SUCCESSFULL) {
+            if (createAddressResult.getState() != Result.State.SUCCESSFUL) {
                 result.setMessage(createAddressResult.getMessage());
             } else {
                 result = _personController.addCustomer(firstname, lastname, username, password, (Address) createAddressResult.getObject());
@@ -73,12 +86,14 @@ public class MainController {
      * Reicht den Funktionsaufruf weiter an PersonController
      * Für weitere Informationen siehe:
      * PersonController:removePerson(...)
+     * @param  personID Die ID der Person, welche entfernt werden soll.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> removePerson(String personID) {
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
             Result<Integer> parseResult = Parse.tryParseInt(personID);
 
-            if (parseResult.getState() == Result.State.SUCCESSFULL) {
+            if (parseResult.getState() == Result.State.SUCCESSFUL) {
                 return _personController.removePerson(parseResult.getObject());
             } else {
                 return new Result<Void>(Result.State.FAILED, "Die angegeben ID ist nicht gültig.", null);
@@ -91,6 +106,11 @@ public class MainController {
     /**
      * Reicht den Funktionsaufruf weiter an PersonController
      * Für weitere Informationen siehe: PersonController:login(...)
+     *
+     * @param username Benutzername
+     * @param password Kennwort
+     * @return Gibt ein Result-PersonType zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
+     *         Die getObject()-Methode liefert den Typen der angemeldeten Person.
      */
     public Result<PersonType> login(String username, String password) {
         Result<PersonType> result = _personController.login(username, password);
@@ -100,9 +120,10 @@ public class MainController {
     /**
      * Reicht den Funktionsaufruf weiter an PersonController
      * Für weitere Informationen siehe: PersonController:logout(...)
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> logout() {
-        Result<Void> result = new Result<>(Result.State.SUCCESSFULL, "Sie wurden ausgeloggt.", null);
+        Result<Void> result = new Result<>(Result.State.SUCCESSFUL, "Sie wurden ausgeloggt.", null);
         _personController.logout();
         return result;
     }
@@ -112,11 +133,17 @@ public class MainController {
      * Für weitere Informationen siehe: ArticleController:addArticle(...)
      * Wenn addArticle(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
+     *
+     * @param name Bezeichnung des Artikels.
+     * @param stock Lagerbestand des Artikels.
+     * @param price Preis des Artikels.
+     * @param  packagingUnit Verpackungseinheit des Artikels.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> addArticle(String name, String stock, String price, String packagingUnit) {
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
             Result<Article> addArticleResult = _articleController.addArticle(name, stock, price, packagingUnit);
-            if (addArticleResult.getState() == Result.State.SUCCESSFULL) {
+            if (addArticleResult.getState() == Result.State.SUCCESSFUL) {
                 addEvent(addArticleResult.getObject(), Parse.parseInteger(stock));
             }
             return new Result<Void>(addArticleResult.getState(), addArticleResult.getMessage(), null);
@@ -130,14 +157,16 @@ public class MainController {
      * Für weitere Informationen siehe: ArticleController:removeArticle(...)
      * Wenn removeArticle(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
+     * @param  articleNumber Die Artikelnummer des Artikels, welcher entfernt werden soll.
+     * @return Gibt ein Result-Void zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> removeArticle(String articleNumber) {
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
             Result<Article> removeArticleResult = _articleController.removeArticle(articleNumber);
-            if (removeArticleResult.getState() == Result.State.SUCCESSFULL) {
+            if (removeArticleResult.getState() == Result.State.SUCCESSFUL) {
                 addEvent(removeArticleResult.getObject(), -removeArticleResult.getObject().getStock());
             }
-            return new Result<Void>(Result.State.SUCCESSFULL, removeArticleResult.getMessage(), null);
+            return new Result<Void>(Result.State.SUCCESSFUL, removeArticleResult.getMessage(), null);
         } else {
             return new Result<Void>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
         }
@@ -148,6 +177,9 @@ public class MainController {
      * Für weitere Informationen siehe: ArticleController:updateStock(...)
      * Wenn updateStock(...) erfolgreich war, wird addEvent(...) aufgerufen,
      * damit die Bestandsveränderung protokolliert wird.
+     * @param  articleNumber Die Artikelnummer des Artikels, dessen Lagerbestand verändert werdenn soll.
+     * @param stockChangeValue Die Anzahl um die der Artikelbestand verändert werden soll.
+     * @return Gibt ein Result-Void- zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> updateStock(String articleNumber, String stockChangeValue) {
 
@@ -171,7 +203,7 @@ public class MainController {
         }
 
         Result<Void> articleUpdateStockResult = _articleController.updateStock(article, parseStockChangeValueResult.getObject());
-        if (articleUpdateStockResult.getState() == Result.State.SUCCESSFULL) {
+        if (articleUpdateStockResult.getState() == Result.State.SUCCESSFUL) {
             addEvent(article, parseStockChangeValueResult.getObject());
         }
 
@@ -183,6 +215,10 @@ public class MainController {
      * Dafür werden erst diverse Bedingungen geprüft, die aussagen ob diese Aktion möglich ist.
      * Sind die Prüfungen erfolgreich wird ShoppingCartController.addShoppingCartItem(...) aufgerufen.
      * Für weitere Informationen siehe: ShoppingCartController.addShoppingCartItem(...).
+     *
+     * @param articleNumber Die Artikelnummer des Artikels, welcher dem ShoppingCart hinzugefügt werden soll.
+     * @param numberOfArticles Die Anzahl des Artikels.
+     * @return Gibt ein Result-Void- zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> addArticleToShoppingCart(String articleNumber, String numberOfArticles) {
 
@@ -225,6 +261,8 @@ public class MainController {
      * Entfernt einen Artikel über die Artikelnummer aus dem Warenkorb.
      * Reicht den Funktionsaufruf weiter an ShoppingCartController.
      * Für weitere Informationen siehe: ShoppingCartController.removeShoppingCartItem(...).
+     * @param articleNumber Die zu entfernende Artikelnummer
+     * @return Gibt ein Result-Void- zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> removeArticleFromShoppingCart(String articleNumber) {
 
@@ -234,7 +272,7 @@ public class MainController {
 
         Result<Integer> parseArticleNumberResult = Parse.tryParseInt(articleNumber);
         if (parseArticleNumberResult.getState() == Result.State.FAILED) {
-            return new Result<Void>(Result.State.FAILED, "Artikelnummer ist kein gültiger Ganzzhalenwert.", null);
+            return new Result<Void>(Result.State.FAILED, "Artikelnummer ist kein gültiger Ganzzahlenwert.", null);
         }
 
         Customer customer = (Customer) _personController.getRegisteredPerson();
@@ -244,14 +282,14 @@ public class MainController {
     /**
      * Kauft die Artikel in dem ShoppingCart-Objekt des angemeldeten Customer-Objektes
      *
-     * @return Gibt ein Result<Bill>-Objekt zurück, welches aussagt ob die Aktion erfolgreich war oder nicht.
+     * @return Gibt ein Result-Bill zurück, welches aussagt ob die Aktion erfolgreich war oder nicht.
      * getObject() enthält das Bill-Objekt, also die Rechnung, sofern der Kauf erfolgreich war
      */
     public Result<Bill> buyShoppingCart() {
         Result<Bill> result = new Result<Bill>(Result.State.FAILED, Message.get(Message.MessageType.Error_NoPrivileges), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
-            result = new Result<Bill>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_OrderSuccess), null);
+            result = new Result<Bill>(Result.State.SUCCESSFUL, Message.get(Message.MessageType.Info_OrderSuccess), null);
             Customer customer = (Customer) _personController.getRegisteredPerson();
             ShoppingCart shoppingCart = customer.getShoppingCart();
             Bill bill = _billController.createBill(customer);
@@ -267,7 +305,7 @@ public class MainController {
             }
 
             // Lagerbestand der Artikel wird angepasst, sofern der booleanStringResult Wert nicht auf false gesetzt wurde
-            if (result.getState() == Result.State.SUCCESSFULL) {
+            if (result.getState() == Result.State.SUCCESSFUL) {
                 double totalPrice = 0;
                 for (ShoppingCartItem shoppingCartItem : shoppingCart.getShoppingCartItemList()) {
                     // updateStock muss über ArticleController erfolgen, da die lokale Methode den LoginTypen auf Employee prüft
@@ -289,11 +327,12 @@ public class MainController {
 
     /**
      * Leert den Einkaufswagen
-     * Reicht den FUnktionsaufruf weiter an ShoppingCartController.
+     * Reicht den FFunktionsaufruf weiter an ShoppingCartController.
      * Für mehr Informationen siehe: ShoppingCartController.clear(...).
+     * @return Gibt ein Result-Void- zurück, welches aussagt, ob die Aktion erfolgreich oder nicht war inkl. Meldung.
      */
     public Result<Void> clearShoppingCart() {
-        Result<Void> result = new Result<Void>(Result.State.SUCCESSFULL, Message.get(Message.MessageType.Info_ShoppingCartClearSuccess), null);
+        Result<Void> result = new Result<Void>(Result.State.SUCCESSFUL, Message.get(Message.MessageType.Info_ShoppingCartClearSuccess), null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
             Customer customer = (Customer) _personController.getRegisteredPerson();
@@ -309,7 +348,7 @@ public class MainController {
     /**
      * Gibt den Einkaufswagen als Liste von ShoppingCartItem-Objekten zurück.
      * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
-     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
+     * getObject() enthält die Liste, sofern die Aktion erfolgreich war.
      */
     public Result<ArrayList<ShoppingCartItem>> getShoppingCartItemList() {
         Result<ArrayList<ShoppingCartItem>> result = new Result<ArrayList<ShoppingCartItem>>(Result.State.FAILED, "", null);
@@ -317,7 +356,7 @@ public class MainController {
         if (_personController.getRegisteredPersonType() == PersonType.Customer) {
             Customer customer = (Customer) _personController.getRegisteredPerson();
             result.setObject(customer.getShoppingCart().getShoppingCartItemList());
-            result.setState(Result.State.SUCCESSFULL);
+            result.setState(Result.State.SUCCESSFUL);
         } else {
             result.setState(Result.State.FAILED);
             result.setMessage(Message.get(Message.MessageType.Error_NoPrivileges));
@@ -338,10 +377,10 @@ public class MainController {
      * Gibt die Artikel als Liste zurück.
      *
      * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
-     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
+     * getObject() enthält die Liste, sofern die Aktion erfolgreich war.
      */
     public Result<ArrayList<Article>> getArticleList() {
-        Result<ArrayList<Article>> result = new Result<ArrayList<Article>>(Result.State.SUCCESSFULL, "", null);
+        Result<ArrayList<Article>> result = new Result<ArrayList<Article>>(Result.State.SUCCESSFUL, "", null);
         result.setObject(_articleController.getArticleList());
         return result;
     }
@@ -349,10 +388,10 @@ public class MainController {
     /**
      * Gibt die Kunden als Liste zurück.
      * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
-     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
+     * getObject() enthält die Liste, sofern die Aktion erfolgreich war.
      */
     public Result<ArrayList<Customer>> getCustomerList() {
-        Result<ArrayList<Customer>> result = new Result<ArrayList<Customer>>(Result.State.SUCCESSFULL, "", null);
+        Result<ArrayList<Customer>> result = new Result<ArrayList<Customer>>(Result.State.SUCCESSFUL, "", null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
             result.setObject(_personController.getCustomerList());
@@ -368,10 +407,10 @@ public class MainController {
     /**
      * Gibt die Mitarbeiter als Liste zurück.
      * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
-     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
+     * getObject() enthält die Liste, sofern die Aktion erfolgreich war.
      */
     public Result<ArrayList<Employee>> getEmployeeList() {
-        Result<ArrayList<Employee>> result = new Result<ArrayList<Employee>>(Result.State.SUCCESSFULL, "", null);
+        Result<ArrayList<Employee>> result = new Result<ArrayList<Employee>>(Result.State.SUCCESSFUL, "", null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
             result.setObject(_personController.getEmployeeList());
@@ -387,10 +426,10 @@ public class MainController {
     /**
      * Gibt die Events als Liste zurück (Änderungsprotokoll).
      * @return Gibt ein Result-Objekt zurück, welches aussagt, ob die Aktion erfolgreich war oder nicht.
-     * getObject() enthält die Liste, sofern die AKtion erfolgreich war.
+     * getObject() enthält die Liste, sofern die Aktion erfolgreich war.
      */
     public Result<ArrayList<Event>> getEventList() {
-        Result<ArrayList<Event>> result = new Result<ArrayList<Event>>(Result.State.SUCCESSFULL, "", null);
+        Result<ArrayList<Event>> result = new Result<ArrayList<Event>>(Result.State.SUCCESSFUL, "", null);
 
         if (_personController.getRegisteredPersonType() == PersonType.Employee) {
             result.setObject(_eventController.getEventList());

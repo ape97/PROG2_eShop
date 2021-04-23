@@ -6,13 +6,13 @@ import Utilities.*;
 import java.util.ArrayList;
 
 /**
- * Die Klasse ClientController implementiert das SingeltonPattern, für einen Zugriff auf das selbe Objekt in dem
+ * Die Klasse ClientController implementiert das Singleton-Pattern, für einen Zugriff auf das selbe Objekt in dem
  * gesamten Client-Projekt.
  * Der ClientController enthält alle möglichen Server-Requests (Fragen). Über das Objekt dieser Klasse können
  * im Client an den entsprechenden Stellen die benötigten Daten vom Server angefordert und empfangen werden.
  */
 public class ClientController {
-    private static ClientController _instance; // Singelton: Statsiches eindeutiges Objekt der Klasse
+    private static ClientController _instance; // Singleton: Statisches eindeutiges Objekt der Klasse
     private ServerRegisterProcessor _serverRegisterProcessor;
 
     /**
@@ -22,8 +22,8 @@ public class ClientController {
     }
 
     /**
-     * Singelton:
-     * Ermöglicht den Zugriff auf das Singelton ClientController-Objekt.
+     * Singleton:
+     * Ermöglicht den Zugriff auf das Singleton ClientController-Objekt.
      * Durch Prüfung auf ein existierendes Objekt, wird eins erstellt oder das vorhandene zurückgegeben.
      *
      * @return Gibt die einzigartige Instanz von ClientController zurück
@@ -37,7 +37,7 @@ public class ClientController {
 
     /**
      * Durch Aufruf wird der interne ServerRegisterProcessor-Thread gestartet,
-     * welcher dann das Verbindungsloop startet um sich mit einem Server zu verbinden.
+     * welcher dann das Verbindung-Loop startet um sich mit einem Server zu verbinden.
      */
     public void start() {
         _serverRegisterProcessor = new ServerRegisterProcessor();
@@ -46,7 +46,7 @@ public class ClientController {
 
     /**
      * Ruft auf dem internen ServerRegisterProcessor-Thread die exit()-Methode auf,
-     * dadurch wird das Verbindungsloop bei der nächsten Prüfung der Abbruchbedingung gestoppt.
+     * dadurch wird das Verbindung-Loop bei der nächsten Prüfung der Abbruchbedingung gestoppt.
      */
     public void stop() {
         _serverRegisterProcessor.exit();
@@ -57,27 +57,25 @@ public class ClientController {
      * welches aussagt, ob die Sendung erfolgreich war.
      *
      * @param object Das Objekt welches an den Server gesendet werden soll.
-     * @return Gibt ein Result<Void> mit dem Status der Aktion zurück.
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> sendToServer(Object object) {
         try {
             _serverRegisterProcessor.getObjectOutputStream().writeObject(object);
-            return new Result<Void>(Result.State.SUCCESSFULL, "", null);
+            return new Result<Void>(Result.State.SUCCESSFUL, "", null);
         } catch (Exception ex) {
             return new Result<Void>(Result.State.FAILED, "Keine Verbindung zum Server möglich.", null);
         }
     }
 
     /**
-     * Ermöglicht das Empfangen eines Result<Object>-Objektes vom Server.
-     * Die eigentlichem Daten sind aus dem Result mit getObject() zu erhalten,
-     * dass Result gibt den Status der Aktion zurück.
-     *
-     * @return
+     * Ermöglicht das Empfangen eines Result-Objektes vom Server.
+     * @return Die eigentlichem Daten sind aus dem Result mit getObject() zu erhalten,
+     *         dass Result gibt den Status der Aktion zurück.
      */
     public Result<Object> receiveFromServer() {
         try {
-            return new Result<Object>(Result.State.SUCCESSFULL, "", _serverRegisterProcessor.getObjectInputStream().readUnshared());
+            return new Result<Object>(Result.State.SUCCESSFUL, "", _serverRegisterProcessor.getObjectInputStream().readUnshared());
         } catch (Exception ex) {
             return new Result<Object>(Result.State.FAILED, "Keine Verbindung zum Server möglich.", null);
         }
@@ -86,11 +84,11 @@ public class ClientController {
     /**
      * Anmelden:
      * Sendet dem Server eine Login-Anfrage mit den entsprechenden Daten und empfängt das Ergebnis.
-     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinetrlegt sind.
+     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hineterlegt sind.
      *
      * @param username Benutzername
      * @param password Kennwort
-     * @return Gibt ein Result<PersonType>-Objekt zurück
+     * @return Gibt ein Result mit dem Typen der angemeldeten Person zurück
      */
     public Result<PersonType> login(String username, String password) {
         ClientRequest clientRequest = new ClientRequest(ClientAction.LOGIN, new String[]{username, password});
@@ -109,7 +107,7 @@ public class ClientController {
      * Sendet dem Server eine Logout-Anfrage.
      * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion hinterlegt ist.
      *
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> logout() {
         ClientRequest clientRequest = new ClientRequest(ClientAction.LOGOUT, null);
@@ -132,7 +130,7 @@ public class ClientController {
      * @param lastname  Nachname
      * @param username  Benutzername
      * @param password  Kennwort
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> addEmployee(String firstname, String lastname, String username, String password) {
         ClientRequest clientRequest = new ClientRequest(ClientAction.ADD_EMPLOYEE, new String[]{firstname, lastname, username, password});
@@ -142,7 +140,7 @@ public class ClientController {
     /**
      * Hinzufügen eines Kunden / Registrieren:
      * Sendet dem Server eine addCustomer-Anfrage mit den entsprechenden Daten und empfängt das Ergebnis.
-     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinetrlegt sind.
+     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinterlegt sind.
      *
      * @param firstname   Vorname
      * @param lastname    Nachname
@@ -152,7 +150,7 @@ public class ClientController {
      * @param houseNumber Hausnummer
      * @param postCode    Postleitzahl
      * @param city        Stadt/Ort
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> addCustomer(String firstname, String lastname, String username, String password, String street, String houseNumber, String postCode, String city) {
         ClientRequest clientRequest = new ClientRequest(ClientAction.ADD_CUSTOMER, new String[]{firstname, lastname, username, password, street, houseNumber, postCode, city});
@@ -162,10 +160,10 @@ public class ClientController {
     /**
      * Entfernen einer Person (Kunde/Mitarbeiter):
      * Sendet dem Server eine removePerson-Anfrage mit den entsprechenden Daten und empfängt das Ergebnis.
-     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinetrlegt sind.
+     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinterlegt sind.
      *
      * @param person Das Objekt der zu entfernenden Person
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> removePerson(Person person) {
         ClientRequest clientRequest = new ClientRequest(ClientAction.REMOVE_PERSON, new String[]{Integer.toString(person.getId())});
@@ -175,13 +173,13 @@ public class ClientController {
     /**
      * Hinzufügen eines Artikels:
      * Sendet dem Server eine addArticle-Anfrage mit den entsprechenden Daten und empfängt das Ergebnis.
-     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinetrlegt sind.
+     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinterlegt sind.
      *
      * @param name          Artikelbezeichnung
      * @param stock         Lagerbestand
      * @param price         Preis
      * @param packagingUnit Verpackungseinheit
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> addArticle(String name, String stock, String price, String packagingUnit) {
         ClientRequest clientRequest = new ClientRequest(ClientAction.ADD_ARTICLE, new String[]{name, stock, price, packagingUnit});
@@ -191,10 +189,10 @@ public class ClientController {
     /**
      * Entfernen eines Artikels:
      * Sendet dem Server eine removeArticle-Anfrage mit den entsprechenden Daten und empfängt das Ergebnis.
-     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinetrlegt sind.
+     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinterlegt sind.
      *
      * @param article Das Objekt des Artikel der entfernt werden soll.
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> removeArticle(Article article) {
         ClientRequest clientRequest = new ClientRequest(ClientAction.REMOVE_ARTICLE, new String[]{Integer.toString(article.getArticleNumber())});
@@ -202,13 +200,13 @@ public class ClientController {
     }
 
     /**
-     * Hinzufügen eines Artiekls in den Einkaufswagen:
+     * Hinzufügen eines Artikels in den Einkaufswagen:
      * Sendet dem Server eine addArticleToShoppingCart-Anfrage mit den entsprechenden Daten und empfängt das Ergebnis.
-     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinetrlegt sind.
+     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinterlegt sind.
      *
      * @param article          Der Artikel der dem Einkaufswagen hinzugefügt werden soll
      * @param numberOfArticles Die Anzahl des Artikels
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> addArticleToShoppingCart(Article article, String numberOfArticles) {
         ClientRequest clientRequest = new ClientRequest(ClientAction.ADD_ARTICLE_TO_SHOPPINGCART, new String[]{Integer.toString(article.getArticleNumber()), numberOfArticles});
@@ -218,10 +216,10 @@ public class ClientController {
     /**
      * Entfernen eines Artikels aus dem Einkaufswagen:
      * Sendet dem Server eine removeArticleFromShoppingCart-Anfrage mit den entsprechenden Daten und empfängt das Ergebnis.
-     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinetrlegt sind.
+     * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion und die nötigen Werte hinterlegt sind.
      *
      * @param article Der Artikel der entfernt werden soll
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> removeArticleFromShoppingCart(Article article) {
         ClientRequest clientRequest = new ClientRequest(ClientAction.REMOVE_ARTICLE_FROM_SHOPPINGCART, new String[]{Integer.toString(article.getArticleNumber())});
@@ -233,7 +231,7 @@ public class ClientController {
      * Sendet dem Server eine buyShoppingCart-Anfrage und empfängt das Ergebnis.
      * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion hinterlegt ist.
      *
-     * @return Gibt ein Result<Bill>-Objekt zurück, die getObject()-Methode gibt die Rechnung zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück, die getObject()-Methode gibt die Rechnung zurück
      */
     public Result<Bill> buyShoppingCart() {
         ClientRequest clientRequest = new ClientRequest(ClientAction.BUY_SHOPPINGCART, null);
@@ -252,7 +250,7 @@ public class ClientController {
      * Sendet dem Server eine clearShoppingCart-Anfrage und empfängt das Ergebnis.
      * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion hinterlegt ist.
      *
-     * @return Gibt ein Result<Void>-Objekt zurück
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     public Result<Void> clearShoppingCart() {
         ClientRequest clientRequest = new ClientRequest(ClientAction.CLEAR_SHOPPINGCART, null);
@@ -264,7 +262,7 @@ public class ClientController {
      * Sendet dem Server eine getShoppingCartItemList-Anfrage und empfängt das Ergebnis.
      * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion hinterlegt ist.
      *
-     * @return Gibt ein Result<ArrayList<ShoppingCartItem>>-Objekt zurück, die getObject()-Methode
+     * @return Gibt ein Result mit dem Status der Aktion zurück, die getObject()-Methode
      * gibt eine ArrayList mit ShoppingCartItem-Objekten zurück.
      */
     public Result<ArrayList<ShoppingCartItem>> getShoppingCartItemList() {
@@ -285,7 +283,7 @@ public class ClientController {
      * Sendet dem Server eine getArticleList-Anfrage und empfängt das Ergebnis.
      * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion hinterlegt ist.
      *
-     * @return Gibt ein Result<ArrayList<Article>>-Objekt zurück, die getObject()-Methode
+     * @return Gibt ein Result mit dem Status der Aktion zurück, die getObject()-Methode
      * gibt eine ArrayList mit Article-Objekten zurück.
      */
     public Result<ArrayList<Article>> getArticleList() {
@@ -305,7 +303,7 @@ public class ClientController {
      * Sendet dem Server eine getEmployeeList-Anfrage und empfängt das Ergebnis.
      * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion hinterlegt ist.
      *
-     * @return Gibt ein Result<ArrayList<Employee>>-Objekt zurück, die getObject()-Methode
+     * @return Gibt ein Result mit dem Status der Aktion zurück, die getObject()-Methode
      * gibt eine ArrayList mit Employee-Objekten zurück.
      */
     public Result<ArrayList<Employee>> getEmployeeList() {
@@ -325,7 +323,7 @@ public class ClientController {
      * Sendet dem Server eine getEventList-Anfrage und empfängt das Ergebnis.
      * Gesendet wird ein ClientRequest-Objekt in dessen die Aktion hinterlegt ist.
      *
-     * @return Gibt ein Result<ArrayList<Event>>-Objekt zurück, die getObject()-Methode
+     * @return Gibt ein Result mit dem Status der Aktion zurück, die getObject()-Methode
      * gibt eine ArrayList mit Event-Objekten zurück.
      */
     public Result<ArrayList<Event>> getEventList() {
@@ -342,11 +340,11 @@ public class ClientController {
 
     /**
      * Diese Methode sendet ein ClientRequest an den Server und empfängt ein Result<Void>-Objekt.
-     * Da der Server an sehr vielen Stellen ein solches Result<Void>-Objekt zurückgibt,
+     * Da der Server an sehr vielen Stellen ein solches Result-Void-Objekt zurückgibt,
      * wurde dafür diese Mehode erstellt, um doppelten Quellcode zu vermeiden.
      *
-     * @param clientRequest Das ClientRequest das an den Server gesndet werden soll
-     * @return Gibt ein Result<Void>-Objekt zurück.
+     * @param clientRequest Das ClientRequest das an den Server geendet werden soll
+     * @return Gibt ein Result mit dem Status der Aktion zurück.
      */
     private Result<Void> sendToServerAndGetVoidResult(ClientRequest clientRequest) {
         sendToServer(clientRequest);

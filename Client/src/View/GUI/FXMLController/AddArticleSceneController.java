@@ -51,7 +51,7 @@ public class AddArticleSceneController {
             // Jenachdem wie der Status der Aktion ist, wird eine Meldung angezeigt
 
             MainSceneController.showResultMessageBox(result);
-            if(result.getState() == Result.State.SUCCESSFULL){
+            if(result.getState() == Result.State.SUCCESSFUL){
                 MainSceneController.showEmployeeScene(this, event);
             }
         }

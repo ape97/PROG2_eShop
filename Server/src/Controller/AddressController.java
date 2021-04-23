@@ -3,7 +3,6 @@ package Controller;
 import Model.Address;
 import Utilities.Message;
 import Utilities.Result;
-import java.io.Serializable;
 
 /**
  * WARNING: Sollte nur vom MainController verwendet werden.
@@ -19,7 +18,7 @@ public class AddressController {
      * @param houseNumber Hausnummer
      * @param postCode Postleitzahl
      * @param city Stadt/Ort
-     * @return Gibt ein Result<Address>-Objekt zurück.
+     * @return Gibt ein Result-Address zurück. Die getObject()-Methode gibt bei Erfolg der Aktion das Address-Objekt zurück.
      */
     public Result<Address> createAddress(String street, String houseNumber, String postCode, String city) {
         Result<Address> result = new Result<Address>(Result.State.FAILED, "", null);
@@ -34,7 +33,7 @@ public class AddressController {
             result.setMessage(Message.get(Message.MessageType.Error_CityNotEmpty));
         } else{
             Address address = new Address(street, houseNumber, postCode, city);
-            result.setState(Result.State.SUCCESSFULL);
+            result.setState(Result.State.SUCCESSFUL);
             result.setMessage(Message.get(Message.MessageType.Info_AddressCreated));
             result.setObject(address);
         }

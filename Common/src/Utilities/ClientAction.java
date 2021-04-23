@@ -1,7 +1,7 @@
 package Utilities;
 
 /**
- * Werte dieses Enums werden für die Kommunikation zwischen CLient und Server verwendet.
+ * Werte dieses Enums werden für die Kommunikation zwischen Client und Server verwendet.
  * Der Client schickt dem Server mittels dieser Werte, welche Aktion ausgeführt werden soll.
  */
 public enum ClientAction {
